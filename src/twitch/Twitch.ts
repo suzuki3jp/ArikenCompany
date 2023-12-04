@@ -4,8 +4,9 @@ import { ApiClient } from '@twurple/api';
 
 import { ArikenCompany } from '../ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
+import { CommandManager } from '../managers';
 import { Message, Logger } from '../packages';
-import { CommandParser, CommandManager } from './index';
+import { CommandParser } from '../parsers';
 
 export class Twitch {
     public auth: RefreshingAuthProvider;
