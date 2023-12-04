@@ -3,9 +3,13 @@
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
   "author": "suzuki3jp <suzuki3.info@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "npx ts-node ./src/index.ts",
+    "prisma:migrate": "npx prisma migrate dev --name migrate",
+    "prisma:studio": "npx prisma studio"
+  },
   "dependencies": {
     "@twurple/api": "^7.0.6",
     "@twurple/auth": "^7.0.6",
