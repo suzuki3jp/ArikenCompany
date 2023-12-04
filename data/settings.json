@@ -1,0 +1,10 @@
+{
+    "twitch": {
+        "id": "834879161",
+        "channels": ["pre_ariken_company"]
+    },
+    "command": {
+        "isStrictPrefix": false,
+        "isStrictCommand": false
+    }
+}
