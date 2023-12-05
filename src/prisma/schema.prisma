@@ -14,7 +14,10 @@ model Command {
   id Int @id @default(autoincrement())
   name String
   content String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  usedAt DateTime @default(now())
+  cooldown Int @default(120)
+  mod_only Boolean @default(false)
+  alias String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now())
+  used_at DateTime @default(now())
 }
