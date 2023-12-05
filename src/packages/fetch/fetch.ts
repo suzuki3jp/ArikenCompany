@@ -1,5 +1,5 @@
 import { ofetch } from 'ofetch';
 
-export function fetch(url: string) {
-    return ofetch(url, { ignoreResponseError: true });
+export function fetch<T = any>(url: string) {
+    return ofetch<T>(url, { ignoreResponseError: true });
 }
