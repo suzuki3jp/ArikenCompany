@@ -1,4 +1,4 @@
-export * from './FileSystem/FileSystem';
+export * from './countBy/countBy';
 
 export * from './JST/JST';
 
