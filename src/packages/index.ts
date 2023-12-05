@@ -1,5 +1,7 @@
 export * from './countBy/countBy';
 
+export * from './fetch/fetch';
+
 export * from './JST/JST';
 
 export * from './Logger/Logger';
