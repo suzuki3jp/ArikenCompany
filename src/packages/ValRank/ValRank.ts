@@ -1,6 +1,6 @@
 import { fetch } from '../fetch/fetch';
 
-class ValRank {
+export class ValRank {
     constructor() {}
     /**
      * Get valorant rank from name and tag
