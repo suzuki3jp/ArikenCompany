@@ -5,7 +5,7 @@
  */
 export const toEnv = (data: Record<any, any>): string => {
     const env = Object.entries(data)
-        .map(([key, value]) => `${key}=${value}`)
+        .map(([key, value]) => `${key} = "${value}"`)
         .join('\n');
     return env;
 };
