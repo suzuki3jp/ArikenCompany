@@ -1,7 +1,4 @@
-import { readFileSync as readFileSyncFs, writeFileSync as writeFileSyncFs } from 'fs';
-
-export const readFileSync = (path: string) => readFileSyncFs(path, 'utf-8');
-export const writeFileSync = (path: string, data: string) => writeFileSyncFs(path, data, 'utf-8');
+import { readFileSync, writeFileSync } from '../packages';
 
 export class JSONManager<T extends Record<string, any>> {
     public cache: T;
