@@ -1,10 +1,6 @@
-import dayjs, { Dayjs } from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import tz from 'dayjs/plugin/timezone';
+import type { Dayjs } from 'dayjs';
 
-// load dayjs plugins
-dayjs.extend(utc);
-dayjs.extend(tz);
+import { dayjs } from '../index';
 
 export class JST {
     protected date: Dayjs;

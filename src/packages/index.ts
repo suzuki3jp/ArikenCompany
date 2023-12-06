@@ -1,5 +1,7 @@
 export * from './countBy/countBy';
 
+export * from './dayjs/dayjs';
+
 export * from './fetch/fetch';
 
 export * from './FileSystem/readFileSync';
