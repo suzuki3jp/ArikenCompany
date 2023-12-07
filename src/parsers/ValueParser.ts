@@ -3,16 +3,16 @@ import { Agent } from 'https';
 import { ArikenCompany } from '../ArikenCompany';
 import { Message, countBy, fetch, dayjs, ValRank } from '../packages';
 
-export class ValueParser {
-    private startingDelimiter: string = '${';
-    private endingDelimiter: string = '}';
+const STARTING_DELIMITER = '${';
+const ENDING_DELIMITER = '}';
 
+export class ValueParser {
     constructor(private ac: ArikenCompany, private content: string, private message: Message) {}
 
     async parse() {
         const result = new ValueParseResult();
-        const startingDelimiterLength = countBy(this.content, this.startingDelimiter);
-        const endingDelimiterLength = countBy(this.content, this.endingDelimiter);
+        const startingDelimiterLength = countBy(this.content, STARTING_DELIMITER);
+        const endingDelimiterLength = countBy(this.content, ENDING_DELIMITER);
 
         if (startingDelimiterLength > endingDelimiterLength) {
             result.setError('コマンドの内容が不正です。${}の対応関係が崩れています。');
@@ -20,12 +20,12 @@ export class ValueParser {
         }
 
         while (this.content.length > 0) {
-            let startingDelimiterIndexOf = this.content.indexOf(this.startingDelimiter);
-            let endingDelimiterIndexOf = this.content.indexOf(this.endingDelimiter, startingDelimiterIndexOf);
+            let startingDelimiterIndexOf = this.content.indexOf(STARTING_DELIMITER);
+            let endingDelimiterIndexOf = this.content.indexOf(ENDING_DELIMITER, startingDelimiterIndexOf);
 
             if (startingDelimiterIndexOf !== -1) {
                 const code = this.content.slice(
-                    startingDelimiterIndexOf + this.startingDelimiter.length,
+                    startingDelimiterIndexOf + STARTING_DELIMITER.length,
                     endingDelimiterIndexOf
                 );
                 result.pushToParsed(this.content.slice(0, startingDelimiterIndexOf));
@@ -124,21 +124,25 @@ export class ValueParser {
         r.pushToParsed(rank);
         return r;
     }
+}
+
+export class ValueValidater {
+    constructor(private content: string) {}
 
     validate(): true | string {
-        const startingDelimiterLength = countBy(this.content, this.startingDelimiter);
-        const endingDelimiterLength = countBy(this.content, this.endingDelimiter);
+        const startingDelimiterLength = countBy(this.content, STARTING_DELIMITER);
+        const endingDelimiterLength = countBy(this.content, ENDING_DELIMITER);
 
         if (startingDelimiterLength > endingDelimiterLength)
             return 'コマンドの内容が不正です。${}の対応関係が崩れています。';
 
         while (this.content.length > 0) {
-            let startingDelimiterIndexOf = this.content.indexOf(this.startingDelimiter);
-            let endingDelimiterIndexOf = this.content.indexOf(this.endingDelimiter, startingDelimiterIndexOf);
+            let startingDelimiterIndexOf = this.content.indexOf(STARTING_DELIMITER);
+            let endingDelimiterIndexOf = this.content.indexOf(ENDING_DELIMITER, startingDelimiterIndexOf);
 
             if (startingDelimiterIndexOf !== -1) {
                 const code = this.content.slice(
-                    startingDelimiterIndexOf + this.startingDelimiter.length,
+                    startingDelimiterIndexOf + STARTING_DELIMITER.length,
                     endingDelimiterIndexOf
                 );
 
@@ -192,7 +196,7 @@ export class ValueParser {
     }
 }
 
-export class ValueParseResult {
+class ValueParseResult {
     public error: string | null;
     private parsed: string;
 
