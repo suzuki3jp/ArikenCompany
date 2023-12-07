@@ -1,5 +1,6 @@
 import { Command } from '../database';
 import { Logger } from '../packages';
+import { ValueValidater } from '../parsers';
 import { ArikenCompany } from '../ArikenCompany';
 
 export class CommandManager {
@@ -13,8 +14,10 @@ export class CommandManager {
 
     async addCommand(name: string, content: string): Promise<string> {
         const isExistCommand = Boolean(await this.c.getByName(name));
+        const isValidContent = new ValueValidater(content).validate();
 
         if (isExistCommand) return 'そのコマンドはすでに登録されています。';
+        if (typeof isValidContent === 'string') return isValidContent;
         const cmd = await this.c.add(name, content);
         this.logger.info(`Added ${cmd.name}.`);
         return `${cmd.name} を作成しました。`;
@@ -22,8 +25,10 @@ export class CommandManager {
 
     async editCommand(name: string, content: string): Promise<string> {
         const oldCommand = await this.c.getByName(name);
+        const isValidContent = new ValueValidater(content).validate();
 
         if (!oldCommand) return `存在しないコマンド名です。`;
+        if (typeof isValidContent === 'string') return isValidContent;
         const cmd = await this.c.editContentById(oldCommand.id, content);
         this.logger.info(`Edited ${cmd.name} to ${cmd.content}.`);
         return `${cmd.name} を編集しました。`;
