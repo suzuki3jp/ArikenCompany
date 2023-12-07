@@ -43,8 +43,8 @@ export class CommandManager {
         return `${cmd.name} を削除しました。`;
     }
 
-    async getCommand(name: string): Promise<string | null> {
-        return (await this.c.getByName(name))?.content ?? null;
+    async getCommand(name: string) {
+        return await this.c.getByName(name);
     }
 
     async getCooldown(name: string): Promise<number | null> {
@@ -58,5 +58,12 @@ export class CommandManager {
         await this.c.setCooldownById(cmd.id, cooldown);
         this.logger.info(`Set ${cmd.name}'s cooldown to ${cooldown}.`);
         return `${cmd.name} のクールダウンを ${cooldown} 秒に設定しました。`;
+    }
+
+    async updateUsedAt(name: string): Promise<string> {
+        const cmd = await this.c.getByName(name);
+        if (!cmd) return `存在しないコマンド名です。`;
+        await this.c.updateUsedAtById(cmd.id);
+        return `${cmd.name} の used_at を更新しました。`;
     }
 }

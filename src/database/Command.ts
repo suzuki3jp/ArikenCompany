@@ -1,4 +1,5 @@
 import { Prisma, CommandT } from './Prisma';
+import { dayjs } from '../packages';
 
 export class Command extends Prisma {
     constructor() {
@@ -20,6 +21,17 @@ export class Command extends Prisma {
             },
             data: {
                 content,
+            },
+        });
+    }
+
+    async updateUsedAtById(id: number) {
+        return await this.prisma.command.update({
+            where: {
+                id,
+            },
+            data: {
+                used_at: dayjs().toDate(),
             },
         });
     }

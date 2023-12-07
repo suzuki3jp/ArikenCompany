@@ -4,8 +4,9 @@ import { ApiClient } from '@twurple/api';
 
 import { ArikenCompany } from '../ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
+import type { CommandT } from '../database';
 import { CommandManager } from '../managers';
-import { Message, Logger } from '../packages';
+import { Message, Logger, dayjs } from '../packages';
 import { CommandParser, ValueParser } from '../parsers';
 
 export class Twitch {
@@ -112,10 +113,12 @@ class Chat {
                     break;
             }
         } else {
-            const cmdContent = await chat.normalCommand();
-            if (!cmdContent) return;
-            const r = await new ValueParser(this.twitch.ac, cmdContent, message).parse();
+            const cmd = await chat.normalCommand();
+            if (!cmd) return;
+            if (!chat.isCooldown(cmd)) return;
+            const r = await new ValueParser(this.twitch.ac, cmd.content, message).parse();
             chat.reply(r.error ?? r.toJSON().parsed);
+            chat.updateUsedAt(cmd.name);
         }
     }
 }
@@ -147,15 +150,15 @@ class TwitchChat {
     }
 
     isManager(): boolean {
-        if (!this.message.user.isBroadCaster) return true;
-        if (!this.message.user.isMod) return true;
+        if (this.message.user.isBroadCaster) return true;
+        if (this.message.user.isMod) return true;
         return false;
     }
 
     isVip(): boolean {
-        if (!this.message.user.isBroadCaster) return true;
-        if (!this.message.user.isMod) return true;
-        if (!this.message.user.isVip) return true;
+        if (this.message.user.isBroadCaster) return true;
+        if (this.message.user.isMod) return true;
+        if (this.message.user.isVip) return true;
         return false;
     }
 
@@ -198,7 +201,7 @@ class TwitchChat {
         return await this.cmd.setCooldown(name, cooldown);
     }
 
-    async normalCommand(): Promise<string | null> {
+    async normalCommand() {
         const name = this.validateCommandName(this.parser.name);
         if (!name) return null;
         return await this.cmd.getCommand(name);
@@ -211,6 +214,19 @@ class TwitchChat {
     private validateCommandName(n: string): string | null {
         if (!n) return null;
         return n.toLowerCase();
+    }
+
+    public isCooldown(command: CommandT): boolean {
+        if (this.isVip()) return true;
+        const now = dayjs();
+        const lastUsed = dayjs(command.used_at);
+        const cooldown = command.cooldown ?? 0;
+        const cooldownMilli = cooldown * 1000;
+        return now.diff(lastUsed, 'millisecond') > cooldownMilli;
+    }
+
+    public updateUsedAt(name: string) {
+        return this.cmd.updateUsedAt(name);
     }
 
     private validateCommandData(args: string[]): { name: string | null; content: string | null } {
