@@ -1,5 +1,4 @@
-export const countBy = (str: string, target: string) => {
-    let count = 0;
-    for (const char of str) if (char === target) count++;
-    return count;
+export const countBy = (str: string, target: string): number => {
+    const regex = new RegExp(`\\${target}`, 'g');
+    return (str.match(regex) || []).length;
 };
