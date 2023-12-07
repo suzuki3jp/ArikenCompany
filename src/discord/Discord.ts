@@ -1,6 +1,7 @@
 import { BitFieldResolvable, Client, GatewayIntentBits, Events } from 'discord.js';
 
 import { ArikenCompany } from '../ArikenCompany';
+import { SlashCommands } from '../constants';
 import type { Logger } from '../packages';
 
 export class Discord {
@@ -29,5 +30,6 @@ export class Discord {
 
     async ready() {
         this.logger.info('Discord client is ready.');
+        this.client.application?.commands.set(SlashCommands, this.ac.settings.cache.discord.guildId);
     }
 }
