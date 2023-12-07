@@ -24,6 +24,17 @@ export class Command extends Prisma {
         });
     }
 
+    async setCooldownById(id: number, cooldown: number) {
+        return await this.prisma.command.update({
+            where: {
+                id,
+            },
+            data: {
+                cooldown,
+            },
+        });
+    }
+
     async removeById(id: number) {
         return await this.prisma.command.delete({
             where: {

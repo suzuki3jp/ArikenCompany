@@ -6,7 +6,7 @@ import { ArikenCompany } from '../ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
 import { CommandManager } from '../managers';
 import { Message, Logger } from '../packages';
-import { CommandParser } from '../parsers';
+import { CommandParser, ValueParser } from '../parsers';
 
 export class Twitch {
     public auth: RefreshingAuthProvider;
@@ -102,8 +102,10 @@ class Chat {
                     chat.reply(await chat.removeCommand());
                     break;
                 case COOLDOWN:
+                    chat.reply(await chat.getCoolDown());
                     break;
                 case SET_COOLDOWN:
+                    chat.reply(await chat.setCoolDown());
                     break;
                 default:
                     break;
@@ -111,7 +113,8 @@ class Chat {
         } else {
             const cmdContent = await chat.normalCommand();
             if (!cmdContent) return;
-            chat.reply(cmdContent);
+            const r = await new ValueParser(this.twitch.ac, cmdContent, message).parse();
+            chat.reply(r.error ?? r.toJSON().parsed);
         }
     }
 }
@@ -143,16 +146,14 @@ class TwitchChat {
     }
 
     async addCommand(): Promise<string> {
-        const name = this.validateCommandName(this.parser.args[0]);
-        const content = this.validateCommandContent(this.parser.args[1]);
+        const { name, content } = this.validateCommandData(this.parser.args);
 
         if (!(name && content)) return 'コマンドの引数が不正です。コマンド名と内容を入力してください。';
         return await this.cmd.addCommand(name, content);
     }
 
     async editCommand(): Promise<string> {
-        const name = this.validateCommandName(this.parser.args[0]);
-        const content = this.validateCommandContent(this.parser.args[1]);
+        const { name, content } = this.validateCommandData(this.parser.args);
 
         if (!(name && content)) return `コマンドの引数が不正です。コマンド名と内容を入力してください。`;
         return await this.cmd.editCommand(name, content);
@@ -163,6 +164,24 @@ class TwitchChat {
 
         if (!name) return `コマンドの引数が不正です。コマンド名を入力してください。`;
         return await this.cmd.removeCommand(name);
+    }
+
+    async getCoolDown(): Promise<string> {
+        const name = this.validateCommandName(this.parser.args[0]);
+
+        if (!name) return `コマンドの引数が不正です。コマンド名を入力してください。`;
+        const r = await this.cmd.getCooldown(name);
+        if (!r) return `存在しないコマンド名です。`;
+        return `${name} のクールダウンは ${r} 秒です。`;
+    }
+
+    async setCoolDown(): Promise<string> {
+        const name = this.validateCommandName(this.parser.args[0]);
+        const cooldown = Number(this.parser.args[1]);
+
+        if (!name) return `コマンドの引数が不正です。コマンド名を入力してください。`;
+        if (isNaN(cooldown)) return `クールダウンには数字を入力してください。`;
+        return await this.cmd.setCooldown(name, cooldown);
     }
 
     async normalCommand(): Promise<string | null> {
@@ -180,8 +199,11 @@ class TwitchChat {
         return n.toLowerCase();
     }
 
-    private validateCommandContent(c: string): string | null {
-        if (!c) return null;
-        return c;
+    private validateCommandData(args: string[]): { name: string | null; content: string | null } {
+        let [name, ...contents]: (string | null)[] = args;
+        let content: string | null = contents.join(' ');
+        if (!name) name = null;
+        if (!content) content = null;
+        return { name, content };
     }
 }

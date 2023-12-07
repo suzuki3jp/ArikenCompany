@@ -46,4 +46,17 @@ export class CommandManager {
     async getCommand(name: string): Promise<string | null> {
         return (await this.c.getByName(name))?.content ?? null;
     }
+
+    async getCooldown(name: string): Promise<number | null> {
+        const cmd = await this.c.getByName(name);
+        return cmd === null ? null : cmd.cooldown;
+    }
+
+    async setCooldown(name: string, cooldown: number): Promise<string> {
+        const cmd = await this.c.getByName(name);
+        if (!cmd) return `存在しないコマンド名です。`;
+        await this.c.setCooldownById(cmd.id, cooldown);
+        this.logger.info(`Set ${cmd.name}'s cooldown to ${cooldown}.`);
+        return `${cmd.name} のクールダウンを ${cooldown} 秒に設定しました。`;
+    }
 }
