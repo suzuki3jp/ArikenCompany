@@ -1,5 +1,18 @@
-import { ofetch } from 'ofetch';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 
-export function fetch<T = any>(url: string) {
-    return ofetch<T>(url, { ignoreResponseError: true });
+export async function fetch(url: string, config?: AxiosRequestConfig) {
+    try {
+        const res = await axios.get(url, config);
+        return {
+            status: res.status,
+            data: res.data,
+        };
+    } catch (error) {
+        if (error instanceof AxiosError && error.response) {
+            const { status, data } = error.response;
+            return { status, data };
+        } else {
+            throw new Error('Request failed.');
+        }
+    }
 }
