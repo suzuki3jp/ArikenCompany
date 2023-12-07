@@ -91,6 +91,7 @@ class Chat {
         if (!chat.isCommand()) return;
 
         if (chat.isManageCommand()) {
+            if (!chat.isManager()) return;
             switch (chat.name) {
                 case ADD_COMMAND:
                     chat.reply(await chat.addCommand());
@@ -142,6 +143,19 @@ class TwitchChat {
         if (c === REMOVE_COMMAND) return true;
         if (c === COOLDOWN) return true;
         if (c === SET_COOLDOWN) return true;
+        return false;
+    }
+
+    isManager(): boolean {
+        if (!this.message.user.isBroadCaster) return true;
+        if (!this.message.user.isMod) return true;
+        return false;
+    }
+
+    isVip(): boolean {
+        if (!this.message.user.isBroadCaster) return true;
+        if (!this.message.user.isMod) return true;
+        if (!this.message.user.isVip) return true;
         return false;
     }
 
