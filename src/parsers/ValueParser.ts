@@ -124,6 +124,72 @@ export class ValueParser {
         r.pushToParsed(rank);
         return r;
     }
+
+    validate(): true | string {
+        const startingDelimiterLength = countBy(this.content, this.startingDelimiter);
+        const endingDelimiterLength = countBy(this.content, this.endingDelimiter);
+
+        if (startingDelimiterLength > endingDelimiterLength)
+            return 'コマンドの内容が不正です。${}の対応関係が崩れています。';
+
+        while (this.content.length > 0) {
+            let startingDelimiterIndexOf = this.content.indexOf(this.startingDelimiter);
+            let endingDelimiterIndexOf = this.content.indexOf(this.endingDelimiter, startingDelimiterIndexOf);
+
+            if (startingDelimiterIndexOf !== -1) {
+                const code = this.content.slice(
+                    startingDelimiterIndexOf + this.startingDelimiter.length,
+                    endingDelimiterIndexOf
+                );
+
+                const validateCodeResult = this.validateCode(code);
+                if (typeof validateCodeResult === 'string') return validateCodeResult;
+
+                this.content = this.content.slice(endingDelimiterIndexOf + 1);
+            } else {
+                this.content = '';
+            }
+        }
+        return true;
+    }
+
+    private validateCode(code: string): true | string {
+        code = code.trim();
+        const [f, ...args] = code.split(' ');
+
+        switch (f) {
+            case 'fetch':
+                return this.validateFetch(...args);
+            case 'title':
+                return true;
+            case 'game':
+                return true;
+            case 'uptime':
+                return true;
+            case 'vlrank':
+                return this.validateVlrank(...args);
+            default:
+                return '存在しない関数です。';
+        }
+    }
+
+    private validateFetch(...args: string[]): true | string {
+        const url = args[0];
+
+        if (!url) return 'fetch関数には第一引数にurlを渡す必要があります';
+
+        return true;
+    }
+
+    private validateVlrank(...args: string[]): true | string {
+        const id = args[0];
+        if (!id) return 'vlrank関数には第一引数にidを渡す必要があります。';
+
+        const [name, tag] = id.split('#');
+        if (!name || !tag) return 'idの形式が不正です。name#tagの形式で渡してください。';
+
+        return true;
+    }
 }
 
 export class ValueParseResult {
