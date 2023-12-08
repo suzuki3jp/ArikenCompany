@@ -1,5 +1,6 @@
-import { BitFieldResolvable, Client, GatewayIntentBits, Events } from 'discord.js';
+import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 
+import { ManageCommandPanel } from './ManageCommandPanel';
 import { ArikenCompany } from '../ArikenCompany';
 import { SlashCommands } from '../constants';
 import type { Logger } from '../packages';
@@ -8,6 +9,7 @@ export class Discord {
     private ac: ArikenCompany;
     private client: Client;
     private logger: Logger;
+    private mcp: ManageCommandPanel;
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
@@ -15,11 +17,13 @@ export class Discord {
             intents: Object.values(GatewayIntentBits) as BitFieldResolvable<keyof typeof GatewayIntentBits, number>,
         });
         this.logger = this.ac.logger.createChild('Discord');
+        this.mcp = new ManageCommandPanel(this.ac, this.client);
     }
 
     loadEvents() {
         this.logger.info('Loading discord events.');
         this.client.on(Events.ClientReady, (c: Client<true>) => this.ready());
+        this.client.on(Events.InteractionCreate, (i) => this.interactionCreate(i));
     }
 
     async start() {
@@ -31,5 +35,15 @@ export class Discord {
     async ready() {
         this.logger.info('Discord client is ready.');
         this.client.application?.commands.set(SlashCommands, this.ac.settings.cache.discord.guildId);
+    }
+
+    async interactionCreate(i: Interaction) {
+        if (i.isChatInputCommand()) {
+            if (i.commandName === 'mcp') {
+                if (i.options.getSubcommand() === 'create') {
+                    this.mcp.create(i.channelId);
+                }
+            }
+        }
     }
 }
