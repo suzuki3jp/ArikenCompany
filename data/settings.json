@@ -1,4 +1,10 @@
 {
+    "discord": {
+        "modRoleId": "972795199774392330",
+        "guildId": "927440256633028649",
+        "manageCommandChannelId": "948320206193819678",
+        "manageCommandPanelId": null
+    },
     "twitch": {
         "id": "834879161",
         "channels": ["pre_ariken_company"]

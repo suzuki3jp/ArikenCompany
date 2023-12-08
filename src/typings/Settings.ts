@@ -1,4 +1,10 @@
 export interface Settings {
+    discord: {
+        modRoleId: string;
+        guildId: string;
+        manageCommandChannelId: string;
+        manageCommandPanelId: string | null;
+    };
     twitch: {
         id: string;
         channels: string[];
