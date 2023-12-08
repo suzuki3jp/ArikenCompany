@@ -1,3 +1,5 @@
+import { DeepPartial } from 'ts-essentials';
+
 import { readFileSync, writeFileSync } from '../packages';
 
 export class JSONManager<T extends Record<string, any>> {
@@ -21,7 +23,7 @@ export class JSONManager<T extends Record<string, any>> {
         this.read();
     }
 
-    writePartial(data: Partial<T>) {
+    writePartial(data: DeepPartial<T>) {
         const newdata = Object.assign(this.cache, data);
         this.write(newdata);
     }
