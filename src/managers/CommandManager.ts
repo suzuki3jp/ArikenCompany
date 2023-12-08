@@ -66,4 +66,8 @@ export class CommandManager {
         await this.c.updateUsedAtById(cmd.id);
         return `${cmd.name} の used_at を更新しました。`;
     }
+
+    async getAll() {
+        return await this.c.getAll();
+    }
 }
