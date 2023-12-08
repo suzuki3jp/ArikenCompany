@@ -23,5 +23,8 @@
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
+  },
+  "devDependencies": {
+    "ts-essentials": "^9.4.1"
   }
 }
