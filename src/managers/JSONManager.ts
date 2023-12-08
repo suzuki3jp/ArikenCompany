@@ -1,3 +1,4 @@
+import { defu } from 'defu';
 import { DeepPartial } from 'ts-essentials';
 
 import { readFileSync, writeFileSync } from '../packages';
@@ -24,7 +25,8 @@ export class JSONManager<T extends Record<string, any>> {
     }
 
     writePartial(data: DeepPartial<T>) {
-        const newdata = Object.assign(this.cache, data);
+        const newdata = defu(this.cache, data);
+        //@ts-expect-error
         this.write(newdata);
     }
 }
