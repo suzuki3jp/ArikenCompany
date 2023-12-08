@@ -3,15 +3,17 @@ import { APIEmbed, Client, EmbedBuilder } from 'discord.js';
 import { ArikenCompany } from '../ArikenCompany';
 import { CommandT } from '../database';
 import type { CommandManager } from '../managers';
-import { splitArrayByNumber } from '../packages';
+import { Logger, splitArrayByNumber } from '../packages';
 
 export class ManageCommandPanel {
     private cmd: CommandManager;
+    private logger: Logger;
 
     private channelId: string;
     private messageId: string | null;
     constructor(private ac: ArikenCompany, private client: Client) {
         this.cmd = this.ac.cmd;
+        this.logger = this.ac.logger.createChild('ManageCommandPanel');
         this.channelId = this.ac.settings.cache.discord.manageCommandChannelId;
         this.messageId = this.ac.settings.cache.discord.manageCommandPanelId;
     }
@@ -26,6 +28,7 @@ export class ManageCommandPanel {
         const m = await channel.send({ embeds: this.createEmbedData(commands) });
         this.messageId = m.id;
         this.ac.settings.writePartial({ discord: { manageCommandPanelId: m.id } });
+        this.logger.info(`Created manage command panel.`);
     }
 
     /**
