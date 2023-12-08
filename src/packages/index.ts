@@ -11,6 +11,8 @@ export * from './JST/JST';
 
 export * from './Logger/Logger';
 
+export * from './splitArrayByNumber/splitArrayByNumber';
+
 export * from './toEnv/toEnv';
 
 export * from './twitchjs/twitchjs';
