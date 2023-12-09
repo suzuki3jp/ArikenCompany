@@ -1,5 +1,6 @@
 import { APIEmbed, Client, EmbedBuilder } from 'discord.js';
 
+import { DiscordActionRows } from './DiscordComponents';
 import { ArikenCompany } from '../ArikenCompany';
 import { CommandT } from '../database';
 import type { CommandManager } from '../managers';
@@ -25,7 +26,10 @@ export class ManageCommandPanel {
         const channel = await this.client.channels.fetch(channelId);
         const commands = await this.cmd.getAll();
         if (!channel?.isTextBased()) return;
-        const m = await channel.send({ embeds: this.createEmbedData(commands) });
+        const m = await channel.send({
+            embeds: this.createEmbedData(commands),
+            components: [DiscordActionRows.pageController, DiscordActionRows.commandController],
+        });
         this.channelId = m.channelId;
         this.messageId = m.id;
         this.ac.settings.writePartial({
