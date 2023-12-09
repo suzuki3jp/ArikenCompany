@@ -1,5 +1,6 @@
 import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 
+import { DiscordComponentIds } from './DiscordComponents';
 import { ManageCommandPanel } from './ManageCommandPanel';
 import { ArikenCompany } from '../ArikenCompany';
 import { SlashCommands } from '../constants';
@@ -43,6 +44,10 @@ export class Discord {
                 if (i.options.getSubcommand() === 'create') {
                     this.mcp.create(i.channelId);
                 }
+            }
+        } else if (i.isButton()) {
+            if (i.customId === DiscordComponentIds.button.next) {
+                this.mcp.next(i);
             }
         }
     }

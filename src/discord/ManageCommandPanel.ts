@@ -1,8 +1,7 @@
-import { APIEmbed, Client, EmbedBuilder } from 'discord.js';
+import { APIEmbed, ButtonInteraction, Client, Embed, EmbedBuilder } from 'discord.js';
 
 import { DiscordActionRows } from './DiscordComponents';
 import { ArikenCompany } from '../ArikenCompany';
-import { CommandT } from '../database';
 import type { CommandManager } from '../managers';
 import { Logger, splitArrayByNumber } from '../packages';
 
@@ -43,6 +42,25 @@ export class ManageCommandPanel {
         this.logger.info(`Created manage command panel.`);
     }
 
+    async next(i: ButtonInteraction) {
+        const embed = i.message.embeds[0];
+        const embeds = await this.createEmbedData();
+        const currentPageNum = this.getCurrentPage(embed);
+        const newPageNum = currentPageNum + 1;
+        const totalPages = embeds.length;
+
+        let pageController = this.setPageControllerButtonDisabled({ previous: false, next: false });
+        if (newPageNum === totalPages) {
+            pageController = this.setPageControllerButtonDisabled({ previous: false, next: true });
+        }
+
+        i.message.edit({
+            embeds: [embeds[newPageNum - 1]],
+            components: [pageController, DiscordActionRows.commandController],
+        });
+        i.deferUpdate();
+    }
+
     async createEmbedData() {
         const commands = await this.cmd.getAll();
         const embeds: APIEmbed[] = [];
@@ -71,5 +89,12 @@ export class ManageCommandPanel {
         DiscordActionRows.pageController.components[0].setDisabled(buttons.previous);
         DiscordActionRows.pageController.components[1].setDisabled(buttons.next);
         return DiscordActionRows.pageController;
+    }
+
+    private getCurrentPage(embed: Embed) {
+        const footer = embed.footer?.text;
+        if (!footer) return 1;
+        const [currentPage, totalPages] = footer.split(' ')[1].split('/');
+        return Number(currentPage);
     }
 }
