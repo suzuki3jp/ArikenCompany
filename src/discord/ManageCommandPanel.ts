@@ -42,6 +42,24 @@ export class ManageCommandPanel {
         this.logger.info(`Created manage command panel.`);
     }
 
+    async previous(i: ButtonInteraction) {
+        const embed = i.message.embeds[0];
+        const embeds = await this.createEmbedData();
+        const currentPageNum = this.getCurrentPage(embed);
+        const newPageNum = currentPageNum - 1;
+
+        let pageController = this.setPageControllerButtonDisabled({ previous: false, next: false });
+        if (newPageNum === 1) {
+            pageController = this.setPageControllerButtonDisabled({ previous: true, next: false });
+        }
+
+        i.message.edit({
+            embeds: [embeds[newPageNum - 1]],
+            components: [pageController, DiscordActionRows.commandController],
+        });
+        i.deferUpdate();
+    }
+
     async next(i: ButtonInteraction) {
         const embed = i.message.embeds[0];
         const embeds = await this.createEmbedData();

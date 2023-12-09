@@ -49,6 +49,9 @@ export class Discord {
             if (i.customId === DiscordComponentIds.button.next) {
                 this.mcp.next(i);
             }
+            if (i.customId === DiscordComponentIds.button.previous) {
+                this.mcp.previous(i);
+            }
         }
     }
 }
