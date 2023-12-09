@@ -52,6 +52,18 @@ export class Discord {
                     break;
                 case DiscordComponentIds.button.previous:
                     this.mcp.previous(i);
+                    break;
+                case DiscordComponentIds.button.add:
+                    this.mcp.showAddModal(i);
+                    break;
+                case DiscordComponentIds.button.edit:
+                    this.mcp.showEditModal(i);
+                    break;
+                case DiscordComponentIds.button.remove:
+                    this.mcp.showRemoveModal(i);
+                    break;
+                default:
+                    break;
             }
         }
     }

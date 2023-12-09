@@ -1,6 +1,6 @@
 import { APIEmbed, ButtonInteraction, Client, Embed, EmbedBuilder } from 'discord.js';
 
-import { DiscordActionRows } from './DiscordComponents';
+import { DiscordActionRows, DiscordComponents } from './DiscordComponents';
 import { ArikenCompany } from '../ArikenCompany';
 import type { CommandManager } from '../managers';
 import { Logger, splitArrayByNumber } from '../packages';
@@ -77,6 +77,18 @@ export class ManageCommandPanel {
             components: [pageController, DiscordActionRows.commandController],
         });
         i.deferUpdate();
+    }
+
+    async showAddModal(i: ButtonInteraction) {
+        i.showModal(DiscordComponents.addModal);
+    }
+
+    async showEditModal(i: ButtonInteraction) {
+        i.showModal(DiscordComponents.editModal);
+    }
+
+    async showRemoveModal(i: ButtonInteraction) {
+        i.showModal(DiscordComponents.removeModal);
     }
 
     async createEmbedData() {

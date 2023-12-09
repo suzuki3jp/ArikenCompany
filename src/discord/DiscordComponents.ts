@@ -1,4 +1,12 @@
-import { ButtonBuilder, ButtonStyle, ActionRowBuilder } from 'discord.js';
+import {
+    ButtonBuilder,
+    ButtonStyle,
+    ActionRowBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    ModalBuilder,
+    ModalActionRowComponentBuilder,
+} from 'discord.js';
 
 export const DiscordComponentIds = {
     button: {
@@ -7,6 +15,15 @@ export const DiscordComponentIds = {
         add: 'addButton',
         edit: 'editButton',
         remove: 'removeButton',
+    },
+    textInput: {
+        commandName: 'commandName',
+        commandContent: 'commandContent',
+    },
+    modal: {
+        add: 'addModal',
+        edit: 'editModal',
+        remove: 'removeModal',
     },
 };
 
@@ -17,6 +34,15 @@ const DiscordComponentLabels = {
         add: '追加',
         edit: '編集',
         remove: '削除',
+    },
+    textInput: {
+        commandName: '操作するコマンド名(!付き)',
+        commandContent: 'コマンド内容',
+    },
+    modal: {
+        add: 'コマンドを追加する',
+        edit: 'コマンドを編集する',
+        remove: 'コマンドを削除する',
     },
 };
 
@@ -45,7 +71,40 @@ const removeButton = new ButtonBuilder()
     .setLabel(DiscordComponentLabels.button.remove)
     .setStyle(ButtonStyle.Danger);
 
-export const DiscordComponents = { previousButton, nextButton, addButton, editButton, removeButton };
+const commandNameInput = new TextInputBuilder()
+    .setCustomId(DiscordComponentIds.textInput.commandName)
+    .setLabel(DiscordComponentLabels.textInput.commandName)
+    .setValue('!')
+    .setStyle(TextInputStyle.Short);
+
+const commandContentInput = new TextInputBuilder()
+    .setCustomId(DiscordComponentIds.textInput.commandContent)
+    .setLabel(DiscordComponentLabels.textInput.commandContent)
+    .setStyle(TextInputStyle.Paragraph);
+
+const nameActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandNameInput);
+const contentActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandContentInput);
+
+export const DiscordComponents = {
+    previousButton,
+    nextButton,
+    addButton,
+    editButton,
+    removeButton,
+    addModal: new ModalBuilder()
+        .setCustomId(DiscordComponentIds.modal.add)
+        .setTitle(DiscordComponentLabels.modal.add)
+        .addComponents(nameActionRow, contentActionRow),
+    editModal: new ModalBuilder()
+        .setCustomId(DiscordComponentIds.modal.edit)
+        .setTitle(DiscordComponentLabels.modal.edit)
+        .addComponents(nameActionRow, contentActionRow),
+    removeModal: new ModalBuilder()
+        .setCustomId(DiscordComponentIds.modal.remove)
+        .setTitle(DiscordComponentLabels.modal.remove)
+        .addComponents(nameActionRow),
+};
+
 export const DiscordActionRows = {
     pageController: new ActionRowBuilder<ButtonBuilder>().addComponents(previousButton, nextButton),
     commandController: new ActionRowBuilder<ButtonBuilder>().addComponents(addButton, editButton, removeButton),
