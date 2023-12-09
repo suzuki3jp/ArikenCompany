@@ -27,8 +27,9 @@ export class ManageCommandPanel {
         if (!channel?.isTextBased()) return;
 
         // 最初のページだから戻るボタンは無効にする
+        const embeds = await this.createEmbedData();
         const m = await channel.send({
-            embeds: [this.createEmbedData()[0]],
+            embeds: [embeds[0]],
             components: [
                 this.setPageControllerButtonDisabled({ previous: true, next: false }),
                 DiscordActionRows.commandController,
@@ -42,7 +43,7 @@ export class ManageCommandPanel {
         this.logger.info(`Created manage command panel.`);
     }
 
-    createEmbedData() {
+    async createEmbedData() {
         const commands = await this.cmd.getAll();
         const embeds: APIEmbed[] = [];
         const splitedCommands = splitArrayByNumber(commands, 10);
