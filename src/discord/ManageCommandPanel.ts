@@ -26,9 +26,14 @@ export class ManageCommandPanel {
         const channel = await this.client.channels.fetch(channelId);
         const commands = await this.cmd.getAll();
         if (!channel?.isTextBased()) return;
+
+        // 最初のページだから戻るボタンは無効にする
         const m = await channel.send({
-            embeds: this.createEmbedData(commands),
-            components: [DiscordActionRows.pageController, DiscordActionRows.commandController],
+            embeds: [this.createEmbedData(commands)[0]],
+            components: [
+                this.setPageControllerButtonDisabled({ previous: true, next: false }),
+                DiscordActionRows.commandController,
+            ],
         });
         this.channelId = m.channelId;
         this.messageId = m.id;
@@ -63,5 +68,11 @@ export class ManageCommandPanel {
             embeds.push(embed.toJSON());
         }
         return embeds;
+    }
+
+    private setPageControllerButtonDisabled(buttons: { previous: boolean; next: boolean }) {
+        DiscordActionRows.pageController.components[0].setDisabled(buttons.previous);
+        DiscordActionRows.pageController.components[1].setDisabled(buttons.next);
+        return DiscordActionRows.pageController;
     }
 }
