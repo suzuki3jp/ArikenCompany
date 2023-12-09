@@ -45,16 +45,21 @@ export class ManageCommandPanel {
     createEmbedData(commands: CommandT[]) {
         const embeds: APIEmbed[] = [];
         const splitedCommands = splitArrayByNumber(commands, 10);
-        for (const commands of splitedCommands) {
+        for (let i = 0; i < splitedCommands.length; i++) {
+            const commands = splitedCommands[i];
             const embed = new EmbedBuilder();
             embed.setTitle('コマンド一覧');
-            embed.setDescription(
-                commands
-                    .map((c) => {
-                        return `**${c.name}** ${c.content}`;
-                    })
-                    .join('\n')
-            );
+            embed
+                .setDescription(
+                    commands
+                        .map((c) => {
+                            return `**${c.name}** ${c.content}`;
+                        })
+                        .join('\n')
+                )
+                .setFooter({
+                    text: `現在のページ: ${i + 1}/${splitedCommands.length}`,
+                });
             embeds.push(embed.toJSON());
         }
         return embeds;
