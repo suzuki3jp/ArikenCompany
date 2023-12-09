@@ -26,8 +26,11 @@ export class ManageCommandPanel {
         const commands = await this.cmd.getAll();
         if (!channel?.isTextBased()) return;
         const m = await channel.send({ embeds: this.createEmbedData(commands) });
+        this.channelId = m.channelId;
         this.messageId = m.id;
-        this.ac.settings.writePartial({ discord: { manageCommandPanelId: m.id } });
+        this.ac.settings.writePartial({
+            discord: { manageCommandPanelId: this.messageId, manageCommandChannelId: this.channelId },
+        });
         this.logger.info(`Created manage command panel.`);
     }
 
