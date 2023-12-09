@@ -46,11 +46,12 @@ export class Discord {
                 }
             }
         } else if (i.isButton()) {
-            if (i.customId === DiscordComponentIds.button.next) {
-                this.mcp.next(i);
-            }
-            if (i.customId === DiscordComponentIds.button.previous) {
-                this.mcp.previous(i);
+            switch (i.customId) {
+                case DiscordComponentIds.button.next:
+                    this.mcp.next(i);
+                    break;
+                case DiscordComponentIds.button.previous:
+                    this.mcp.previous(i);
             }
         }
     }
