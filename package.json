@@ -6,7 +6,7 @@
   "author": "suzuki3jp <suzuki3.info@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "npx ts-node ./src/index.ts",
+    "dev": "npx nodemon",
     "prisma:migrate": "npx prisma migrate dev --name migrate",
     "prisma:studio": "npx prisma studio"
   },
@@ -26,6 +26,7 @@
     "schema": "src/prisma/schema.prisma"
   },
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "ts-essentials": "^9.4.1"
   }
 }
