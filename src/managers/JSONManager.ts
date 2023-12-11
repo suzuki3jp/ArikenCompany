@@ -25,7 +25,7 @@ export class JSONManager<T extends Record<string, any>> {
     }
 
     writePartial(data: DeepPartial<T>) {
-        const newdata = defu(this.cache, data);
+        const newdata = defu(data, this.cache);
         //@ts-expect-error
         this.write(newdata);
     }
