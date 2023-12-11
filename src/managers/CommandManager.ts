@@ -19,6 +19,7 @@ export class CommandManager {
         if (isExistCommand) return 'そのコマンドはすでに登録されています。';
         if (typeof isValidContent === 'string') return isValidContent;
         const cmd = await this.c.add(name, content);
+        this.ac.discord.mcp.reloadPanel();
         this.logger.info(`Added ${cmd.name}.`);
         return `${cmd.name} を作成しました。`;
     }
@@ -30,6 +31,7 @@ export class CommandManager {
         if (!oldCommand) return `存在しないコマンド名です。`;
         if (typeof isValidContent === 'string') return isValidContent;
         const cmd = await this.c.editContentById(oldCommand.id, content);
+        this.ac.discord.mcp.reloadPanel();
         this.logger.info(`Edited ${cmd.name} to ${cmd.content}.`);
         return `${cmd.name} を編集しました。`;
     }
@@ -39,6 +41,7 @@ export class CommandManager {
 
         if (!oldCommand) return `存在しないコマンド名です。`;
         const cmd = await this.c.removeById(oldCommand.id);
+        this.ac.discord.mcp.reloadPanel();
         this.logger.info(`Removed ${cmd.name}.`);
         return `${cmd.name} を削除しました。`;
     }

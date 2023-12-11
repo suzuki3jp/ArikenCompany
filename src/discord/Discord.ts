@@ -10,7 +10,7 @@ export class Discord {
     private ac: ArikenCompany;
     private client: Client;
     private logger: Logger;
-    private mcp: ManageCommandPanel;
+    public mcp: ManageCommandPanel;
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;

@@ -10,8 +10,8 @@ export class ArikenCompany {
     public settings: SettingsManager;
     public logger: Logger;
     public twitch: Twitch;
+    public discord: Discord;
 
-    private discord: Discord;
     constructor() {
         this.logger = new Logger('ArikenCompany');
         this.env = new Env(this);

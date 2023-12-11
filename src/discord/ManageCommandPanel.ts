@@ -135,6 +135,26 @@ export class ManageCommandPanel {
         return embeds;
     }
 
+    async reloadPanel() {
+        if (!this.messageId) return;
+
+        const channel = await this.client.channels.fetch(this.channelId);
+        if (!channel?.isTextBased()) return;
+        const message = await channel.messages.fetch(this.messageId);
+
+        const embeds = await this.createEmbedData();
+        const currentPageNum = this.getCurrentPage(message.embeds[0]);
+        const pageController = this.setPageControllerButtonDisabled({
+            previous: currentPageNum === 1,
+            next: currentPageNum === embeds.length,
+        });
+
+        message.edit({
+            embeds: [embeds[currentPageNum - 1]],
+            components: [pageController, DiscordActionRows.commandController],
+        });
+    }
+
     private setPageControllerButtonDisabled(buttons: { previous: boolean; next: boolean }) {
         DiscordActionRows.pageController.components[0].setDisabled(buttons.previous);
         DiscordActionRows.pageController.components[1].setDisabled(buttons.next);
