@@ -95,20 +95,20 @@ export class ManageCommandPanel {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
         const r = await this.cmd.addCommand(name, content);
-        i.reply(r);
+        i.reply({ content: r, ephemeral: true });
     }
 
     async editCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
         const r = await this.cmd.editCommand(name, content);
-        i.reply(r);
+        i.reply({ content: r, ephemeral: true });
     }
 
     async removeCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const r = await this.cmd.removeCommand(name);
-        i.reply(r);
+        i.reply({ content: r, ephemeral: true });
     }
 
     async createEmbedData() {
