@@ -1,6 +1,6 @@
-import { APIEmbed, ButtonInteraction, Client, Embed, EmbedBuilder } from 'discord.js';
+import { APIEmbed, ButtonInteraction, Client, Embed, EmbedBuilder, ModalSubmitInteraction } from 'discord.js';
 
-import { DiscordActionRows, DiscordComponents } from './DiscordComponents';
+import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from './DiscordComponents';
 import { ArikenCompany } from '../ArikenCompany';
 import type { CommandManager } from '../managers';
 import { Logger, splitArrayByNumber } from '../packages';
@@ -89,6 +89,26 @@ export class ManageCommandPanel {
 
     async showRemoveModal(i: ButtonInteraction) {
         i.showModal(DiscordComponents.removeModal);
+    }
+
+    async addCommand(i: ModalSubmitInteraction) {
+        const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
+        const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
+        const r = await this.cmd.addCommand(name, content);
+        i.reply(r);
+    }
+
+    async editCommand(i: ModalSubmitInteraction) {
+        const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
+        const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
+        const r = await this.cmd.editCommand(name, content);
+        i.reply(r);
+    }
+
+    async removeCommand(i: ModalSubmitInteraction) {
+        const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
+        const r = await this.cmd.removeCommand(name);
+        i.reply(r);
     }
 
     async createEmbedData() {

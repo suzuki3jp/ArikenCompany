@@ -65,6 +65,20 @@ export class Discord {
                 default:
                     break;
             }
+        } else if (i.isModalSubmit()) {
+            switch (i.customId) {
+                case DiscordComponentIds.modal.add:
+                    this.mcp.addCommand(i);
+                    break;
+                case DiscordComponentIds.modal.edit:
+                    this.mcp.editCommand(i);
+                    break;
+                case DiscordComponentIds.modal.remove:
+                    this.mcp.removeCommand(i);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
