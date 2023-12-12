@@ -7,6 +7,18 @@ export class StreamNotification extends Prisma {
         super();
     }
 
+    async add(data: StreamNotificationT) {
+        return await this.prisma.streamNotification.create({ data });
+    }
+
+    async removeById(id: string) {
+        return await this.prisma.streamNotification.delete({
+            where: {
+                id,
+            },
+        });
+    }
+
     async getById(id: string) {
         return await this.prisma.streamNotification.findFirst({
             where: {
