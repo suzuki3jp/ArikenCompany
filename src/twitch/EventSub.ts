@@ -1,4 +1,5 @@
 import { EventSubHttpListener, DirectConnectionAdapter } from '@twurple/eventsub-http';
+import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twurple/eventsub-base';
 
 import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
@@ -20,6 +21,14 @@ export class EventSub {
             adapter,
             secret: this.ac.env.cache.TWITCH_EVENTSUB_SECRET,
         });
+    }
+
+    subscribeOnline(id: string, handler: (e: EventSubStreamOnlineEvent) => void) {
+        return this.listener.onStreamOnline(id, handler);
+    }
+
+    subscribeOffline(id: string, handler: (e: EventSubStreamOfflineEvent) => void) {
+        return this.listener.onStreamOffline(id, handler);
     }
 
     start() {
