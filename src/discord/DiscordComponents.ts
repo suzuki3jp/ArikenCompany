@@ -15,6 +15,7 @@ export const DiscordComponentIds = {
         add: 'addButton',
         edit: 'editButton',
         remove: 'removeButton',
+        addTemplate: 'addTemplateButton',
     },
     textInput: {
         commandName: 'commandName',
@@ -35,6 +36,7 @@ const DiscordComponentLabels = {
         add: '追加',
         edit: '編集',
         remove: '削除',
+        addTemplate: '追加',
     },
     textInput: {
         commandName: '操作するコマンド名(!付き)',
@@ -70,6 +72,11 @@ const editButton = new ButtonBuilder()
 const removeButton = new ButtonBuilder()
     .setCustomId(DiscordComponentIds.button.remove)
     .setLabel(DiscordComponentLabels.button.remove)
+    .setStyle(ButtonStyle.Danger);
+
+const addTemplateButton = new ButtonBuilder()
+    .setCustomId(DiscordComponentIds.button.addTemplate)
+    .setLabel(DiscordComponentLabels.button.addTemplate)
     .setStyle(ButtonStyle.Danger);
 
 const commandNameInput = new TextInputBuilder()
