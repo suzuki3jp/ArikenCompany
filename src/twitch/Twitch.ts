@@ -120,10 +120,19 @@ class Chat {
         } else {
             const cmd = await command.normalCommand();
             if (!cmd) return;
+            if (cmd.mod_only && !command.isManager()) return;
             if (!command.isCooldown(cmd)) return;
-            const r = await new ValueParser(this.ac, cmd.content, message).parse();
-            command.reply(r.error ?? r.toJSON().parsed);
-            command.updateUsedAt(cmd.name);
+            if (!cmd.alias) {
+                const r = await new ValueParser(this.ac, cmd.content, message).parse();
+                command.reply(r.error ?? r.toJSON().parsed);
+                command.updateUsedAt(cmd.name);
+            } else {
+                const aliasedCmd = await command.normalCommand(cmd.alias);
+                if (!aliasedCmd) return;
+                const r = await new ValueParser(this.ac, aliasedCmd.content, message).parse();
+                command.reply(r.error ?? r.toJSON().parsed);
+                command.updateUsedAt(aliasedCmd.name);
+            }
         }
     }
 }
