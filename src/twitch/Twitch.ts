@@ -4,6 +4,7 @@ import { ApiClient } from '@twurple/api';
 
 import { ArikenCompany } from '../ArikenCompany';
 import { Command } from './Command';
+import { EventSub } from './EventSub';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
 import { Message, Logger } from '../packages';
 import { ValueParser } from '../parsers';
@@ -14,6 +15,7 @@ export class Twitch {
     public ac: ArikenCompany;
     public chat: Chat;
     public api: ApiClient;
+    public eventSub: EventSub;
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
@@ -22,6 +24,7 @@ export class Twitch {
 
         this.chat = new Chat(this);
         this.api = new ApiClient({ authProvider: this.auth });
+        this.eventSub = new EventSub(this.ac);
     }
 
     private setupAuth(): RefreshingAuthProvider {
@@ -57,6 +60,7 @@ export class Twitch {
     start() {
         this.logger.info('Starting Twitch Clients. [Chat]');
         this.chat.start();
+        this.eventSub.start();
     }
 }
 
