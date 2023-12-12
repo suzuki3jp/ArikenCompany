@@ -83,8 +83,8 @@ export class Command {
         return await this.cmd.setCooldown(name, cooldown);
     }
 
-    async normalCommand() {
-        const name = this.validateCommandName(this.parser.name);
+    async normalCommand(n?: string) {
+        const name = this.validateCommandName(n ?? this.parser.name);
         if (!name) return null;
         return await this.cmd.getCommand(name);
     }
