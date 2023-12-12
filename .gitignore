@@ -3,3 +3,5 @@ node_modules/
 src/prisma/migrations
 data/*.db
 data/*db-journal
+temp/
+dist/
