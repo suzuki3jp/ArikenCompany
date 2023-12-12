@@ -10,4 +10,23 @@ const commandTemplate = new SlashCommandBuilder()
     .setDescription('Create command template')
     .addStringOption((o) => o.setName('name').setDescription('コマンド名').setRequired(true));
 
-export const SlashCommands = [mcp, commandTemplate];
+const sn = new SlashCommandBuilder()
+    .setName('sn')
+    .setDescription('Stream notification')
+    .addSubcommand((s) =>
+        s
+            .setName('add')
+            .setDescription('Add stream notification')
+            .addStringOption((o) => o.setName('name').setDescription("Streamer's name").setRequired(true))
+            .addChannelOption((o) =>
+                o.setName('channel').setDescription('Channel to send notification').setRequired(true)
+            )
+    )
+    .addSubcommand((s) =>
+        s
+            .setName('remove')
+            .setDescription('Remove stream notification')
+            .addStringOption((o) => o.setName('name').setDescription("Streamer's name").setRequired(true))
+    );
+
+export const SlashCommands = [mcp, commandTemplate, sn];
