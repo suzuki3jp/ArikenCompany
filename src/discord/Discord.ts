@@ -9,7 +9,7 @@ import { CommandTemplate } from './CommandTemplate';
 
 export class Discord {
     private ac: ArikenCompany;
-    private client: Client;
+    public client: Client;
     private logger: Logger;
     public mcp: ManageCommandPanel;
     public cp: CommandTemplate;
