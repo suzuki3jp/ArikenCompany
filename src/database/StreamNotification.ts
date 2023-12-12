@@ -1,4 +1,6 @@
-import { Prisma } from './Prisma';
+import { DeepPartial } from 'ts-essentials';
+
+import { Prisma, StreamNotificationT } from './Prisma';
 
 export class StreamNotification extends Prisma {
     constructor() {
@@ -15,5 +17,14 @@ export class StreamNotification extends Prisma {
 
     async getAll() {
         return await this.prisma.streamNotification.findMany();
+    }
+
+    updateById(id: string, data: DeepPartial<StreamNotificationT>) {
+        return this.prisma.streamNotification.update({
+            where: {
+                id,
+            },
+            data,
+        });
     }
 }
