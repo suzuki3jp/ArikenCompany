@@ -85,24 +85,30 @@ const commandContentInput = new TextInputBuilder()
 const nameActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandNameInput);
 const contentActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandContentInput);
 
+const addModal = new ModalBuilder()
+    .setCustomId(DiscordComponentIds.modal.add)
+    .setTitle(DiscordComponentLabels.modal.add)
+    .addComponents(nameActionRow, contentActionRow);
+
+const editModal = new ModalBuilder()
+    .setCustomId(DiscordComponentIds.modal.edit)
+    .setTitle(DiscordComponentLabels.modal.edit)
+    .addComponents(nameActionRow, contentActionRow);
+
+const removeModal = new ModalBuilder()
+    .setCustomId(DiscordComponentIds.modal.remove)
+    .setTitle(DiscordComponentLabels.modal.remove)
+    .addComponents(nameActionRow);
+
 export const DiscordComponents = {
     previousButton,
     nextButton,
     addButton,
     editButton,
     removeButton,
-    addModal: new ModalBuilder()
-        .setCustomId(DiscordComponentIds.modal.add)
-        .setTitle(DiscordComponentLabels.modal.add)
-        .addComponents(nameActionRow, contentActionRow),
-    editModal: new ModalBuilder()
-        .setCustomId(DiscordComponentIds.modal.edit)
-        .setTitle(DiscordComponentLabels.modal.edit)
-        .addComponents(nameActionRow, contentActionRow),
-    removeModal: new ModalBuilder()
-        .setCustomId(DiscordComponentIds.modal.remove)
-        .setTitle(DiscordComponentLabels.modal.remove)
-        .addComponents(nameActionRow),
+    addModal,
+    editModal,
+    removeModal,
 };
 
 export const DiscordActionRows = {
