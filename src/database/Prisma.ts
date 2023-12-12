@@ -9,3 +9,4 @@ export class Prisma {
 }
 
 export type CommandT = P.CommandCreateInput;
+export type StreamNotificationT = P.StreamNotificationCreateInput;
