@@ -5,7 +5,7 @@ import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/e
 import { ArikenCompany } from '../ArikenCompany';
 import { EventSub } from './EventSub';
 import { StreamNotification as StreamNotificationDB, StreamNotificationT } from '../database';
-import { Logger, JST } from '../packages';
+import { Logger, JST, dayjs } from '../packages';
 
 export class StreamNotification {
     public es: EventSub;
@@ -108,6 +108,7 @@ export class Streamer {
         this.onlineSubscription = this.sn.es.subscribeOnline(this.id, async (e) => {
             this.isStreaming = true;
             await this.sendNotification(e);
+            await this.postMemo();
         });
         this.offlineSubscription = this.sn.es.subscribeOffline(this.id, async (e) => {
             this.isStreaming = false;
@@ -129,6 +130,50 @@ export class Streamer {
 
         const embed = this.createNotificationEmbed(stream);
         channel.send({ embeds: [embed] });
+    }
+
+    async postMemo() {
+        if (!this.memoChannelId) return;
+        const channel = await this.sn.ac.discord.client.channels.fetch(this.memoChannelId);
+        if (!channel || channel.type !== ChannelType.GuildForum) return;
+
+        const stream = await this.sn.ac.twitch.api.streams.getStreamByUserId(this.id);
+        if (!stream) return;
+        const { startDate } = stream;
+
+        // 最新のアーカイブがスタートされた配信の物か確認する
+        const video = (await this.sn.ac.twitch.api.videos.getVideosByUser(this.id, { type: 'archive' })).data[0];
+        if (video.streamId !== stream.id) return;
+
+        // 配信開始日の日付データを取得する
+        const now = dayjs(startDate);
+        const year = now.year();
+        const month = now.month() + 1;
+        const day = now.date();
+        const date = `${year}/${month}/${day}`;
+
+        const lastThread = channel.threads.cache.last();
+        if (!lastThread) return;
+        const [lastDate, lastNum] = lastThread.name.split('#');
+
+        // 同じ日に配信済みかどうか
+        if (date === lastDate) {
+            const newNum = Number(lastNum) + 1;
+            await channel.threads.create({
+                name: `${date}#${newNum}`,
+                message: {
+                    content: video.url,
+                },
+            });
+        } else {
+            const newNum = 1;
+            await channel.threads.create({
+                name: `${date}#${newNum}`,
+                message: {
+                    content: video.url,
+                },
+            });
+        }
     }
 
     createNotificationEmbed(s: HelixStream): EmbedBuilder {
