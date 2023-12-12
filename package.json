@@ -29,6 +29,7 @@
   "devDependencies": {
     "@twurple/eventsub-base": "^7.0.6",
     "nodemon": "^3.0.2",
-    "ts-essentials": "^9.4.1"
+    "ts-essentials": "^9.4.1",
+    "typescript": "^5.3.3"
   }
 }
