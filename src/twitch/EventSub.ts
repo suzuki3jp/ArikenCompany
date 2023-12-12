@@ -1,12 +1,14 @@
 import { EventSubHttpListener, DirectConnectionAdapter } from '@twurple/eventsub-http';
 import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twurple/eventsub-base';
 
+import { StreamNotification } from './StreamNotification';
 import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
 import { readFileSync } from '../packages';
 
 export class EventSub {
     private listener: EventSubHttpListener;
+    public sn: StreamNotification;
 
     constructor(private ac: ArikenCompany) {
         const adapter = new DirectConnectionAdapter({
@@ -21,6 +23,7 @@ export class EventSub {
             adapter,
             secret: this.ac.env.cache.TWITCH_EVENTSUB_SECRET,
         });
+        this.sn = new StreamNotification(this.ac);
     }
 
     subscribeOnline(id: string, handler: (e: EventSubStreamOnlineEvent) => void) {
@@ -33,5 +36,6 @@ export class EventSub {
 
     start() {
         this.listener.start();
+        this.sn.init();
     }
 }

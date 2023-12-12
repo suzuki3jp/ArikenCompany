@@ -50,6 +50,10 @@ export class Discord {
                 case 'template':
                     this.cp.create(i);
                     break;
+                case 'sn':
+                    if (i.options.getSubcommand() === 'add') this.ac.twitch.eventSub.sn.add(i);
+                    if (i.options.getSubcommand() === 'remove') this.ac.twitch.eventSub.sn.remove(i);
+                    break;
                 default:
                     break;
             }
