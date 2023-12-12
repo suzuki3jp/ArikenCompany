@@ -18,16 +18,21 @@ export const DiscordComponentIds = {
         remove: 'removeButton',
         addTemplate: 'addTemplateButton',
         commandTemplate: 'template',
+        sendMemo: 'sendMemoButton',
     },
     textInput: {
         commandName: 'commandName',
         commandContent: 'commandContent',
+        memoThread: 'memoThread',
+        streamLength: 'streamLength',
+        memoContent: 'memoContent',
     },
     modal: {
         add: 'addModal',
         edit: 'editModal',
         remove: 'removeModal',
         addTemplate: 'addTemplateModal',
+        sendMemoModal: 'sendMemoModal',
     },
 };
 
@@ -39,10 +44,14 @@ const DiscordComponentLabels = {
         edit: '編集',
         remove: '削除',
         addTemplate: '追加',
+        sendMemo: '送信',
     },
     textInput: {
         commandName: '操作するコマンド名(!付き)',
         commandContent: 'コマンド内容',
+        streamLength: '配信時間',
+        memoThread: 'メモを送信するスレッド名',
+        memoContent: 'メモ内容',
     },
     modal: {
         add: 'コマンドを追加する',
@@ -81,6 +90,11 @@ const addTemplateButton = new ButtonBuilder()
     .setLabel(DiscordComponentLabels.button.addTemplate)
     .setStyle(ButtonStyle.Danger);
 
+const sendMemoButton = new ButtonBuilder()
+    .setCustomId(DiscordComponentIds.button.sendMemo)
+    .setLabel(DiscordComponentLabels.button.sendMemo)
+    .setStyle(ButtonStyle.Primary);
+
 const commandTemplateButton = (c: string) =>
     new ButtonBuilder()
         .setCustomId(DiscordComponentIds.button.commandTemplate + randomUUID())
@@ -98,8 +112,26 @@ const commandContentInput = new TextInputBuilder()
     .setLabel(DiscordComponentLabels.textInput.commandContent)
     .setStyle(TextInputStyle.Paragraph);
 
-const nameActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandNameInput);
+const streamLengthInput = new TextInputBuilder()
+    .setCustomId(DiscordComponentIds.textInput.streamLength)
+    .setLabel(DiscordComponentLabels.textInput.streamLength)
+    .setStyle(TextInputStyle.Short);
+
+const memoContentInput = new TextInputBuilder()
+    .setCustomId(DiscordComponentIds.textInput.memoContent)
+    .setLabel(DiscordComponentLabels.textInput.memoContent)
+    .setStyle(TextInputStyle.Short);
+
+const memoThreadInput = new TextInputBuilder()
+    .setCustomId(DiscordComponentIds.textInput.memoThread)
+    .setLabel(DiscordComponentLabels.textInput.memoThread)
+    .setStyle(TextInputStyle.Short);
+
+export const nameActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandNameInput);
 const contentActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(commandContentInput);
+const streamLengthActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(streamLengthInput);
+const memoContentActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(memoContentInput);
+const memoThreadActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(memoThreadInput);
 
 const addModal = new ModalBuilder()
     .setCustomId(DiscordComponentIds.modal.add)
@@ -138,4 +170,8 @@ export const DiscordActionRows = {
     pageController: new ActionRowBuilder<ButtonBuilder>().addComponents(previousButton, nextButton),
     commandController: new ActionRowBuilder<ButtonBuilder>().addComponents(addButton, editButton, removeButton),
     templateController: new ActionRowBuilder<ButtonBuilder>().addComponents(addTemplateButton),
+    sendMemoController: new ActionRowBuilder<ButtonBuilder>().addComponents(sendMemoButton),
+    streamLengthActionRow,
+    memoContentActionRow,
+    memoThreadActionRow,
 };
