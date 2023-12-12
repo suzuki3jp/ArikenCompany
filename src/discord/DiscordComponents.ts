@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import {
     ButtonBuilder,
     ButtonStyle,
@@ -16,6 +17,7 @@ export const DiscordComponentIds = {
         edit: 'editButton',
         remove: 'removeButton',
         addTemplate: 'addTemplateButton',
+        commandTemplate: 'template',
     },
     textInput: {
         commandName: 'commandName',
@@ -79,6 +81,12 @@ const addTemplateButton = new ButtonBuilder()
     .setLabel(DiscordComponentLabels.button.addTemplate)
     .setStyle(ButtonStyle.Danger);
 
+const commandTemplateButton = (c: string) =>
+    new ButtonBuilder()
+        .setCustomId(DiscordComponentIds.button.commandTemplate + randomUUID())
+        .setLabel(c)
+        .setStyle(ButtonStyle.Primary);
+
 const commandNameInput = new TextInputBuilder()
     .setCustomId(DiscordComponentIds.textInput.commandName)
     .setLabel(DiscordComponentLabels.textInput.commandName)
@@ -123,6 +131,7 @@ export const DiscordComponents = {
     editModal,
     removeModal,
     addTemplateModal,
+    commandTemplateButton,
 };
 
 export const DiscordActionRows = {

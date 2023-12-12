@@ -70,6 +70,8 @@ export class Discord {
                 case DiscordComponentIds.button.remove:
                     this.mcp.showRemoveModal(i);
                     break;
+                case DiscordComponentIds.button.addTemplate:
+                    this.cp.showAddModal(i);
                 default:
                     break;
             }
@@ -84,6 +86,8 @@ export class Discord {
                 case DiscordComponentIds.modal.remove:
                     this.mcp.removeCommand(i);
                     break;
+                case DiscordComponentIds.modal.addTemplate:
+                    this.cp.add(i);
                 default:
                     break;
             }
