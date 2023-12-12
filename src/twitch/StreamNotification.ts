@@ -154,25 +154,41 @@ export class Streamer {
 
         const lastThread = channel.threads.cache.last();
         if (!lastThread) return;
-        const [lastDate, lastNum] = lastThread.name.split('#');
 
-        // 同じ日に配信済みかどうか
-        if (date === lastDate) {
-            const newNum = Number(lastNum) + 1;
-            await channel.threads.create({
-                name: `${date}#${newNum}`,
-                message: {
-                    content: video.url,
-                },
-            });
+        // メモのチャンネルの分け方によって処理を分ける
+        if (this.sn.ac.settings.cache.memo.isSplitByStream) {
+            const [lastDate, lastNum] = lastThread.name.split('#');
+
+            // 同じ日に配信済みかどうか
+            if (date === lastDate) {
+                const newNum = Number(lastNum) + 1;
+                await channel.threads.create({
+                    name: `${date}#${newNum}`,
+                    message: {
+                        content: video.url,
+                    },
+                });
+            } else {
+                const newNum = 1;
+                await channel.threads.create({
+                    name: `${date}#${newNum}`,
+                    message: {
+                        content: video.url,
+                    },
+                });
+            }
         } else {
-            const newNum = 1;
-            await channel.threads.create({
-                name: `${date}#${newNum}`,
-                message: {
-                    content: video.url,
-                },
-            });
+            // 同じ日に配信済みかどうか
+            if (date === lastThread.name) {
+                await lastThread.send(video.url);
+            } else {
+                await channel.threads.create({
+                    name: date,
+                    message: {
+                        content: video.url,
+                    },
+                });
+            }
         }
     }
 
