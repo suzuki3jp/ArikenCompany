@@ -8,13 +8,14 @@ import { StreamNotification as StreamNotificationDB, StreamNotificationT } from 
 import { Logger, JST, dayjs } from '../packages';
 
 export class StreamNotification {
-    public es: EventSub;
     public snDB: StreamNotificationDB;
     public logger: Logger;
 
+    private ac: ArikenCompany;
     private cache: Collection<string, Streamer>;
 
-    constructor(public ac: ArikenCompany) {
+    constructor(public es: EventSub) {
+        this.ac = this.es.twitch.ac;
         this.logger = this.ac.twitch.logger.createChild('StreamNotification');
         this.es = this.ac.twitch.eventSub;
         this.cache = new Collection(null);
@@ -86,6 +87,7 @@ export class StreamNotification {
 }
 
 export class Streamer {
+    private ac: ArikenCompany;
     private id: string;
     private name: string;
     private notificationChannelId: string;
@@ -95,6 +97,7 @@ export class Streamer {
     private offlineSubscription: EventSubSubscription | null;
 
     constructor(private sn: StreamNotification, data: StreamNotificationT) {
+        this.ac = this.sn.es.twitch.ac;
         this.id = data.id;
         this.name = data.name;
         this.notificationChannelId = data.notification_channel;
@@ -124,7 +127,7 @@ export class Streamer {
     }
 
     async sendNotification(e: EventSubStreamOnlineEvent) {
-        const channel = await this.sn.ac.discord.client.channels.fetch(this.notificationChannelId);
+        const channel = await this.ac.discord.client.channels.fetch(this.notificationChannelId);
         if (!channel?.isTextBased()) return;
 
         const stream = await e.getStream();
@@ -136,15 +139,15 @@ export class Streamer {
 
     async postMemo() {
         if (!this.memoChannelId) return;
-        const channel = await this.sn.ac.discord.client.channels.fetch(this.memoChannelId);
+        const channel = await this.ac.discord.client.channels.fetch(this.memoChannelId);
         if (!channel || channel.type !== ChannelType.GuildForum) return;
 
-        const stream = await this.sn.ac.twitch.api.streams.getStreamByUserId(this.id);
+        const stream = await this.ac.twitch.api.streams.getStreamByUserId(this.id);
         if (!stream) return;
         const { startDate } = stream;
 
         // 最新のアーカイブがスタートされた配信の物か確認する
-        const video = (await this.sn.ac.twitch.api.videos.getVideosByUser(this.id, { type: 'archive' })).data[0];
+        const video = (await this.ac.twitch.api.videos.getVideosByUser(this.id, { type: 'archive' })).data[0];
         if (video.streamId !== stream.id) return;
 
         // 配信開始日の日付データを取得する
@@ -158,7 +161,7 @@ export class Streamer {
         if (!lastThread) return;
 
         // メモのチャンネルの分け方によって処理を分ける
-        if (this.sn.ac.settings.cache.memo.isSplitByStream) {
+        if (this.ac.settings.cache.memo.isSplitByStream) {
             const [lastDate, lastNum] = lastThread.name.split('#');
 
             // 同じ日に配信済みかどうか

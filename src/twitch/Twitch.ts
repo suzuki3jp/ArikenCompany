@@ -24,7 +24,7 @@ export class Twitch {
 
         this.chat = new Chat(this);
         this.api = new ApiClient({ authProvider: this.auth });
-        this.eventSub = new EventSub(this.ac);
+        this.eventSub = new EventSub(this);
     }
 
     private setupAuth(): RefreshingAuthProvider {
@@ -67,13 +67,15 @@ export class Twitch {
 class Chat {
     public client: ChatClient;
 
+    private ac: ArikenCompany;
     private logger: Logger;
 
     constructor(private twitch: Twitch) {
         this.logger = this.twitch.logger.createChild('Chat');
+        this.ac = this.twitch.ac;
         this.client = new ChatClient({
             authProvider: this.twitch.auth,
-            channels: this.twitch.ac.settings.cache.twitch.channels,
+            channels: this.ac.settings.cache.twitch.channels,
         });
     }
 
@@ -85,12 +87,12 @@ class Chat {
     start() {
         this.loadEvents();
         this.client.connect();
-        this.logger.info(`Connecting Twitch Chat in [${this.twitch.ac.settings.cache.twitch.channels.join(', ')}].`);
+        this.logger.info(`Connecting Twitch Chat in [${this.ac.settings.cache.twitch.channels.join(', ')}].`);
     }
 
     async onMessage(...args: [string, string, string, ChatMessage]) {
         const message = new Message(this.twitch, ...args);
-        const command = new Command(this.twitch.ac, message);
+        const command = new Command(this.ac, message);
 
         if (!command.isCommand()) return;
 
@@ -119,7 +121,7 @@ class Chat {
             const cmd = await command.normalCommand();
             if (!cmd) return;
             if (!command.isCooldown(cmd)) return;
-            const r = await new ValueParser(this.twitch.ac, cmd.content, message).parse();
+            const r = await new ValueParser(this.ac, cmd.content, message).parse();
             command.reply(r.error ?? r.toJSON().parsed);
             command.updateUsedAt(cmd.name);
         }
