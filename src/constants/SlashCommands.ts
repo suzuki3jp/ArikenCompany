@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { ChannelType, SlashCommandBuilder } from 'discord.js';
 
 const mcp = new SlashCommandBuilder()
     .setName('mcp')
@@ -30,4 +30,21 @@ const sn = new SlashCommandBuilder()
             .addStringOption((o) => o.setName('name').setDescription("Streamer's name").setRequired(true))
     );
 
-export const SlashCommands = [mcp, commandTemplate, sn];
+const mp = new SlashCommandBuilder()
+    .setName('mp')
+    .setDescription('Memo panel')
+    .addSubcommand((s) =>
+        s
+            .setName('setup')
+            .setDescription('Setup memo panel')
+            .addStringOption((o) => o.setName('name').setDescription("Streamer's name").setRequired(true))
+            .addChannelOption((o) =>
+                o
+                    .setName('channel')
+                    .setDescription('チャンネルを指定します。')
+                    .addChannelTypes(ChannelType.GuildForum)
+                    .setRequired(true)
+            )
+    );
+
+export const SlashCommands = [mcp, commandTemplate, sn, mp];
