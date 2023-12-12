@@ -27,6 +27,7 @@
     "schema": "src/prisma/schema.prisma"
   },
   "devDependencies": {
+    "@twurple/eventsub-base": "^7.0.6",
     "nodemon": "^3.0.2",
     "ts-essentials": "^9.4.1"
   }
