@@ -24,6 +24,7 @@ export const DiscordComponentIds = {
         add: 'addModal',
         edit: 'editModal',
         remove: 'removeModal',
+        addTemplate: 'addTemplateModal',
     },
 };
 
@@ -100,6 +101,11 @@ const removeModal = new ModalBuilder()
     .setTitle(DiscordComponentLabels.modal.remove)
     .addComponents(nameActionRow);
 
+const addTemplateModal = new ModalBuilder()
+    .setCustomId(DiscordComponentIds.modal.addTemplate)
+    .setTitle('テンプレートを追加する')
+    .addComponents(contentActionRow);
+
 export const DiscordComponents = {
     previousButton,
     nextButton,
@@ -109,6 +115,7 @@ export const DiscordComponents = {
     addModal,
     editModal,
     removeModal,
+    addTemplateModal,
 };
 
 export const DiscordActionRows = {
