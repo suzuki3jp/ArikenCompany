@@ -91,8 +91,8 @@ export class Streamer {
     private notificationChannelId: string;
     private memoChannelId: string | null;
     private isStreaming: boolean;
-    private onlineSubscription: EventSubSubscription;
-    private offlineSubscription: EventSubSubscription;
+    private onlineSubscription: EventSubSubscription | null;
+    private offlineSubscription: EventSubSubscription | null;
 
     constructor(private sn: StreamNotification, data: StreamNotificationT) {
         this.id = data.id;
@@ -100,6 +100,8 @@ export class Streamer {
         this.notificationChannelId = data.notification_channel;
         this.memoChannelId = data.memo_channel ?? null;
         this.isStreaming = false;
+        this.onlineSubscription = null;
+        this.offlineSubscription = null;
         this.subscribe();
     }
 
@@ -117,8 +119,8 @@ export class Streamer {
 
     unsubscribe() {
         this.sn.logger.info("Unsubscribing streamer's online/offline event. twitch.user." + this.name);
-        this.onlineSubscription.stop();
-        this.offlineSubscription.stop();
+        this.onlineSubscription?.stop();
+        this.offlineSubscription?.stop();
     }
 
     async sendNotification(e: EventSubStreamOnlineEvent) {
