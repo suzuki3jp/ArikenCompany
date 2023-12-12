@@ -54,6 +54,8 @@ export class Discord {
                     if (i.options.getSubcommand() === 'add') this.ac.twitch.eventSub.sn.add(i);
                     if (i.options.getSubcommand() === 'remove') this.ac.twitch.eventSub.sn.remove(i);
                     break;
+                case 'mp':
+                    if (i.options.getSubcommand() === 'setup') this.ac.twitch.eventSub.sn.setupMemoPanel(i);
                 default:
                     break;
             }
@@ -76,6 +78,10 @@ export class Discord {
                     break;
                 case DiscordComponentIds.button.addTemplate:
                     this.cp.showAddModal(i);
+                    break;
+                case DiscordComponentIds.button.sendMemo:
+                    this.ac.twitch.eventSub.sn.showSendMemoModal(i);
+                    break;
                 default:
                     break;
             }
@@ -92,6 +98,9 @@ export class Discord {
                     break;
                 case DiscordComponentIds.modal.addTemplate:
                     this.cp.add(i);
+                    break;
+                case DiscordComponentIds.modal.sendMemoModal:
+                    this.ac.twitch.eventSub.sn.sendMemo(i);
                 default:
                     break;
             }

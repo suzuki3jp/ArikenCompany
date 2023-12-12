@@ -1,11 +1,21 @@
 import { HelixStream } from '@twurple/api';
-import { ChatInputCommandInteraction, Collection, EmbedBuilder, ChannelType } from 'discord.js';
+import {
+    ChatInputCommandInteraction,
+    Collection,
+    EmbedBuilder,
+    ChannelType,
+    ButtonInteraction,
+    ModalSubmitInteraction,
+    Embed,
+    ModalBuilder,
+} from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
 import { ArikenCompany } from '../ArikenCompany';
 import { EventSub } from './EventSub';
 import { StreamNotification as StreamNotificationDB, StreamNotificationT } from '../database';
 import { Logger, JST, dayjs } from '../packages';
+import { DiscordActionRows, DiscordComponentIds, nameActionRow } from '../discord/DiscordComponents';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;
@@ -16,8 +26,7 @@ export class StreamNotification {
 
     constructor(public es: EventSub) {
         this.ac = this.es.twitch.ac;
-        this.logger = this.ac.twitch.logger.createChild('StreamNotification');
-        this.es = this.ac.twitch.eventSub;
+        this.logger = this.es.twitch.logger.createChild('StreamNotification');
         this.cache = new Collection(null);
         this.snDB = new StreamNotificationDB();
     }
@@ -59,6 +68,100 @@ export class StreamNotification {
         return this.eReply(i, `${streamer.name} の配信通知を解除しました。`);
     }
 
+    async setupMemoPanel(i: ChatInputCommandInteraction) {
+        const channel = i.options.getChannel('channel', true, [ChannelType.GuildForum]);
+        const name = i.options.getString('name', true);
+        const twitcher = await this.ac.twitch.api.users.getUserByName(name);
+
+        if (!twitcher) return this.eReply(i, 'その名前の配信者は見つかりませんでした。');
+        i.channel?.send({
+            embeds: [
+                {
+                    title: 'メモを送信する',
+                    description: `下記のチャンネルにメモを送信します。`,
+                    fields: [
+                        { name: 'メモチャンネル', value: `<#${channel.id}>` },
+                        { name: '配信者', value: name },
+                    ],
+                    footer: {
+                        text: `${channel.id},${twitcher.id}`,
+                    },
+                },
+            ],
+            components: [DiscordActionRows.sendMemoController],
+        });
+        this.logger.info(`Setup memo panel for ${name}.`);
+        return this.eReply(i, 'メモパネルを設定しました。');
+    }
+
+    getMemoInfoFromPanel(e: Embed) {
+        const footer = e.footer?.text;
+        if (!footer) return null;
+        const [channelId, streamerId] = footer.split(',');
+        return { channelId, streamerId };
+    }
+
+    async showSendMemoModal(i: ButtonInteraction) {
+        const info = this.getMemoInfoFromPanel(i.message.embeds[0]);
+        if (!info) return;
+        const { streamerId } = info;
+        const stream = await this.ac.twitch.api.streams.getStreamByUserId(streamerId);
+        const forum = await this.ac.discord.client.channels.fetch(info.channelId);
+        if (!forum || forum.type !== ChannelType.GuildForum)
+            return this.eReply(i, 'メモチャンネルが見つからなかったかタイプが不正です。');
+
+        const { memoThreadActionRow, memoContentActionRow, streamLengthActionRow } = DiscordActionRows;
+        const thread = forum.threads.cache.last();
+        if (!thread) return this.eReply(i, 'メモスレッドが見つかりませんでした。');
+
+        memoThreadActionRow.components[0].setValue(thread.name);
+        if (stream) {
+            streamLengthActionRow.components[0].setValue(this.getTimeStampFromStartAt(stream.startDate));
+        }
+
+        const modal = new ModalBuilder()
+            .setCustomId(DiscordComponentIds.modal.sendMemoModal)
+            .setTitle('メモを送信する')
+            .addComponents(memoThreadActionRow, streamLengthActionRow, memoContentActionRow);
+        i.showModal(modal);
+    }
+
+    private getTimeStampFromStartAt(startAt: Date): string {
+        const startAtDayJs = dayjs(startAt);
+        const now = dayjs();
+        const diff = now.diff(startAtDayJs, 'second');
+        const hour = Math.floor(diff / 3600);
+        const minute = Math.floor((diff - hour * 3600) / 60);
+        const second = diff - hour * 3600 - minute * 60;
+
+        if (second > 30) return `${putZero(hour)}:${putZero(minute + 1)}`;
+        return `${putZero(hour)}:${putZero(minute)}`;
+
+        function putZero(n: number) {
+            return n < 10 ? '0' + n : n;
+        }
+    }
+
+    async sendMemo(i: ModalSubmitInteraction) {
+        const channelName = i.fields.getTextInputValue(DiscordComponentIds.textInput.memoThread);
+        const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.memoContent);
+        const time = i.fields.getTextInputValue(DiscordComponentIds.textInput.streamLength);
+
+        if (!i.message) return;
+        const info = this.getMemoInfoFromPanel(i.message.embeds[0]);
+        if (!info) return;
+        const channel = await this.ac.discord.client.channels.fetch(info.channelId);
+        if (!channel || channel.type !== ChannelType.GuildForum) return;
+
+        const thread = channel.threads.cache.find((t) => t.name === channelName);
+        if (!thread) return this.eReply(i, 'メモスレッドが見つかりませんでした。');
+
+        await thread.send({
+            content: `${time} ${content}`,
+        });
+        i.deferReply({});
+    }
+
     async init() {
         const notifications = await this.snDB.getAll();
         for (const notification of notifications) {
@@ -67,7 +170,7 @@ export class StreamNotification {
         }
     }
 
-    eReply(i: ChatInputCommandInteraction, content: string) {
+    eReply(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction, content: string) {
         i.reply({ content, ephemeral: true });
         return;
     }
@@ -148,7 +251,7 @@ export class Streamer {
 
         // 最新のアーカイブがスタートされた配信の物か確認する
         const video = (await this.ac.twitch.api.videos.getVideosByUser(this.id, { type: 'archive' })).data[0];
-        if (video.streamId !== stream.id) return;
+        if (!video || video.streamId !== stream.id) return;
 
         // 配信開始日の日付データを取得する
         const now = dayjs(startDate);
@@ -157,6 +260,7 @@ export class Streamer {
         const day = now.date();
         const date = `${year}/${month}/${day}`;
 
+        await channel.threads.fetch({ archived: { fetchAll: true } });
         const lastThread = channel.threads.cache.last();
         if (!lastThread) return;
 
