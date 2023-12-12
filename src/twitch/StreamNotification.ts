@@ -217,9 +217,11 @@ export class Streamer {
             this.isStreaming = true;
             await this.sendNotification(e);
             await this.postMemo();
+            this.writeStreamLog('ONLINE');
         });
         this.offlineSubscription = this.sn.es.subscribeOffline(this.id, async (e) => {
             this.isStreaming = false;
+            this.writeStreamLog('OFFLINE');
         });
     }
 
@@ -238,6 +240,10 @@ export class Streamer {
 
         const embed = this.createNotificationEmbed(stream);
         channel.send({ embeds: [embed] });
+    }
+
+    writeStreamLog(state: 'ONLINE' | 'OFFLINE') {
+        this.sn.logger.info(`Streamer ${this.name} is ${state.toLowerCase()}.`);
     }
 
     async postMemo() {
