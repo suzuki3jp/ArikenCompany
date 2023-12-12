@@ -21,3 +21,12 @@ model Command {
   updated_at DateTime @updatedAt @default(now())
   used_at DateTime @default(now())
 }
+
+model StreamNotification {
+  id String @id
+  name String
+  notification_channel String
+  memo_channel String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt @default(now()) 
+}
