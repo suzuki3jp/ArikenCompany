@@ -24,5 +24,13 @@ export interface Settings {
          */
         isStrictCommand: boolean;
     };
+    memo: {
+        /**
+         * メモのチャンネルの分け方の設定
+         * true -> 配信ごとに分ける タイトル名: "yyyy/mm/dd#N"
+         * false -> 配信の日付ごとに分ける タイトル名: "yyyy/mm/dd"
+         */
+        isSplitByStream: boolean;
+    };
     hostName: string;
 }
