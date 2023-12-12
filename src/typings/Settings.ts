@@ -24,4 +24,5 @@ export interface Settings {
          */
         isStrictCommand: boolean;
     };
+    hostName: string;
 }
