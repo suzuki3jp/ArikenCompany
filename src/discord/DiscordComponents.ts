@@ -128,4 +128,5 @@ export const DiscordComponents = {
 export const DiscordActionRows = {
     pageController: new ActionRowBuilder<ButtonBuilder>().addComponents(previousButton, nextButton),
     commandController: new ActionRowBuilder<ButtonBuilder>().addComponents(addButton, editButton, removeButton),
+    templateController: new ActionRowBuilder<ButtonBuilder>().addComponents(addTemplateButton),
 };
