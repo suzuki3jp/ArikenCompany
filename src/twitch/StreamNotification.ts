@@ -260,7 +260,6 @@ export class Streamer {
         const day = now.date();
         const date = `${year}/${month}/${day}`;
 
-        await channel.threads.fetch({ archived: { fetchAll: true } });
         const lastThread = channel.threads.cache.last();
         if (!lastThread) return;
 
