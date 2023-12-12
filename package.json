@@ -15,6 +15,7 @@
     "@twurple/api": "^7.0.6",
     "@twurple/auth": "^7.0.6",
     "@twurple/chat": "^7.0.6",
+    "@twurple/eventsub-http": "^7.0.6",
     "axios": "^1.6.2",
     "dayjs": "^1.11.10",
     "defu": "^6.1.3",
