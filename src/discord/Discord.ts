@@ -5,12 +5,14 @@ import { ManageCommandPanel } from './ManageCommandPanel';
 import { ArikenCompany } from '../ArikenCompany';
 import { SlashCommands } from '../constants';
 import type { Logger } from '../packages';
+import { CommandTemplate } from './CommandTemplate';
 
 export class Discord {
     private ac: ArikenCompany;
     private client: Client;
     private logger: Logger;
     public mcp: ManageCommandPanel;
+    public cp: CommandTemplate;
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
@@ -19,6 +21,7 @@ export class Discord {
         });
         this.logger = this.ac.logger.createChild('Discord');
         this.mcp = new ManageCommandPanel(this.ac, this.client);
+        this.cp = new CommandTemplate(this.ac);
     }
 
     loadEvents() {
@@ -40,10 +43,15 @@ export class Discord {
 
     async interactionCreate(i: Interaction) {
         if (i.isChatInputCommand()) {
-            if (i.commandName === 'mcp') {
-                if (i.options.getSubcommand() === 'create') {
-                    this.mcp.create(i.channelId);
-                }
+            switch (i.commandName) {
+                case 'mcp':
+                    if (i.options.getSubcommand() === 'create') this.mcp.create(i.channelId);
+                    break;
+                case 'template':
+                    this.cp.create(i);
+                    break;
+                default:
+                    break;
             }
         } else if (i.isButton()) {
             switch (i.customId) {
