@@ -2,7 +2,7 @@ import { DeepPartial } from 'ts-essentials';
 
 import { Prisma, StreamNotificationT } from './Prisma';
 
-export class StreamNotification extends Prisma {
+export class StreamNotificationDB extends Prisma {
     constructor() {
         super();
     }
