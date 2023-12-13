@@ -40,5 +40,6 @@ export class EventSub {
     start() {
         this.listener.start();
         this.sn.init();
+        this.twitch.api.eventSub.getSubscriptions().then(console.log);
     }
 }
