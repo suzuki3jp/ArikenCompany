@@ -15,8 +15,6 @@ jobs:
             name: Production
         steps:
             - uses: actions/checkout@v3
-            - name: secret test
-              run: echo secret "${{secrets.HOST_PORT }}"
             - name: Connect to Server
               uses: appleboy/ssh-action@v0.1.9
               with:
