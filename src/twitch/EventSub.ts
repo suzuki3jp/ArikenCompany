@@ -39,7 +39,7 @@ export class EventSub {
 
     start() {
         this.listener.start();
+        this.twitch.api.eventSub.deleteAllSubscriptions();
         this.sn.init();
-        this.twitch.api.eventSub.getSubscriptions().then(console.log);
     }
 }
