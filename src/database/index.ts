@@ -1,4 +1,4 @@
-export * from './Command';
+export * from './CommandDB';
 
 export * from './Prisma';
 

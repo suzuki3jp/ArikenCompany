@@ -1,14 +1,14 @@
-import { Command } from '../database';
+import { CommandDB } from '../database';
 import { Logger } from '../packages';
 import { ValueValidater } from '../parsers';
 import { ArikenCompany } from '../ArikenCompany';
 
 export class CommandManager {
-    private c: Command;
+    private c: CommandDB;
     private logger: Logger;
 
     constructor(private ac: ArikenCompany) {
-        this.c = new Command();
+        this.c = new CommandDB();
         this.logger = this.ac.logger.createChild('Command');
     }
 

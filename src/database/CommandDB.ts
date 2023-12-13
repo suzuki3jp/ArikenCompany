@@ -1,7 +1,7 @@
 import { Prisma, CommandT } from './Prisma';
 import { dayjs } from '../packages';
 
-export class Command extends Prisma {
+export class CommandDB extends Prisma {
     constructor() {
         super();
     }
