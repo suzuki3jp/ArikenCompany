@@ -2,11 +2,13 @@ name: Check Package
 
 on:
     pull_request:
-        types: [opened]
+        types: [opened, synchronize, reopened]
     workflow_dispatch:
 
 jobs:
     npm:
+        permissions:
+            pull-requests: write
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
