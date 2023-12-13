@@ -113,6 +113,13 @@ export class ManageCommandPanel {
 
     async createEmbedData() {
         const commands = await this.cmd.getAll();
+        if (commands.length === 0)
+            return [
+                {
+                    title: 'コマンド一覧',
+                    description: 'コマンドがありません。',
+                },
+            ];
         const embeds: APIEmbed[] = [];
         const splitedCommands = splitArrayByNumber(commands, 10);
         for (let i = 0; i < splitedCommands.length; i++) {
