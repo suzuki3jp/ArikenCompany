@@ -13,6 +13,8 @@ jobs:
         if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
         steps:
             - uses: actions/checkout@v3
+            - name: secret test
+              run: echo secret "${{secrets.HOST_PORT }}"
             - name: Connect to Server
               uses: appleboy/ssh-action@v0.1.9
               with:
