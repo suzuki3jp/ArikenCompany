@@ -15,7 +15,7 @@ import { ArikenCompany } from '../ArikenCompany';
 import { EventSub } from './EventSub';
 import { StreamNotificationDB, StreamNotificationT } from '../database';
 import { Logger, JST, dayjs } from '../packages';
-import { DiscordActionRows, DiscordComponentIds, nameActionRow } from '../discord/DiscordComponents';
+import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;
