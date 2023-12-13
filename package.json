@@ -12,7 +12,7 @@
     "prisma:studio": "npx prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.0",
+    "@prisma/client": "^5.6.0",
     "@twurple/api": "^7.0.6",
     "@twurple/auth": "^7.0.6",
     "@twurple/chat": "^7.0.6",
