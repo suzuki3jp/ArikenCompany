@@ -5,6 +5,6 @@ const resolvePath = (path: string) => resolve(__dirname, path);
 export class Path {
     public static readonly env: string = resolvePath('../../.env');
     public static readonly settings: string = resolvePath('../../data/settings.json');
-    public static readonly cert: string = resolvePath('~fullcahain.pem');
-    public static readonly key: string = resolvePath('~privkey.pem');
+    public static readonly cert: string = resolvePath('/etc/letsencrypt/live/eventsub.suzuki3jp.xyz/fullchain.pem');
+    public static readonly key: string = resolvePath('/etc/letsencrypt/live/eventsub.suzuki3jp.xyz/privkey.pem');
 }
