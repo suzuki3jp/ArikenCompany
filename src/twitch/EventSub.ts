@@ -4,6 +4,8 @@ import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twu
 import { StreamNotification } from './StreamNotification';
 import { Twitch } from './Twitch';
 import { ArikenCompany } from '../ArikenCompany';
+import { Path } from '../constants';
+import { readFileSync } from '../packages';
 
 export class EventSub {
     private ac: ArikenCompany;
@@ -15,8 +17,8 @@ export class EventSub {
         const adapter = new DirectConnectionAdapter({
             hostName: this.ac.settings.cache.hostName,
             sslCert: {
-                key: 'readFileSync(Path.key)',
-                cert: 'readFileSync(Path.cert)',
+                key: readFileSync(Path.key),
+                cert: readFileSync(Path.cert),
             },
         });
         this.listener = new EventSubHttpListener({
