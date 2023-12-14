@@ -1,4 +1,13 @@
-import { APIEmbed, ButtonInteraction, Client, Embed, EmbedBuilder, ModalSubmitInteraction } from 'discord.js';
+import {
+    APIEmbed,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    Client,
+    Embed,
+    EmbedBuilder,
+    ModalSubmitInteraction,
+} from 'discord.js';
 
 import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from './DiscordComponents';
 import { ArikenCompany } from '../ArikenCompany';
@@ -29,10 +38,7 @@ export class ManageCommandPanel {
         const embeds = await this.createEmbedData();
         const m = await channel.send({
             embeds: [embeds[0]],
-            components: [
-                this.setPageControllerButtonDisabled({ previous: true, next: false }),
-                DiscordActionRows.commandController,
-            ],
+            components: [this.disablePCButton(1, embeds.length), DiscordActionRows.commandController],
         });
         this.channelId = m.channelId;
         this.messageId = m.id;
@@ -48,14 +54,9 @@ export class ManageCommandPanel {
         const currentPageNum = this.getCurrentPage(embed);
         const newPageNum = currentPageNum - 1;
 
-        let pageController = this.setPageControllerButtonDisabled({ previous: false, next: false });
-        if (newPageNum === 1) {
-            pageController = this.setPageControllerButtonDisabled({ previous: true, next: false });
-        }
-
         i.message.edit({
             embeds: [embeds[newPageNum - 1]],
-            components: [pageController, DiscordActionRows.commandController],
+            components: [this.disablePCButton(newPageNum, embeds.length), DiscordActionRows.commandController],
         });
         i.deferUpdate();
     }
@@ -65,16 +66,10 @@ export class ManageCommandPanel {
         const embeds = await this.createEmbedData();
         const currentPageNum = this.getCurrentPage(embed);
         const newPageNum = currentPageNum + 1;
-        const totalPages = embeds.length;
-
-        let pageController = this.setPageControllerButtonDisabled({ previous: false, next: false });
-        if (newPageNum === totalPages) {
-            pageController = this.setPageControllerButtonDisabled({ previous: false, next: true });
-        }
 
         i.message.edit({
             embeds: [embeds[newPageNum - 1]],
-            components: [pageController, DiscordActionRows.commandController],
+            components: [this.disablePCButton(newPageNum, embeds.length), DiscordActionRows.commandController],
         });
         i.deferUpdate();
     }
@@ -162,10 +157,27 @@ export class ManageCommandPanel {
         });
     }
 
-    private setPageControllerButtonDisabled(buttons: { previous: boolean; next: boolean }) {
-        DiscordActionRows.pageController.components[0].setDisabled(buttons.previous);
-        DiscordActionRows.pageController.components[1].setDisabled(buttons.next);
-        return DiscordActionRows.pageController;
+    private disablePCButton(currentPageNum: number, totalPages: number) {
+        const pageController = DiscordActionRows.pageController;
+        if (currentPageNum === 1) {
+            if (totalPages === 1) {
+                this.setPageControllerButtonDisabled(pageController, { previous: true, next: true });
+            } else {
+                this.setPageControllerButtonDisabled(pageController, { previous: true, next: false });
+            }
+        } else if (currentPageNum === totalPages) {
+            this.setPageControllerButtonDisabled(pageController, { previous: false, next: true });
+        }
+        return pageController;
+    }
+
+    private setPageControllerButtonDisabled(
+        c: ActionRowBuilder<ButtonBuilder>,
+        buttons: { previous: boolean; next: boolean }
+    ) {
+        c.components[0].setDisabled(buttons.previous);
+        c.components[1].setDisabled(buttons.next);
+        return c;
     }
 
     private getCurrentPage(embed: Embed) {
