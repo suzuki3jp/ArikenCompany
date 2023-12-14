@@ -189,6 +189,8 @@ export class ValueValidater {
                 return true;
             case 'vlrank':
                 return this.validateVlrank(...args);
+            case 'vlwins':
+                return this.validateVlrank(...args);
             default:
                 return '存在しない関数です。';
         }
@@ -205,6 +207,15 @@ export class ValueValidater {
     private validateVlrank(...args: string[]): true | string {
         const id = args[0];
         if (!id) return 'vlrank関数には第一引数にidを渡す必要があります。';
+
+        const [name, tag] = id.split('#');
+        if (!name || !tag) return 'idの形式が不正です。name#tagの形式で渡してください。';
+
+        return true;
+    }
+    private validateVlWins(...args: string[]): true | string {
+        const id = args[0];
+        if (!id) return 'vlWins関数には第一引数にidを渡す必要があります。';
 
         const [name, tag] = id.split('#');
         if (!name || !tag) return 'idの形式が不正です。name#tagの形式で渡してください。';
