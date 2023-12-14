@@ -17,5 +17,7 @@ jobs:
                   cache: npm
             - name: Install deps
               run: npm i
+            - name: migrate DB
+              run: npm run prisma:migrate
             - name: Build
               run: npm run build
