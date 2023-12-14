@@ -146,10 +146,7 @@ export class ManageCommandPanel {
 
         const embeds = await this.createEmbedData();
         const currentPageNum = this.getCurrentPage(message.embeds[0]);
-        const pageController = this.setPageControllerButtonDisabled({
-            previous: currentPageNum === 1,
-            next: currentPageNum === embeds.length,
-        });
+        const pageController = this.disablePCButton(currentPageNum, embeds.length);
 
         message.edit({
             embeds: [embeds[currentPageNum - 1]],
