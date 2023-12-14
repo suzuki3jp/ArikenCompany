@@ -13,9 +13,9 @@ import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/e
 
 import { ArikenCompany } from '../ArikenCompany';
 import { EventSub } from './EventSub';
-import { StreamNotification as StreamNotificationDB, StreamNotificationT } from '../database';
+import { StreamNotificationDB, StreamNotificationT } from '../database';
 import { Logger, JST, dayjs } from '../packages';
-import { DiscordActionRows, DiscordComponentIds, nameActionRow } from '../discord/DiscordComponents';
+import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;

@@ -18,3 +18,5 @@ export * from './toEnv/toEnv';
 export * from './twitchjs/twitchjs';
 
 export * from './ValRank/ValRank';
+
+export * from './ValWins/ValWins';
