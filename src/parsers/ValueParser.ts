@@ -1,7 +1,7 @@
 import { Agent } from 'https';
 
 import { ArikenCompany } from '../ArikenCompany';
-import { Message, countBy, fetch, dayjs, ValRank } from '../packages';
+import { Message, countBy, fetch, dayjs, ValRank, ValWins } from '../packages';
 
 const STARTING_DELIMITER = '${';
 const ENDING_DELIMITER = '}';
@@ -65,6 +65,9 @@ export class ValueParser {
             case 'vlrank':
                 reflectResult(await this.parseVlrank(...args), r);
                 break;
+            case 'vlwins':
+                reflectResult(await this.parseVlwins(...args), r);
+                break;
             default:
                 break;
         }
@@ -122,6 +125,20 @@ export class ValueParser {
         const rank = await new ValRank().get(name, tag);
         if (typeof rank === 'number') r.setError(`サーバーからエラーコード${rank}が返されました。`);
         r.pushToParsed(rank);
+        return r;
+    }
+
+    private async parseVlwins(...args: string[]): Promise<ValueParseResult> {
+        const r = new ValueParseResult();
+        const id = args[0];
+        if (!id) return r.setError('vlwins関数には第一引数にidを渡す必要があります。');
+
+        const [name, tag] = id.split('#');
+        if (!name || !tag) return r.setError('idの形式が不正です。name#tagの形式で渡してください。');
+
+        const wins = await new ValWins().get(name, tag);
+        if (typeof wins === 'number') r.setError(`サーバーからエラーコード${wins}が返されました。`);
+        r.pushToParsed(wins);
         return r;
     }
 }
