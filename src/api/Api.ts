@@ -15,8 +15,8 @@ export class Api {
     constructor(public ac: ArikenCompany) {
         this.logger = this.ac.logger.createChild('Api');
         this.app = express();
-        this.app.use(this.loadRoutes());
         this.app.use(express.json());
+        this.app.use(this.loadRoutes());
 
         this.server = createServer(
             {
