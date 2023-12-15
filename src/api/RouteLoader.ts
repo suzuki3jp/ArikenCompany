@@ -3,13 +3,13 @@ import { Router, Request, Response } from 'express';
 import { resolve, join } from 'path';
 
 import { RouteImpl } from './RouteImpl';
-import { ArikenCompany } from '../ArikenCompany';
+import { Api } from './Api';
 import { Logger } from '../packages';
 
 export class RouteLoader {
     public logger: Logger;
-    constructor(public ac: ArikenCompany) {
-        this.logger = this.ac.logger.createChild('RouteLoader');
+    constructor(public api: Api) {
+        this.logger = this.api.logger.createChild('RouteLoader');
     }
 
     public load() {

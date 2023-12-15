@@ -9,11 +9,11 @@ import { Logger, readFileSync } from '../packages';
 export class Api {
     private app: Express;
     private server: Server;
-    private logger: Logger;
+    public logger: Logger;
 
     constructor(private ac: ArikenCompany) {
         this.logger = this.ac.logger.createChild('Api');
-        const router = new RouteLoader().load();
+        const router = new RouteLoader(this).load();
         this.app = express();
         this.app.use(router);
         this.server = createServer(
