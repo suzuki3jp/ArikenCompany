@@ -48,7 +48,11 @@ export class RouteLoader {
 
     private getRouteData(routeFilePath: string): RouteData {
         const RouteController = require(routeFilePath).default as RouteImpl;
-        let uri = routeFilePath.split('routes')[1].replaceAll('\\', '/').replaceAll('/index.ts', '');
+        let uri = routeFilePath
+            .split('routes')[1]
+            .replaceAll('\\', '/')
+            .replaceAll('/index.ts', '')
+            .replaceAll('/index.js', '');
         uri = uri === '' ? '/' : uri;
         // @ts-expect-error
         const route = new RouteController(uri);
