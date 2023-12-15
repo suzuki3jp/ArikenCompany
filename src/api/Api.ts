@@ -28,6 +28,7 @@ export class Api {
 
     public start(): void {
         this.server.listen(443, () => {
+            this.ac.twitch.eventSub.listener.markAsReady();
             this.logger.system(`API is listening on port ${443}`);
         });
     }
