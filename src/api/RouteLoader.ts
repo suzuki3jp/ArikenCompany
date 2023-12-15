@@ -22,9 +22,9 @@ export class RouteLoader {
             if (routeData.post) router.post(routeData.path, routeData.post);
             if (routeData.put) router.put(routeData.path, routeData.put);
             if (routeData.delete) router.delete(routeData.path, routeData.delete);
+            this.logger.system(`Loaded route ${routeData.path}`);
         });
 
-        this.logger.system(`Routes loaded. ${routeFilePaths.join(', ')}`);
         return router;
     }
 
