@@ -55,7 +55,7 @@ export class RouteLoader {
             .replaceAll('/index.js', '');
         uri = uri === '' ? '/' : uri;
         // @ts-expect-error
-        const route = new RouteController(uri);
+        const route = new RouteController(uri, this.api.ac);
         const routeData: RouteData = { path: route.path, get: null, post: null, put: null, delete: null };
 
         if (route.get) routeData.get = route.get;

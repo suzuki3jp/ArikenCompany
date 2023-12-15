@@ -1,12 +1,13 @@
 import { Api } from './api/Api';
 import { Discord } from './discord/Discord';
-import { SettingsManager, CommandManager } from './managers';
+import { SettingsManager, CommandManager, UserManager } from './managers';
 import { Env } from './utils';
 import { Twitch } from './twitch/Twitch';
 import { Logger } from './packages/index';
 
 export class ArikenCompany {
     public cmd: CommandManager;
+    public um: UserManager;
     public env: Env;
     public settings: SettingsManager;
     public logger: Logger;
@@ -18,6 +19,7 @@ export class ArikenCompany {
         this.logger = new Logger('ArikenCompany');
         this.env = new Env(this);
         this.cmd = new CommandManager(this);
+        this.um = new UserManager(this);
         this.settings = new SettingsManager();
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
