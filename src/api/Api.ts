@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import { json } from 'body-parser';
 import { createServer, Server } from 'https';
 
 import { ArikenCompany } from '../ArikenCompany';
@@ -16,8 +17,7 @@ export class Api {
         const router = new RouteLoader(this).load();
         this.app = express();
         this.app.use(router);
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(json());
 
         this.server = createServer(
             {
