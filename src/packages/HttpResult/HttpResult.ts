@@ -1,5 +1,5 @@
 export class HttpResult<T> {
-    public status: number | null;
+    public status: keyof HttpStatusT | null;
     public message: string | null;
     public data: T | null;
 
@@ -9,7 +9,7 @@ export class HttpResult<T> {
         this.data = null;
     }
 
-    public setStatus(status: number): HttpResult<T> {
+    public setStatus(status: keyof HttpStatusT): HttpResult<T> {
         this.status = status;
         return this;
     }
@@ -41,3 +41,37 @@ interface HttpResultData<T> {
     message?: string;
     data?: T;
 }
+
+const HttpStatus = {
+    200: 'OK',
+    201: 'Created',
+    202: 'Accepted',
+    204: 'No Content',
+    205: 'Reset Content',
+    206: 'Partial Content',
+    300: 'Multiple Choice',
+    301: 'Moved Permanently',
+    302: 'Found',
+    304: 'Not Modified',
+    307: 'Temporary Redirect',
+    308: 'Permanent Redirect',
+    400: 'Bad Request',
+    401: 'Unauthrized',
+    403: 'Forbidden',
+    404: 'Not Found',
+    405: 'Method Not Allowed',
+    408: 'Request Timeout',
+    409: 'Conflict',
+    410: 'Gone',
+    413: 'Payload Too Large',
+    414: 'URI Too Long',
+    415: 'Unsupported Media Type',
+    429: 'Too Many Requests',
+    500: 'Internal Server Error',
+    501: 'Not Implemented',
+    502: 'Bad Gateway',
+    503: 'Server Unavailable',
+    504: 'Gateway Timeout',
+};
+
+type HttpStatusT = typeof HttpStatus;
