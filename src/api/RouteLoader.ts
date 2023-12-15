@@ -3,9 +3,14 @@ import { Router, Request, Response } from 'express';
 import { resolve, join } from 'path';
 
 import { RouteImpl } from './RouteImpl';
+import { ArikenCompany } from '../ArikenCompany';
+import { Logger } from '../packages';
 
 export class RouteLoader {
-    constructor() {}
+    public logger: Logger;
+    constructor(public ac: ArikenCompany) {
+        this.logger = this.ac.logger.createChild('RouteLoader');
+    }
 
     public load() {
         const router = Router();
@@ -19,6 +24,7 @@ export class RouteLoader {
             if (routeData.delete) router.delete(routeData.path, routeData.delete);
         });
 
+        this.logger.system(`Routes loaded. ${routeFilePaths.join(', ')}`);
         return router;
     }
 
