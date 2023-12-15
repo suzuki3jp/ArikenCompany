@@ -1,29 +1,21 @@
-import { EventSubHttpListener, DirectConnectionAdapter } from '@twurple/eventsub-http';
+import { EventSubMiddleware } from '@twurple/eventsub-http';
 import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twurple/eventsub-base';
 
 import { StreamNotification } from './StreamNotification';
 import { Twitch } from './Twitch';
 import { ArikenCompany } from '../ArikenCompany';
-import { Path } from '../constants';
-import { readFileSync } from '../packages';
 
 export class EventSub {
     private ac: ArikenCompany;
-    private listener: EventSubHttpListener;
+    public listener: EventSubMiddleware;
     public sn: StreamNotification;
 
     constructor(public twitch: Twitch) {
         this.ac = this.twitch.ac;
-        const adapter = new DirectConnectionAdapter({
-            hostName: this.ac.settings.cache.hostName,
-            sslCert: {
-                key: readFileSync(Path.key),
-                cert: readFileSync(Path.cert),
-            },
-        });
-        this.listener = new EventSubHttpListener({
+        this.listener = new EventSubMiddleware({
             apiClient: this.twitch.api,
-            adapter,
+            hostName: this.ac.settings.cache.hostName,
+            pathPrefix: '/twitch/eventsub',
             secret: this.ac.env.cache.TWITCH_EVENTSUB_SECRET,
         });
         this.sn = new StreamNotification(this);
@@ -38,7 +30,6 @@ export class EventSub {
     }
 
     start() {
-        this.listener.start();
         this.twitch.api.eventSub.deleteAllSubscriptions();
         this.sn.init();
     }

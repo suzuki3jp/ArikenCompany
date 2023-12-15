@@ -1,3 +1,4 @@
+import { Api } from './api/Api';
 import { Discord } from './discord/Discord';
 import { SettingsManager, CommandManager } from './managers';
 import { Env } from './utils';
@@ -11,6 +12,7 @@ export class ArikenCompany {
     public logger: Logger;
     public twitch: Twitch;
     public discord: Discord;
+    public api: Api;
 
     constructor() {
         this.logger = new Logger('ArikenCompany');
@@ -19,6 +21,7 @@ export class ArikenCompany {
         this.settings = new SettingsManager();
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
+        this.api = new Api(this);
     }
 
     async start() {
