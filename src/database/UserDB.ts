@@ -32,6 +32,14 @@ export class UserDB extends Prisma {
         });
     }
 
+    async getByName(name: string) {
+        return await this.prisma.user.findFirst({
+            where: {
+                name,
+            },
+        });
+    }
+
     async getById(id: number) {
         return await this.prisma.user.findFirst({
             where: {
