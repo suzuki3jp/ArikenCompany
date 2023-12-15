@@ -3,9 +3,14 @@ import { Router, Request, Response } from 'express';
 import { resolve, join } from 'path';
 
 import { RouteImpl } from './RouteImpl';
+import { Api } from './Api';
+import { Logger } from '../packages';
 
 export class RouteLoader {
-    constructor() {}
+    public logger: Logger;
+    constructor(public api: Api) {
+        this.logger = this.api.logger.createChild('RouteLoader');
+    }
 
     public load() {
         const router = Router();
@@ -19,6 +24,7 @@ export class RouteLoader {
             if (routeData.delete) router.delete(routeData.path, routeData.delete);
         });
 
+        this.logger.system(`Routes loaded. ${routeFilePaths.join(', ')}`);
         return router;
     }
 

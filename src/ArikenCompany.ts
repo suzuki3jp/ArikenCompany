@@ -28,5 +28,6 @@ export class ArikenCompany {
         this.logger.system('Starting ArikenCompany.');
         this.discord.start();
         this.twitch.start();
+        this.api.start();
     }
 }
