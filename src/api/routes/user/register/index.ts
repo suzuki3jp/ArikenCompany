@@ -1,10 +1,12 @@
 import type { Request, Response } from 'express';
 
-import { RouteImpl } from '../../../RouteImpl';
+import { RouteBase } from '../../RouteBase';
 import { Api } from '../../../Api';
 
-export class RegisterService implements RouteImpl {
-    constructor(public path: string, public api: Api) {}
+export class RegisterService implements RouteBase {
+    public static path = '/user/register';
+
+    constructor(public api: Api) {}
 
     public async post(req: Request, res: Response) {
         const { name, password } = req.body;

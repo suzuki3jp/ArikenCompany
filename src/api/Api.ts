@@ -1,8 +1,9 @@
-import express, { Express } from 'express';
+import express, { Express, Router } from 'express';
 import { createServer, Server } from 'https';
 
+import { RootService, RegisterService } from './routes';
+
 import { ArikenCompany } from '../ArikenCompany';
-import { RouteLoader } from './RouteLoader';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
 
@@ -13,10 +14,9 @@ export class Api {
 
     constructor(public ac: ArikenCompany) {
         this.logger = this.ac.logger.createChild('Api');
-        const router = new RouteLoader(this).load();
         this.app = express();
+        this.app.use(this.loadRoutes());
         this.app.use(express.json());
-        this.app.use(router);
 
         this.server = createServer(
             {
@@ -33,5 +33,14 @@ export class Api {
             this.ac.twitch.eventSub.listener.markAsReady();
             this.logger.system(`API is listening on port ${443}`);
         });
+    }
+
+    private loadRoutes() {
+        const router = Router();
+
+        router.get(RootService.path, new RootService(this).get);
+        router.post(RegisterService.path, new RegisterService(this).post);
+
+        return router;
     }
 }
