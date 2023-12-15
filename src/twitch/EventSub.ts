@@ -17,8 +17,12 @@ export class EventSub {
             hostName: this.ac.settings.cache.hostName,
             pathPrefix: '/twitch/eventsub',
             secret: this.ac.env.cache.TWITCH_EVENTSUB_SECRET,
+            logger: {
+                minLevel: 'debug',
+            },
         });
         this.sn = new StreamNotification(this);
+        console.log('Recieving EventSub at: ' + this.ac.settings.cache.hostName + '/twitch/eventsub');
     }
 
     subscribeOnline(id: string, handler: (e: EventSubStreamOnlineEvent) => void) {
@@ -30,7 +34,6 @@ export class EventSub {
     }
 
     start() {
-        this.twitch.api.eventSub.deleteAllSubscriptions();
         this.sn.init();
     }
 }
