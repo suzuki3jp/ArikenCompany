@@ -13,3 +13,5 @@ export class RegisterService implements RouteImpl {
         res.status(addUserResult.status).json(addUserResult);
     }
 }
+
+export default RegisterService;
