@@ -11,11 +11,14 @@ export class Api {
     private server: Server;
     public logger: Logger;
 
-    constructor(private ac: ArikenCompany) {
+    constructor(public ac: ArikenCompany) {
         this.logger = this.ac.logger.createChild('Api');
         const router = new RouteLoader(this).load();
         this.app = express();
         this.app.use(router);
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+
         this.server = createServer(
             {
                 key: readFileSync(Path.key),
