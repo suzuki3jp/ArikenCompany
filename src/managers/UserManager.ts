@@ -16,7 +16,7 @@ export class UserManager {
 
     async add(name: string, password: string): Promise<HttpResult<UserT>> {
         const r = new HttpResult<UserT>();
-        const isExistUser = Boolean(this.db.getByName(name));
+        const isExistUser = Boolean(await this.db.getByName(name));
         if (isExistUser) {
             r.setStatus(400).setMessage('User already exist.');
             return r;
