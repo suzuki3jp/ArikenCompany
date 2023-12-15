@@ -1,5 +1,6 @@
 import express, { Express, Router } from 'express';
 import { createServer, Server } from 'https';
+import { json } from 'body-parser';
 
 import { RootService, RegisterService } from './routes';
 
@@ -15,7 +16,7 @@ export class Api {
     constructor(public ac: ArikenCompany) {
         this.logger = this.ac.logger.createChild('Api');
         this.app = express();
-        this.app.use(express.json());
+        this.app.use(json());
         this.app.use(this.loadRoutes());
 
         this.server = createServer(
