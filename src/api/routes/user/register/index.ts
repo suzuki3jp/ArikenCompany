@@ -10,6 +10,7 @@ export class RegisterService implements RouteBase {
 
     public async post(req: Request, res: Response) {
         const { name, password } = req.body;
+        console.log(name, password);
         const addUserResult = (await this.api.ac.um.add(name, password)).toJSON();
         if (addUserResult.status === 200) this.api.logger.info('User added ' + addUserResult.data?.name);
         res.status(addUserResult.status).json(addUserResult);
