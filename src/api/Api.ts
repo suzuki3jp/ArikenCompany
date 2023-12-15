@@ -38,8 +38,12 @@ export class Api {
     private loadRoutes() {
         const router = Router();
 
-        router.get(RootService.path, new RootService(this).get);
-        router.post(RegisterService.path, new RegisterService(this).post);
+        router.get(RootService.path, (req, res) => {
+            new RootService(this).get(req, res);
+        });
+        router.post(RegisterService.path, (req, res) => {
+            new RegisterService(this).post(req, res);
+        });
 
         return router;
     }
