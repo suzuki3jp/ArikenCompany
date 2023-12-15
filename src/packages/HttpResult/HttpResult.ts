@@ -30,14 +30,14 @@ export class HttpResult<T> {
             status: status || 500,
         };
 
-        if (message) r.message = message;
+        if (message) r.message = `${HttpStatus[r.status]}: ${message}`;
         if (data) r.data = data;
         return r;
     }
 }
 
 interface HttpResultData<T> {
-    status: number;
+    status: keyof HttpStatusT;
     message?: string;
     data?: T;
 }
