@@ -3,7 +3,7 @@ import { createServer, Server } from 'https';
 import { urlencoded } from 'body-parser';
 
 import { RootService, RegisterService } from './routes';
-
+import { AuthMiddleware } from './AuthMiddleware';
 import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
@@ -40,9 +40,7 @@ export class Api {
     private loadRoutes() {
         const router = Router();
 
-        router.get(RootService.path, (req, res) => {
-            new RootService(this).get(req, res);
-        });
+        // Non-auth routes
         router.post(RegisterService.path, (req, res) => {
             new RegisterService(this).post(req, res);
         });
@@ -50,6 +48,13 @@ export class Api {
             new LoginService(this).post(req, res);
         });
 
+        // Auth routes
+        this.app.use((req, res, next) => {
+            AuthMiddleware(req, res, next, this.ac);
+        });
+        router.get(RootService.path, (req, res) => {
+            new RootService(this).get(req, res);
+        });
         return router;
     }
 }
