@@ -21,5 +21,3 @@ export class LoginService implements RouteBase {
         res.status(loginUserResult.status).json(loginUserResult);
     }
 }
-
-export default LoginService;

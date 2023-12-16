@@ -7,8 +7,8 @@ import { AuthMiddleware } from './AuthMiddleware';
 import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
-import LoginService from './routes/user/login';
-import UserService from './routes/user';
+import { LoginService } from './routes/user/login';
+import { UserService } from './routes/user';
 
 export class Api {
     private app: Express;
