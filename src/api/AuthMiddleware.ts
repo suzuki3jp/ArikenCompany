@@ -12,7 +12,8 @@ export const AuthMiddleware = (ac: ArikenCompany) => {
             return;
         }
         try {
-            const user = await ac.um.tokenM.verifyToken(authorization);
+            const token = authorization.split(' ')[1];
+            const user = await ac.um.tokenM.verifyToken(token);
             res.locals.user = user;
             next();
         } catch (error) {
