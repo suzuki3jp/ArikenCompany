@@ -18,8 +18,8 @@ export class UserManager {
         this.tokenM = new TokenManager(this.ac);
     }
 
-    async login(name: string, password: string): Promise<HttpResult<UserT>> {
-        const r = new HttpResult<UserT>();
+    async login(name: string, password: string): Promise<HttpResult<UserResponseData>> {
+        const r = new HttpResult<UserResponseData>();
         const user = await this.db.getByName(name);
         if (!user) {
             r.setStatus(400).setMessage('User not found.');
@@ -30,7 +30,8 @@ export class UserManager {
             r.setStatus(400).setMessage('Password is incorrect.');
             return r;
         }
-        r.setStatus(200).setData(user);
+        const token = await this.tokenM.generateToken(user);
+        r.setStatus(200).setData({ name, token });
         return r;
     }
 
