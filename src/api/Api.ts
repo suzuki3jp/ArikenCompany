@@ -53,7 +53,9 @@ export class Api {
         });
 
         // Auth routes
-        router.get(UserService.path, AuthMiddleware(this.ac), (req, res) => {});
+        router.get(UserService.path, AuthMiddleware(this.ac), (req, res) => {
+            new UserService(this).get(req, res);
+        });
         return router;
     }
 }
