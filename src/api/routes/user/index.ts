@@ -14,5 +14,3 @@ export class UserService implements RouteBase {
         res.status(r.status).json(r);
     }
 }
-
-export default UserService;

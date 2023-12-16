@@ -21,5 +21,3 @@ export class RegisterService implements RouteBase {
         res.status(addUserResult.status).json(addUserResult);
     }
 }
-
-export default RegisterService;
