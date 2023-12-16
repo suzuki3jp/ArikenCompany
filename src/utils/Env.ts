@@ -24,7 +24,7 @@ export class Env {
             TWITCH_TOKEN,
             TWITCH_REFRESHTOKEN,
             DATABASE_URL,
-            TWITCH_EVENTSUB_SECRET,
+            SECRET,
         } = process.env;
 
         if (!DISCORD_TOKEN) throw envError('DISCORD_TOKEN');
@@ -33,7 +33,7 @@ export class Env {
         if (!TWITCH_TOKEN) throw envError('TWITCH_TOKEN');
         if (!TWITCH_REFRESHTOKEN) throw envError('TWITCH_REFRESHTOKEN');
         if (!DATABASE_URL) throw envError('DATABASE_URL');
-        if (!TWITCH_EVENTSUB_SECRET) throw envError('TWITCH_EVENTSUB_SECRET');
+        if (!SECRET) throw envError('SECRET');
 
         this.cache = {
             DISCORD_TOKEN,
@@ -42,7 +42,7 @@ export class Env {
             TWITCH_REFRESHTOKEN,
             TWITCH_TOKEN,
             DATABASE_URL,
-            TWITCH_EVENTSUB_SECRET,
+            SECRET,
         };
     }
 
@@ -56,7 +56,7 @@ export class Env {
             TWITCH_REFRESHTOKEN: TWITCH_REFRESHTOKEN ?? this.cache.TWITCH_REFRESHTOKEN,
             TWITCH_TOKEN: TWITCH_TOKEN ?? this.cache.TWITCH_TOKEN,
             DATABASE_URL: this.cache.DATABASE_URL,
-            TWITCH_EVENTSUB_SECRET: this.cache.TWITCH_EVENTSUB_SECRET,
+            SECRET: this.cache.SECRET,
         };
         this.cache = newCeche;
     }

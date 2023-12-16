@@ -5,5 +5,5 @@ export interface EnvCache {
     TWITCH_TOKEN: string;
     TWITCH_REFRESHTOKEN: string;
     DATABASE_URL: string;
-    TWITCH_EVENTSUB_SECRET: string;
+    SECRET: string;
 }
