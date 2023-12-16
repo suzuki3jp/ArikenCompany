@@ -4,8 +4,8 @@ import { RouteBase } from '../../RouteBase';
 import { Api } from '../../../Api';
 import { HttpResult } from '../../../../packages';
 
-export class RegisterService implements RouteBase {
-    public static path = '/user/register';
+export class LoginService implements RouteBase {
+    public static path = '/user/login';
 
     constructor(public api: Api) {}
 
@@ -16,10 +16,10 @@ export class RegisterService implements RouteBase {
             res.status(r.status).json(r);
             return;
         }
-        const addUserResult = (await this.api.ac.um.add(name, password)).toJSON();
-        if (addUserResult.status === 200) this.api.logger.info('User added ' + addUserResult.data?.name);
-        res.status(addUserResult.status).json(addUserResult);
+        const loginUserResult = (await this.api.ac.um.login(name, password)).toJSON();
+        if (loginUserResult.status === 200) this.api.logger.info('User added ' + loginUserResult.data?.name);
+        res.status(loginUserResult.status).json(loginUserResult);
     }
 }
 
-export default RegisterService;
+export default LoginService;
