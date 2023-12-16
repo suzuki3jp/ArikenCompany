@@ -7,7 +7,9 @@ import { HttpResult } from '../../../../packages';
 export class LoginService implements RouteBase {
     public static path = '/user/login';
 
-    constructor(public api: Api) {}
+    constructor(public api: Api) {
+        this.api.logger.info('Route loaded: ' + LoginService.path);
+    }
 
     public async post(req: Request, res: Response) {
         const { name, password } = req.body;
