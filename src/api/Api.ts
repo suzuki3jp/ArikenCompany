@@ -8,6 +8,7 @@ import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
 import LoginService from './routes/user/login';
+import UserService from './routes/user';
 
 export class Api {
     private app: Express;
@@ -41,6 +42,9 @@ export class Api {
         const router = Router();
 
         // Non-auth routes
+        router.get(RootService.path, (req, res) => {
+            new RootService(this).get(req, res);
+        });
         router.post(RegisterService.path, (req, res) => {
             new RegisterService(this).post(req, res);
         });
@@ -49,12 +53,7 @@ export class Api {
         });
 
         // Auth routes
-        this.app.use((req, res, next) => {
-            AuthMiddleware(req, res, next, this.ac);
-        });
-        router.get(RootService.path, (req, res) => {
-            new RootService(this).get(req, res);
-        });
+        router.get(UserService.path, AuthMiddleware(this.ac), (req, res) => {});
         return router;
     }
 }
