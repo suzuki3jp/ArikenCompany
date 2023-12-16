@@ -33,6 +33,6 @@ export class UserManager {
     }
 
     private comparePassword(password: string, hash: string) {
-        return password === hash;
+        return compareSync(password, hash);
     }
 }
