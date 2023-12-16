@@ -7,6 +7,7 @@ import { RootService, RegisterService } from './routes';
 import { ArikenCompany } from '../ArikenCompany';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
+import LoginService from './routes/user/login';
 
 export class Api {
     private app: Express;
@@ -44,6 +45,9 @@ export class Api {
         });
         router.post(RegisterService.path, (req, res) => {
             new RegisterService(this).post(req, res);
+        });
+        router.post(LoginService.path, (req, res) => {
+            new LoginService(this).post(req, res);
         });
 
         return router;
