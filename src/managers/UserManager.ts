@@ -12,7 +12,8 @@ import { HttpStatusCode } from 'axios';
  */
 export class UserManager {
     private db: UserDB;
-    private tokenM: TokenManager;
+    public tokenM: TokenManager;
+
     constructor(private ac: ArikenCompany) {
         this.db = new UserDB();
         this.tokenM = new TokenManager(this.ac);
