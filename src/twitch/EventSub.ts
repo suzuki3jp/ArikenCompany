@@ -16,7 +16,7 @@ export class EventSub {
             apiClient: this.twitch.api,
             hostName: this.ac.settings.cache.hostName,
             pathPrefix: '/twitch/eventsub',
-            secret: this.ac.env.cache.TWITCH_EVENTSUB_SECRET,
+            secret: this.ac.env.cache.SECRET,
         });
         this.sn = new StreamNotification(this);
     }
