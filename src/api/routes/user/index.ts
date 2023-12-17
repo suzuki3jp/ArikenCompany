@@ -22,11 +22,8 @@ export class UserService implements RouteBase {
     }
 
     public async delete(req: Request, res: Response) {
-        console.log('Called delete');
         const user = getSafeUserDataFromRes(res);
-        console.log('user', user);
         if (!user) {
-            console.log('Unauthorized');
             const r = new HttpResult().setStatus(401).setMessage('Unauthorized').toJSON();
             res.status(r.status).json(r);
             return;
