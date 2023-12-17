@@ -18,7 +18,8 @@ export const AuthMiddleware = (ac: ArikenCompany) => {
                 next();
             } catch (error) {
                 const r = new HttpResult().setStatus(401).setMessage('Invalid token').toJSON();
-                res.status(r.status).json(r);
+                // res.status(r.status).json(r);
+                console.log(r);
                 return;
             }
             next();
