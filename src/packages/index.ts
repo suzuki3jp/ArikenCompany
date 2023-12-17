@@ -13,6 +13,8 @@ export * from './JST/JST';
 
 export * from './Logger/Logger';
 
+export * from './Result/Result';
+
 export * from './splitArrayByNumber/splitArrayByNumber';
 
 export * from './toEnv/toEnv';
