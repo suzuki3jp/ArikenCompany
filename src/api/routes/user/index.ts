@@ -29,6 +29,7 @@ export class UserService implements RouteBase {
             return;
         }
         const deleteUserResult = (await this.api.ac.um.remove(user.id)).toJSON();
+        console.log(deleteUserResult);
         if (deleteUserResult.status === 200) this.api.logger.info('User deleted ' + user.name);
         res.status(deleteUserResult.status).json(deleteUserResult);
     }
