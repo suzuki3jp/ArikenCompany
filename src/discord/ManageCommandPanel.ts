@@ -90,20 +90,20 @@ export class ManageCommandPanel {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
         const r = await this.cmd.addCommand(name, content);
-        i.reply({ content: r, ephemeral: true });
+        i.reply({ content: r.success ? r.data?.name + 'を追加しました。' : r.message, ephemeral: true });
     }
 
     async editCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
         const r = await this.cmd.editCommand(name, content);
-        i.reply({ content: r, ephemeral: true });
+        i.reply({ content: r.success ? r.data?.name + 'を編集しました。' : r.message, ephemeral: true });
     }
 
     async removeCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const r = await this.cmd.removeCommand(name);
-        i.reply({ content: r, ephemeral: true });
+        i.reply({ content: r.success ? r.data?.name + 'を削除しました。' : r.message, ephemeral: true });
     }
 
     async createEmbedData() {
