@@ -21,7 +21,6 @@ export const AuthMiddleware = (ac: ArikenCompany) => {
                 res.status(r.status).json(r);
                 return;
             }
-            next();
         }
     };
 };
