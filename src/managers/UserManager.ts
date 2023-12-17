@@ -51,15 +51,15 @@ export class UserManager {
         return r;
     }
 
-    async remove(id: number): Promise<HttpResult<string>> {
-        const r = new HttpResult<string>();
+    async remove(id: number): Promise<HttpResult<{ name: string }>> {
+        const r = new HttpResult<{ name: string }>();
         const isExistUser = Boolean(await this.db.getById(id));
         if (!isExistUser) {
             r.setStatus(404).setMessage('User not found.');
             return r;
         }
         const removedUser = await this.db.removeById(id);
-        r.setStatus(200).setData(removedUser.name);
+        r.setStatus(200).setData({ name: removedUser.name });
         return r;
     }
 
