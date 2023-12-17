@@ -48,21 +48,24 @@ export class Command {
         const { name, content } = this.validateCommandData(this.parser.args);
 
         if (!(name && content)) return 'コマンドの引数が不正です。コマンド名と内容を入力してください。';
-        return await this.cmd.addCommand(name, content);
+        const r = await this.cmd.addCommand(name, content);
+        return r.success ? `コマンド ${name} を追加しました。` : r.message || 'コマンドの追加に失敗しました。';
     }
 
     async editCommand(): Promise<string> {
         const { name, content } = this.validateCommandData(this.parser.args);
 
         if (!(name && content)) return `コマンドの引数が不正です。コマンド名と内容を入力してください。`;
-        return await this.cmd.editCommand(name, content);
+        const r = await this.cmd.editCommand(name, content);
+        return r.success ? `コマンド ${name} を編集しました。` : r.message || 'コマンドの編集に失敗しました。';
     }
 
     async removeCommand(): Promise<string> {
         const name = this.validateCommandName(this.parser.args[0]);
 
         if (!name) return `コマンドの引数が不正です。コマンド名を入力してください。`;
-        return await this.cmd.removeCommand(name);
+        const r = await this.cmd.removeCommand(name);
+        return r.success ? `コマンド ${name} を削除しました。` : r.message || 'コマンドの削除に失敗しました。';
     }
 
     async getCoolDown(): Promise<string> {
