@@ -56,6 +56,9 @@ export class Api {
         router.get(UserService.path, AuthMiddleware(this.ac), (req, res) => {
             new UserService(this).get(req, res);
         });
+        router.delete(UserService.path, AuthMiddleware(this.ac), (req, res) => {
+            new UserService(this).delete(req, res);
+        });
         return router;
     }
 }

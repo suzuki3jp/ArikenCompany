@@ -51,7 +51,17 @@ export class UserManager {
         return r;
     }
 
-    updateByName(name: string, data: DeepPartial<UserT>) {}
+    async remove(id: number): Promise<HttpResult<string>> {
+        const r = new HttpResult<string>();
+        const isExistUser = Boolean(await this.db.getById(id));
+        if (!isExistUser) {
+            r.setStatus(404).setMessage('User not found.');
+            return r;
+        }
+        const removedUser = await this.db.removeById(id);
+        r.setStatus(200).setData(removedUser.name);
+        return r;
+    }
 
     private hashPassword(password: string) {
         return hashSync(password, 10);
