@@ -31,7 +31,7 @@ export class UserManager {
             r.setStatus(400).setMessage('Password is incorrect.');
             return r;
         }
-        const token = await this.tokenM.generateToken(user);
+        const token = await this.tokenM.generateToken(createTokenPayload(user));
         r.setStatus(200).setData({ name, token });
         return r;
     }
@@ -44,7 +44,7 @@ export class UserManager {
             return r;
         }
         const data = await this.db.add(name, this.hashPassword(password));
-        const token = await this.tokenM.generateToken(data);
+        const token = await this.tokenM.generateToken(createTokenPayload(data));
         r.setStatus(200).setData({ name, token });
         return r;
     }
@@ -79,4 +79,12 @@ export interface UserResponse {
 export interface UserResponseData {
     name: string;
     token: string;
+}
+
+export function createTokenPayload(user: UserT) {
+    return {
+        id: user.id,
+        name: user.name,
+        password: user.password,
+    };
 }

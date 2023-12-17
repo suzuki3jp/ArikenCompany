@@ -17,7 +17,8 @@ export class LoginService implements RouteBase {
             return;
         }
         const loginUserResult = (await this.api.ac.um.login(name, password)).toJSON();
-        if (loginUserResult.status === 200) this.api.logger.info('User added ' + loginUserResult.data?.name);
+        if (loginUserResult.status === 200)
+            this.api.logger.info('User logged in ' + loginUserResult.data?.name + ' from ' + req.ip);
         res.status(loginUserResult.status).json(loginUserResult);
     }
 }
