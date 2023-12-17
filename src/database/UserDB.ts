@@ -8,7 +8,7 @@ export class UserDB extends Prisma {
     }
 
     async add(name: string, password: string) {
-        const data: UserT = {
+        const data = {
             name,
             password,
         };

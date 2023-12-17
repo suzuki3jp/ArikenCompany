@@ -1,4 +1,4 @@
-import { Prisma, CommandT } from './Prisma';
+import { Prisma } from './Prisma';
 import { dayjs } from '../packages';
 
 export class CommandDB extends Prisma {
@@ -7,7 +7,7 @@ export class CommandDB extends Prisma {
     }
 
     async add(name: string, content: string) {
-        const data: CommandT = {
+        const data = {
             name,
             content,
         };
