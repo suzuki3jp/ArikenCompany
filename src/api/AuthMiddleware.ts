@@ -10,17 +10,18 @@ export const AuthMiddleware = (ac: ArikenCompany) => {
             const r = new HttpResult().setStatus(400).setMessage('Missing authorization').toJSON();
             res.status(r.status).json(r);
             return;
-        }
-        try {
-            const token = authorization.split(' ')[1];
-            const user = await ac.um.tokenM.verifyToken(token);
-            res.locals.user = user;
+        } else {
+            try {
+                const token = authorization.split(' ')[1];
+                const user = await ac.um.tokenM.verifyToken(token);
+                res.locals.user = user;
+                next();
+            } catch (error) {
+                const r = new HttpResult().setStatus(401).setMessage('Invalid token').toJSON();
+                res.status(r.status).json(r);
+                return;
+            }
             next();
-        } catch (error) {
-            const r = new HttpResult().setStatus(401).setMessage('Invalid token').toJSON();
-            res.status(r.status).json(r);
-            return;
         }
-        next();
     };
 };
