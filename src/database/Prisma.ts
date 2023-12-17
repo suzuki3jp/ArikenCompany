@@ -8,6 +8,11 @@ export class Prisma {
     }
 }
 
-export type CommandT = P.CommandCreateInput;
-export type StreamNotificationT = P.StreamNotificationCreateInput;
-export type UserT = P.UserCreateInput;
+export interface CommandT extends P.CommandCreateInput {
+    id: number;
+}
+export interface StreamNotificationT extends P.StreamNotificationCreateInput {}
+
+export interface UserT extends P.UserCreateInput {
+    id: number;
+}
