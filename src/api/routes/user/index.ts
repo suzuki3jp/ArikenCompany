@@ -22,14 +22,16 @@ export class UserService implements RouteBase {
     }
 
     public async delete(req: Request, res: Response) {
+        console.log('Called delete');
         const user = getSafeUserDataFromRes(res);
+        console.log('user', user);
         if (!user) {
+            console.log('Unauthorized');
             const r = new HttpResult().setStatus(401).setMessage('Unauthorized').toJSON();
             res.status(r.status).json(r);
             return;
         }
         const deleteUserResult = (await this.api.ac.um.remove(user.id)).toJSON();
-        console.log(deleteUserResult);
         if (deleteUserResult.status === 200) this.api.logger.info('User deleted ' + user.name);
         res.status(deleteUserResult.status).json(deleteUserResult);
     }
