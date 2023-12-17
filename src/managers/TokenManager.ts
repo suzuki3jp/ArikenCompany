@@ -6,11 +6,20 @@ import { ArikenCompany } from '../ArikenCompany';
 export class TokenManager {
     constructor(private ac: ArikenCompany) {}
 
-    async generateToken(payload: UserT) {
+    async generateToken(payload: TokenData) {
         return sign(payload, this.ac.env.cache.SECRET);
     }
 
     async verifyToken(token: string) {
-        return verify(token, this.ac.env.cache.SECRET) as UserT;
+        const payload = verify(token, this.ac.env.cache.SECRET);
+        // @ts-expect-error
+        delete payload.iat;
+        return payload as TokenData;
     }
+}
+
+export interface TokenData {
+    id: number;
+    name: string;
+    password: string;
 }
