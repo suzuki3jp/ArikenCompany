@@ -19,8 +19,8 @@ export class HttpResult<T> {
         return this;
     }
 
-    public setData(data: T): HttpResult<T> {
-        this.data = data;
+    public setData(data?: T): HttpResult<T> {
+        this.data = data || null;
         return this;
     }
 
