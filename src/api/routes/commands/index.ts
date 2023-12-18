@@ -60,8 +60,8 @@ export class CommandService implements RouteBase {
     }
 
     public async put(req: Request, res: Response) {
-        let { name, content, mod_only, alias } = req.body;
-        mod_only = mod_only === '1' ? true : false;
+        const { name, content, mod_only, alias } = req.body;
+        let isModOnly = Number(mod_only) === 1;
         if (!name) {
             const r = new HttpResult().setStatus(400).setMessage('Missing name').toJSON();
             res.status(r.status).json(r);
@@ -79,7 +79,7 @@ export class CommandService implements RouteBase {
         }
 
         const r = new HttpResult<CommandT>();
-        const updateCommandResult = (await this.api.ac.cmd.editCommand(name, content, mod_only, alias)).toJSON();
+        const updateCommandResult = (await this.api.ac.cmd.editCommand(name, content, isModOnly, alias)).toJSON();
 
         if (updateCommandResult.success) {
             this.api.logger.info('Command updated ' + updateCommandResult.data?.name);
