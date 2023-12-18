@@ -14,13 +14,13 @@ export class HttpResult<T> {
         return this;
     }
 
-    public setMessage(message: string): HttpResult<T> {
-        this.message = message;
+    public setMessage(message?: string): HttpResult<T> {
+        this.message = message ?? null;
         return this;
     }
 
-    public setData(data: T): HttpResult<T> {
-        this.data = data;
+    public setData(data?: T): HttpResult<T> {
+        this.data = data || null;
         return this;
     }
 
