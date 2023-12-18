@@ -1,5 +1,6 @@
-import { Prisma } from './Prisma';
+import { CommandT, Prisma } from './Prisma';
 import { dayjs } from '../packages';
+import { DeepPartial } from 'ts-essentials';
 
 export class CommandDB extends Prisma {
     constructor() {
@@ -22,6 +23,15 @@ export class CommandDB extends Prisma {
             data: {
                 content,
             },
+        });
+    }
+
+    async updateById(id: number, data: DeepPartial<CommandT>) {
+        return await this.prisma.command.update({
+            where: {
+                id,
+            },
+            data,
         });
     }
 
