@@ -6,7 +6,7 @@ import { HttpResult } from '../../../packages';
 import { CommandT } from '../../../database';
 
 export class CommandService implements RouteBase {
-    public static path = '/user';
+    public static path = '/commands';
 
     constructor(public api: Api) {}
 
