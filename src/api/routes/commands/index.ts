@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 
 import { RouteBase } from '../RouteBase';
 import { Api } from '../../Api';
-import { HttpResult } from '../../../packages';
+import { HttpResult, Result } from '../../../packages';
 import { CommandT } from '../../../database';
 
 export class CommandService implements RouteBase {
@@ -23,13 +23,19 @@ export class CommandService implements RouteBase {
             res.status(r.status).json(r);
             return;
         }
+
+        const r = new HttpResult<CommandT>();
         const addCommandResult = (await this.api.ac.cmd.addCommand(name, content)).toJSON();
+
         if (addCommandResult.success) {
             this.api.logger.info('Command added ' + addCommandResult.data?.name);
-            res.status(200).json(addCommandResult.data);
+            r.setStatus(200).setData(addCommandResult.data);
         } else {
-            res.status(400).json({ message: addCommandResult.message });
+            r.setStatus(400).setMessage(addCommandResult.message);
         }
+
+        const result = r.toJSON();
+        res.status(result.status).json(result);
     }
 
     public async delete(req: Request, res: Response) {
@@ -39,13 +45,18 @@ export class CommandService implements RouteBase {
             res.status(r.status).json(r);
             return;
         }
+        const r = new HttpResult<CommandT>();
         const deleteCommandResult = (await this.api.ac.cmd.removeCommand(name)).toJSON();
+
         if (deleteCommandResult.success) {
             this.api.logger.info('Command deleted ' + deleteCommandResult.data?.name);
-            res.status(200).json(deleteCommandResult.data);
+            r.setStatus(200).setData(deleteCommandResult.data);
         } else {
-            res.status(400).json({ message: deleteCommandResult.message });
+            r.setStatus(400).setMessage(deleteCommandResult.message);
         }
+
+        const result = r.toJSON();
+        res.status(result.status).json(result);
     }
 
     public async put(req: Request, res: Response) {
@@ -66,12 +77,17 @@ export class CommandService implements RouteBase {
             return;
         }
 
+        const r = new HttpResult<CommandT>();
         const updateCommandResult = (await this.api.ac.cmd.editCommand(name, content, mod_only, alias)).toJSON();
+
         if (updateCommandResult.success) {
             this.api.logger.info('Command updated ' + updateCommandResult.data?.name);
-            res.status(200).json(updateCommandResult.data);
+            r.setStatus(200).setData(updateCommandResult.data);
         } else {
-            res.status(400).json({ message: updateCommandResult.message });
+            r.setStatus(400).setMessage(updateCommandResult.message);
         }
+
+        const result = r.toJSON();
+        res.status(result.status).json(result);
     }
 }
