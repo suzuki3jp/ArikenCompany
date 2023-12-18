@@ -32,16 +32,18 @@ export class CommandManager {
         return r;
     }
 
-    async editCommand(name: string, content: string, isOnlyMod?: boolean, alias?: string): Promise<Result<CommandT>> {
+    async editCommand(name: string, content?: string, isOnlyMod?: boolean, alias?: string): Promise<Result<CommandT>> {
         const r = new Result<CommandT>();
         const oldCommand = await this.c.getByName(name);
-        const isValidContent = new ValueValidater(content).validate();
+        if (content) {
+            const isValidContent = new ValueValidater(content).validate();
+            if (typeof isValidContent === 'string') {
+                return r.error(isValidContent);
+            }
+        }
 
         if (!oldCommand) {
             return r.error('存在しないコマンド名です。');
-        }
-        if (typeof isValidContent === 'string') {
-            return r.error(isValidContent);
         }
 
         const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
