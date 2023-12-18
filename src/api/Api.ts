@@ -9,6 +9,7 @@ import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
 import { LoginService } from './routes/user/login';
 import { UserService } from './routes/user';
+import { CommandService } from './routes/commands';
 
 export class Api {
     private app: Express;
@@ -58,6 +59,19 @@ export class Api {
         });
         router.delete(UserService.path, AuthMiddleware(this.ac), (req, res) => {
             new UserService(this).delete(req, res);
+        });
+
+        router.get(CommandService.path, AuthMiddleware(this.ac), (req, res) => {
+            new CommandService(this).get(req, res);
+        });
+        router.post(CommandService.path, AuthMiddleware(this.ac), (req, res) => {
+            new CommandService(this).post(req, res);
+        });
+        router.delete(CommandService.path, AuthMiddleware(this.ac), (req, res) => {
+            new CommandService(this).delete(req, res);
+        });
+        router.put(CommandService.path, AuthMiddleware(this.ac), (req, res) => {
+            new CommandService(this).put(req, res);
         });
         return router;
     }

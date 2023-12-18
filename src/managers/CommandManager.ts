@@ -32,7 +32,7 @@ export class CommandManager {
         return r;
     }
 
-    async editCommand(name: string, content: string): Promise<Result<CommandT>> {
+    async editCommand(name: string, content: string, isOnlyMod?: boolean, alias?: string): Promise<Result<CommandT>> {
         const r = new Result<CommandT>();
         const oldCommand = await this.c.getByName(name);
         const isValidContent = new ValueValidater(content).validate();
@@ -44,7 +44,7 @@ export class CommandManager {
             return r.error(isValidContent);
         }
 
-        const cmd = await this.c.editContentById(oldCommand.id, content);
+        const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
         this.ac.discord.mcp.reloadPanel();
 
         r.toSuccess(cmd);
