@@ -5,7 +5,7 @@ import { Api } from '../../Api';
 import { HttpResult } from '../../../packages';
 import { CommandT } from '../../../database';
 
-export class UserService implements RouteBase {
+export class CommandService implements RouteBase {
     public static path = '/user';
 
     constructor(public api: Api) {}
