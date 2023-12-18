@@ -60,7 +60,8 @@ export class CommandService implements RouteBase {
     }
 
     public async put(req: Request, res: Response) {
-        const { name, content, mod_only, alias } = req.body;
+        let { name, content, mod_only, alias } = req.body;
+        mod_only = mod_only === '1' ? true : false;
         if (!name) {
             const r = new HttpResult().setStatus(400).setMessage('Missing name').toJSON();
             res.status(r.status).json(r);
