@@ -71,7 +71,6 @@ export class CommandService implements RouteBase {
         if (
             (content && typeof content !== 'string') ||
             (alias && typeof alias !== 'string') ||
-            (mod_only && typeof mod_only !== 'boolean')
         ) {
             const r = new HttpResult().setStatus(400).setMessage('Invalid body argument type').toJSON();
             res.status(r.status).json(r);
