@@ -17,13 +17,13 @@ export class CommandService implements RouteBase {
     }
 
     public async post(req: Request, res: Response) {
-        const { name, command } = req.body;
-        if (!name || !command) {
-            const r = new HttpResult().setStatus(400).setMessage('Missing name or command').toJSON();
+        const { name, content } = req.body;
+        if (!name || !content) {
+            const r = new HttpResult().setStatus(400).setMessage('Missing name or content').toJSON();
             res.status(r.status).json(r);
             return;
         }
-        const addCommandResult = (await this.api.ac.cmd.addCommand(name, command)).toJSON();
+        const addCommandResult = (await this.api.ac.cmd.addCommand(name, content)).toJSON();
         if (addCommandResult.success) {
             this.api.logger.info('Command added ' + addCommandResult.data?.name);
             res.status(200).json(addCommandResult.data);
