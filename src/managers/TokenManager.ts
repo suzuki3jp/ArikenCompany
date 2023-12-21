@@ -7,7 +7,7 @@ export class TokenManager {
     constructor(private ac: ArikenCompany) {}
 
     async generateToken(payload: TokenData) {
-        return sign(payload, this.ac.env.cache.SECRET);
+        return sign(payload, this.ac.env.cache.SECRET, { expiresIn: '7d' });
     }
 
     async verifyToken(token: string) {

@@ -104,7 +104,7 @@ export class ValueParser {
         const target = args[0] || this.message.channel.name;
         const stream = await this.ac.twitch.api.streams.getStreamByUserName(target);
 
-        if (!stream) return '配信時間の取得に失敗しました。';
+        if (!stream) return '配信はオフラインです。';
         const now = dayjs();
         const startedAt = dayjs(stream.startDate);
         const diff = now.diff(startedAt, 'second');
