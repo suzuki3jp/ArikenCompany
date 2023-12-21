@@ -19,9 +19,9 @@ export class ValRank {
     private parseRank(lang: 'en' | 'ja', data: RankData): string {
         if (lang === 'ja') {
             const [tier, place] = data.currenttierpatched.split(' ');
-            return `${RankMap[tier]} ${place} | ${data.ranking_in_tier}`;
+            return `${RankMap[tier]} ${place} | ${data.ranking_in_tier}pt`;
         } else {
-            return `${data.currenttierpatched} | ${data.ranking_in_tier}`;
+            return `${data.currenttierpatched} | ${data.ranking_in_tier}pt`;
         }
     }
 }
