@@ -166,6 +166,8 @@ export class ManageCommandPanel {
             }
         } else if (currentPageNum === totalPages) {
             this.setPageControllerButtonDisabled(pageController, { previous: false, next: true });
+        } else {
+            this.setPageControllerButtonDisabled(pageController, { previous: false, next: false });
         }
         return pageController;
     }
