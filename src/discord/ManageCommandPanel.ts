@@ -54,6 +54,7 @@ export class ManageCommandPanel {
         const currentPageNum = this.getCurrentPage(embed);
         const newPageNum = currentPageNum - 1;
 
+        console.log('Previous from', currentPageNum, 'to', newPageNum);
         i.message.edit({
             embeds: [embeds[newPageNum - 1]],
             components: [this.disablePCButton(newPageNum, embeds.length), DiscordActionRows.commandController],
@@ -67,6 +68,7 @@ export class ManageCommandPanel {
         const currentPageNum = this.getCurrentPage(embed);
         const newPageNum = currentPageNum + 1;
 
+        console.log('Next from', currentPageNum, 'to', newPageNum);
         i.message.edit({
             embeds: [embeds[newPageNum - 1]],
             components: [this.disablePCButton(newPageNum, embeds.length), DiscordActionRows.commandController],
