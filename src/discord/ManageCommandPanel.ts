@@ -125,7 +125,7 @@ export class ManageCommandPanel {
                 .setDescription(
                     commands
                         .map((c) => {
-                            return `${c.mod_only ? ':crossed_swords:' : ''}**${c.name}** ${c.content}`;
+                            return `**${c.name}** ${c.content} ${c.mod_only ? ':crossed_swords:' : ''}`;
                         })
                         .join('\n')
                 )
