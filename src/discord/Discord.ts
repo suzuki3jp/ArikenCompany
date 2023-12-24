@@ -38,7 +38,7 @@ export class Discord {
 
     async ready() {
         this.logger.info('Discord client is ready.');
-        this.client.application?.commands.set(SlashCommands, this.ac.settings.cache.discord.guildId);
+        this.client.application?.commands.set(SlashCommands);
     }
 
     async interactionCreate(i: Interaction) {
