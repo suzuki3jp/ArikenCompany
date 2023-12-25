@@ -58,7 +58,7 @@ export class StreamNotification {
         this.cache.set(streamer.id, notification);
         this.updateToDB('ADD', notification);
         this.logger.info(`Added streamer ${streamer.name} to notification list.`);
-        return this.eReply(i, `${streamer.name} の配信通知を登録しました。`);
+        return this.eReply(i, `${streamer.displayName} の配信通知を登録しました。`);
     }
 
     async remove(i: ChatInputCommandInteraction) {
