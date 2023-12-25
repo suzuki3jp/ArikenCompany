@@ -83,6 +83,9 @@ export class Discord {
                     this.ac.twitch.eventSub.sn.showSendMemoModal(i);
                     break;
                 default:
+                    if (i.customId.startsWith(DiscordComponentIds.button.commandTemplate)) {
+                        this.ct.editCommandFromTemplate(i);
+                    }
                     break;
             }
         } else if (i.isModalSubmit()) {
