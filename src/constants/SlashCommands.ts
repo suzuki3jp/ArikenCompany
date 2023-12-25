@@ -21,7 +21,7 @@ const sn = new SlashCommandBuilder()
             .addChannelOption((o) =>
                 o.setName('channel').setDescription('Channel to send notification').setRequired(true)
             )
-            .addChannelOption((o) => o.setName('memo').setDescription('Channel to send memo').setRequired(false))
+            .addStringOption((o) => o.setName('memo').setDescription('Channel id to send').setRequired(false))
     )
     .addSubcommand((s) =>
         s
