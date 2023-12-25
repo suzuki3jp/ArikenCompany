@@ -46,7 +46,6 @@ export class StreamNotification {
 
         if (channel.type !== ChannelType.GuildText) return this.eReply(i, 'テキストチャンネルを指定してください。');
 
-        console.log(memoChannelId, memo);
         const streamer = await this.ac.twitch.api.users.getUserByName(name);
         if (!streamer) return this.eReply(i, 'その名前の配信者は見つかりませんでした。');
 
