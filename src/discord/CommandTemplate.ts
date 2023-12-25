@@ -25,7 +25,7 @@ export class CommandTemplate {
         const commandName = i.options.getString('name', true);
 
         const embed = this.createEmbed(commandName);
-        i.reply({ embeds: [embed], components: [DiscordActionRows.templateController] });
+        i.channel?.send({ embeds: [embed], components: [DiscordActionRows.templateController] });
     }
 
     showAddModal(i: ButtonInteraction) {
