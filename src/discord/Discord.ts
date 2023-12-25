@@ -12,7 +12,7 @@ export class Discord {
     public client: Client;
     private logger: Logger;
     public mcp: ManageCommandPanel;
-    public cp: CommandTemplate;
+    public ct: CommandTemplate;
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
@@ -21,7 +21,7 @@ export class Discord {
         });
         this.logger = this.ac.logger.createChild('Discord');
         this.mcp = new ManageCommandPanel(this.ac, this.client);
-        this.cp = new CommandTemplate(this.ac);
+        this.ct = new CommandTemplate(this.ac);
     }
 
     loadEvents() {
@@ -48,7 +48,7 @@ export class Discord {
                     if (i.options.getSubcommand() === 'create') this.mcp.create(i.channelId);
                     break;
                 case 'template':
-                    this.cp.create(i);
+                    this.ct.create(i);
                     break;
                 case 'sn':
                     if (i.options.getSubcommand() === 'add') this.ac.twitch.eventSub.sn.add(i);
@@ -77,7 +77,7 @@ export class Discord {
                     this.mcp.showRemoveModal(i);
                     break;
                 case DiscordComponentIds.button.addTemplate:
-                    this.cp.showAddModal(i);
+                    this.ct.showAddModal(i);
                     break;
                 case DiscordComponentIds.button.sendMemo:
                     this.ac.twitch.eventSub.sn.showSendMemoModal(i);
@@ -97,7 +97,7 @@ export class Discord {
                     this.mcp.removeCommand(i);
                     break;
                 case DiscordComponentIds.modal.addTemplate:
-                    this.cp.add(i);
+                    this.ct.add(i);
                     break;
                 case DiscordComponentIds.modal.sendMemoModal:
                     this.ac.twitch.eventSub.sn.sendMemo(i);
