@@ -8,6 +8,7 @@ import {
     ModalSubmitInteraction,
     Embed,
     ModalBuilder,
+    Channel,
 } from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
@@ -34,7 +35,14 @@ export class StreamNotification {
     async add(i: ChatInputCommandInteraction) {
         const name = i.options.getString('name', true);
         const channel = i.options.getChannel('channel', true);
-        const memo = i.options.getChannel('memo', false);
+        const memoChannelId = i.options.getString('memo', false);
+
+        let memo: Channel | undefined;
+        if (memoChannelId) {
+            memo = (await this.ac.discord.client.channels.fetch(memoChannelId)) ?? undefined;
+            if (!memo || memo.type !== ChannelType.GuildForum)
+                return this.eReply(i, 'メモチャンネルが見つからなかったかタイプが不正です。');
+        }
 
         if (channel.type !== ChannelType.GuildText) return this.eReply(i, 'テキストチャンネルを指定してください。');
 

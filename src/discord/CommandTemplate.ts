@@ -1,9 +1,6 @@
 import {
-    ActionRow,
     ActionRowBuilder,
-    ActionRowComponent,
     ButtonBuilder,
-    ButtonComponent,
     ButtonInteraction,
     ChatInputCommandInteraction,
     EmbedBuilder,
@@ -12,13 +9,17 @@ import {
 
 import { ArikenCompany } from '../ArikenCompany';
 import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from './DiscordComponents';
+import { CommandManager } from '../managers';
 
 export class CommandTemplate {
     private BUTTON_LABEL_MAX_LENGTH = 80;
     private BUTTON_MAX_LENGTH_PER_ROW = 5;
     private ACTIONROW_MAX_LENGTH_PER_MESSAGE = 5;
+    private cmd: CommandManager;
 
-    constructor(private ac: ArikenCompany) {}
+    constructor(private ac: ArikenCompany) {
+        this.cmd = this.ac.cmd;
+    }
 
     create(i: ChatInputCommandInteraction) {
         const commandName = i.options.getString('name', true);
@@ -64,7 +65,19 @@ export class CommandTemplate {
         }
     }
 
-    private eReply(i: ModalSubmitInteraction, content: string) {
+    async editCommandFromTemplate(i: ButtonInteraction) {
+        const embed = i.message?.embeds[0];
+        if (!embed) return;
+
+        const name = embed.title;
+        const content = i.component.label;
+        if (!name || !content) return;
+
+        const r = await this.cmd.editCommand(name, content);
+        this.eReply(i, r.success ? r.data?.name + 'を編集しました。' : r.message || 'コマンドの編集に失敗しました。');
+    }
+
+    private eReply(i: ModalSubmitInteraction | ButtonInteraction, content: string) {
         i.reply({ content: content, ephemeral: true });
     }
 
