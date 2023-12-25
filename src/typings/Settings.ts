@@ -1,7 +1,7 @@
 export interface Settings {
     discord: {
         modRoleId: string;
-        guildId: string;
+        guildId: string[];
         manageCommandChannelId: string;
         manageCommandPanelId: string | null;
     };

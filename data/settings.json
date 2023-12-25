@@ -3,7 +3,7 @@
         "manageCommandPanelId": "",
         "manageCommandChannelId": "",
         "modRoleId": "",
-        "guildId": ""
+        "guildId": [""]
     },
     "twitch": {
         "id": "",
