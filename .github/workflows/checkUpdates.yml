@@ -22,3 +22,4 @@ jobs:
                       ## Outdated NPM Packages
                       | Package | Current | Latest |
                       | --- | --- | --- |
+                      | ${{ steps.outdated.outputs.npm_update_json[0].name }} | ${{ steps.outdated.outputs.npm_update_json[0].current }} | ${{ steps.outdated.outputs.npm_update_json[0].latest }} |
