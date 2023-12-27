@@ -18,4 +18,4 @@ jobs:
             - uses: thollander/actions-comment-pull-request@v2
               if: steps.outdated.outputs.has_npm_update != 'false'
               with:
-                  message: ${{ steps.outdated.outputs.npm_update_text }}
+                  message: ${{ steps.outdated.outputs.npm_update_text}}
