@@ -317,6 +317,7 @@ export class Streamer {
     createNotificationEmbed(s: HelixStream): EmbedBuilder {
         return new EmbedBuilder()
             .setTitle(`${s.userDisplayName} が配信を開始しました`)
+            .setURL(`https://twitch.tv/${s.userName}`)
             .setDescription('-----------------------------')
             .setFields(
                 { name: 'タイトル', value: s.title, inline: true },
