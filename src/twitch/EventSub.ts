@@ -29,7 +29,8 @@ export class EventSub {
         return this.listener.onStreamOffline(id, handler);
     }
 
-    start() {
+    async start() {
+        await this.ac.twitch.api.eventSub.deleteAllSubscriptions();
         this.sn.init();
     }
 }
