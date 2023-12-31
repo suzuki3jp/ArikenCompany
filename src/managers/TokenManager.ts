@@ -1,6 +1,5 @@
 import { sign, verify } from 'jsonwebtoken';
 
-import { UserT } from '../database';
 import { ArikenCompany } from '../ArikenCompany';
 
 export class TokenManager {

@@ -1,5 +1,4 @@
 import { hashSync, compareSync } from 'bcrypt';
-import { DeepPartial } from 'ts-essentials';
 
 import { UserDB, UserT } from '../database';
 import { ArikenCompany } from '../ArikenCompany';
