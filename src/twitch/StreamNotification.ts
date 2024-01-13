@@ -167,7 +167,7 @@ export class StreamNotification {
         await thread.send({
             content: `${time} ${content}`,
         });
-        i.deferReply({});
+        this.eReply(i, 'メモを送信しました。');
     }
 
     async init() {
