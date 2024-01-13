@@ -16,7 +16,7 @@
     "pm2:kill": "pm2 delete pm2.config.js"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1",
+    "@prisma/client": "^5.8.0",
     "@twurple/api": "^7.0.6",
     "@twurple/auth": "^7.0.6",
     "@twurple/chat": "^7.0.6",
