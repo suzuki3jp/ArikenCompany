@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 
 import { RouteBase } from '../RouteBase';
 import { Api } from '../../Api';
-import { HttpResult, Result } from '../../../packages';
+import { HttpResult } from '../../../packages';
 import { CommandT } from '../../../database';
 
 export class CommandService implements RouteBase {
