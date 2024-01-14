@@ -15,7 +15,7 @@ import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/e
 import { ArikenCompany } from '../ArikenCompany';
 import { EventSub } from './EventSub';
 import { StreamNotificationDB, StreamNotificationT } from '../database';
-import { Logger, JST, dayjs } from '../packages';
+import { Logger, JST, dayjs, formatDate } from '../packages';
 import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
 
 export class StreamNotification {
@@ -268,11 +268,12 @@ export class Streamer {
         if (!video || video.streamId !== stream.id) return;
 
         // 配信開始日の日付データを取得する
+        // 月と日に関しては一文字の場合先頭に0を付ける
         const now = dayjs(startDate);
         const year = now.year();
         const month = now.month() + 1;
         const day = now.date();
-        const date = `${year}/${month}/${day}`;
+        const date = formatDate(year, month, day).formatted;
 
         const lastThread = channel.threads.cache.last();
         if (!lastThread) return;
