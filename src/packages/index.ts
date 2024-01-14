@@ -7,6 +7,8 @@ export * from './fetch/fetch';
 export * from './FileSystem/readFileSync';
 export * from './FileSystem/writeFileSync';
 
+export * from './formatDate/formatDate';
+
 export * from './HttpResult/HttpResult';
 
 export * from './JST/JST';
