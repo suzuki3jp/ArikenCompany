@@ -21,3 +21,4 @@ jobs:
                       cd ${{secrets.DIR_PATH}}
                       npm run pm2:stop
                       npm run eventsub:delete
+                      npm run pm2:restart
