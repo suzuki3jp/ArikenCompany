@@ -13,10 +13,11 @@
     "pm2:start": "pm2 start pm2.config.js",
     "pm2:stop": "pm2 stop pm2.config.js",
     "pm2:restart": "pm2 restart pm2.config.js",
-    "pm2:kill": "pm2 delete pm2.config.js"
+    "pm2:kill": "pm2 delete pm2.config.js",
+    "eventsub:delete": "npx ts-node ./scripts/deleteAllEventsub.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "^5.8.1",
     "@twurple/api": "^7.0.7",
     "@twurple/auth": "^7.0.7",
     "@twurple/chat": "^7.0.7",
@@ -30,7 +31,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.8.0"
+    "prisma": "^5.8.1"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
@@ -43,6 +44,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "nodemon": "^3.0.2",
     "ts-essentials": "^9.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
