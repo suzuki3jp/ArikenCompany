@@ -124,7 +124,7 @@ class Chat {
             if (!command.isCooldown(cmd)) return;
             if (!cmd.alias) {
                 const r = await new ValueParser(this.ac, cmd.content, message).parse();
-                command.reply(r.error ?? r.toJSON().parsed);
+                command.send(r.error ?? r.toJSON().parsed);
                 command.updateUsedAt(cmd.name);
             } else {
                 const aliasedCmd = await command.normalCommand(cmd.alias);
