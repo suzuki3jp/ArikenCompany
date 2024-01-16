@@ -130,7 +130,7 @@ class Chat {
                 const aliasedCmd = await command.normalCommand(cmd.alias);
                 if (!aliasedCmd) return;
                 const r = await new ValueParser(this.ac, aliasedCmd.content, message).parse();
-                command.reply(r.error ?? r.toJSON().parsed);
+                command.send(r.error ?? r.toJSON().parsed);
                 command.updateUsedAt(aliasedCmd.name);
             }
         }
