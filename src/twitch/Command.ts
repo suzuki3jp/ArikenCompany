@@ -96,6 +96,10 @@ export class Command {
         this.message.reply(content);
     }
 
+    send(content: string) {
+        this.message.channel.send(content);
+    }
+
     private validateCommandName(n: string): string | null {
         if (!n) return null;
         return n.toLowerCase();
