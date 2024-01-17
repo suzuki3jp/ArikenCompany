@@ -10,13 +10,7 @@ export class StatusService implements RouteBase {
     constructor(public api: Api) {}
 
     public async get(req: Request, res: Response) {
-        const r = new HttpResult()
-            .setStatus(200)
-            .setData({
-                status: 200,
-                data: 'ArikenCompanyApi is avaliale.',
-            })
-            .toJSON();
+        const r = new HttpResult().setStatus(200).setData('ArikenCompanyApi is available.').toJSON();
         res.status(r.status).json(r);
     }
 }
