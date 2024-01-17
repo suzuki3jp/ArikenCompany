@@ -1,7 +1,7 @@
 import { Agent } from 'https';
 
 import { ArikenCompany } from '../ArikenCompany';
-import { Message, countBy, fetch, dayjs, ValRank, ValWins } from '../packages';
+import { Message, countBy, fetch, dayjs, ValRank, ValWins, secondsToHHMMSS } from '../packages';
 
 const STARTING_DELIMITER = '${';
 const ENDING_DELIMITER = '}';
@@ -108,7 +108,7 @@ export class ValueParser {
         const now = dayjs();
         const startedAt = dayjs(stream.startDate);
         const diff = now.diff(startedAt, 'second');
-        const diffHHMMSS = secondToHHMMSS(diff);
+        const diffHHMMSS = secondsToHHMMSS(diff);
         return `${diffHHMMSS.hours.length === 1 ? `0${diffHHMMSS.hours}` : diffHHMMSS.hours}時間${
             diffHHMMSS.minutes.length === 1 ? `0${diffHHMMSS.minutes}` : diffHHMMSS.minutes
         }分${diffHHMMSS.seconds.length === 1 ? `0${diffHHMMSS.seconds}` : diffHHMMSS.seconds}秒}`;
@@ -260,11 +260,4 @@ function reflectResult(oldR: ValueParseResult, newR: ValueParseResult) {
     if (j.error) newR.setError(j.error);
     newR.pushToParsed(j.parsed);
     return newR;
-}
-
-function secondToHHMMSS(second: number): { hours: string; minutes: string; seconds: string } {
-    const hours = Math.floor(second / 3600);
-    const minutes = Math.floor((second - hours * 3600) / 60);
-    const seconds = second - hours * 3600 - minutes * 60;
-    return { hours: hours.toString(), minutes: minutes.toString(), seconds: seconds.toString() };
 }
