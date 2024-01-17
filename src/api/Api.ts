@@ -10,6 +10,7 @@ import { Logger, readFileSync } from '../packages';
 import { LoginService } from './routes/user/login';
 import { UserService } from './routes/user';
 import { CommandService } from './routes/commands';
+import { StatusService } from './routes/status';
 
 export class Api {
     private app: Express;
@@ -51,6 +52,9 @@ export class Api {
         });
         router.post(LoginService.path, (req, res) => {
             new LoginService(this).post(req, res);
+        });
+        router.get(StatusService.path, (req, res) => {
+            new StatusService(this).get(req, res);
         });
 
         // Auth routes
