@@ -1,4 +1,7 @@
-import { Box, CssBaseline, createTheme, ThemeProvider, Typography } from '@mui/material';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Box, CssBaseline, createTheme, ThemeProvider } from '@mui/material';
+
+import { Navigation } from './components/Navigation';
 
 const darkTheme = createTheme({
     palette: {
@@ -9,9 +12,12 @@ const darkTheme = createTheme({
 function App() {
     return (
         <ThemeProvider theme={darkTheme}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '10%' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <CssBaseline></CssBaseline>
-                <Typography variant='h2'>準備中</Typography>
+                <Routes>
+                    <Route path='/' element={<Navigate replace to='/dashboard'></Navigate>}></Route>
+                    <Route path='/dashboard' element={<Navigation></Navigation>}></Route>
+                </Routes>
             </Box>
         </ThemeProvider>
     );
