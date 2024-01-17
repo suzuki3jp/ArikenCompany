@@ -1,6 +1,7 @@
 import express, { Express, Router } from 'express';
 import { createServer, Server } from 'https';
 import { urlencoded } from 'body-parser';
+import cors from 'cors';
 
 import { RootService, RegisterService } from './routes';
 import { AuthMiddleware } from './AuthMiddleware';
@@ -22,6 +23,13 @@ export class Api {
         this.app = express();
         this.app.use(urlencoded({ extended: true }));
         this.app.use(this.loadRoutes());
+        this.app.use(
+            cors({
+                origin: ['http://localhost:3000', 'https://arikencompany.suzuki3jp.xyz'],
+                credentials: true,
+                optionsSuccessStatus: 200,
+            })
+        );
 
         this.server = createServer(
             {
