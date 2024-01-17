@@ -22,7 +22,6 @@ export class Api {
         this.logger = this.ac.logger.createChild('Api');
         this.app = express();
         this.app.use(urlencoded({ extended: true }));
-        this.app.use(this.loadRoutes());
         this.app.use(
             cors({
                 origin: ['http://localhost:3000', 'https://arikencompany.suzuki3jp.xyz'],
@@ -30,6 +29,7 @@ export class Api {
                 optionsSuccessStatus: 200,
             })
         );
+        this.app.use(this.loadRoutes());
 
         this.server = createServer(
             {
