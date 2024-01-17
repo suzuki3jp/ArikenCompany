@@ -224,6 +224,40 @@ export class ValueValidater {
     }
 }
 
+export class ValuePublisher {
+    private result = '';
+    constructor(private content: string) {}
+
+    toPublic(): string {
+        while (this.content.length > 0) {
+            let startingDelimiterIndexOf = this.content.indexOf(STARTING_DELIMITER);
+            let endingDelimiterIndexOf = this.content.indexOf(ENDING_DELIMITER, startingDelimiterIndexOf);
+
+            if (startingDelimiterIndexOf !== -1) {
+                const code = this.content.slice(
+                    startingDelimiterIndexOf + STARTING_DELIMITER.length,
+                    endingDelimiterIndexOf
+                );
+
+                const publishedCode = this.toPublicCode(code);
+                this.result = this.result + publishedCode;
+
+                this.content = this.content.slice(endingDelimiterIndexOf + 1);
+            } else {
+                this.result = this.content;
+                this.content = '';
+            }
+        }
+        return this.result;
+    }
+
+    private toPublicCode(code: string): string {
+        code = code.trim();
+        const [f, ...args] = code.split(' ');
+        return `[${f}]`;
+    }
+}
+
 class ValueParseResult {
     public error: string | null;
     private parsed: string;
