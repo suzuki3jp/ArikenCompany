@@ -11,6 +11,7 @@ import { Logger, readFileSync } from '../packages';
 import { LoginService } from './routes/user/login';
 import { UserService } from './routes/user';
 import { CommandService } from './routes/commands';
+import { PublicCommandsService } from './routes/commands/public';
 import { StatusService } from './routes/status';
 
 export class Api {
@@ -63,6 +64,9 @@ export class Api {
         });
         router.get(StatusService.path, (req, res) => {
             new StatusService(this).get(req, res);
+        });
+        router.get(PublicCommandsService.path, (req, res) => {
+            new PublicCommandsService(this).get(req, res);
         });
 
         // Auth routes
