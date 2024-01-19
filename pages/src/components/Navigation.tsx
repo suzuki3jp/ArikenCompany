@@ -15,6 +15,7 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
+    Grid,
 } from '@mui/material';
 import {
     Menu as MenuIcon,
@@ -23,7 +24,7 @@ import {
     BorderColor as CommandsIcon,
 } from '@mui/icons-material';
 
-import { getPageNameFromPath } from '../utils/getPageNameFromUrl';
+import { getPageNameFromPath } from '../utils';
 
 /**
  * ==============================
@@ -96,6 +97,7 @@ class NavigationUnWrapped extends Component<NavigationProps, NavigationState> {
                         overflow: 'auto',
                     }}
                 >
+                    <Toolbar />
                     <Container maxWidth='lg' sx={{ mt: 4, mb: 4 }}>
                         {this.props.element}
                     </Container>
