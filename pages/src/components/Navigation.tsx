@@ -15,7 +15,6 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Grid,
 } from '@mui/material';
 import {
     Menu as MenuIcon,
@@ -23,8 +22,6 @@ import {
     Dashboard as DashboardIcon,
     BorderColor as CommandsIcon,
 } from '@mui/icons-material';
-
-import { getPageNameFromPath } from '../utils';
 
 /**
  * ==============================
@@ -81,9 +78,9 @@ class NavigationUnWrapped extends Component<NavigationProps, NavigationState> {
                     <List>
                         <ListItemButton>
                             <ListItemIcon>
-                                <DashboardIcon />
+                                <CommandsIcon />
                             </ListItemIcon>
-                            <ListItemText primary='Dashboard' />
+                            <ListItemText primary='Commands' />
                         </ListItemButton>
                     </List>
                 </Drawer>
@@ -174,3 +171,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         }),
     },
 }));
+
+function getPageNameFromPath(path: string) {
+    if (path === '/') return 'Home';
+    const removedSlash = path.slice(1);
+    return removedSlash.charAt(0).toUpperCase() + removedSlash.slice(1);
+}
