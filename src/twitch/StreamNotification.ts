@@ -167,7 +167,7 @@ export class StreamNotification {
         await thread.send({
             content: `${time} ${content}`,
         });
-        this.silentRes(i);
+        this.iSilentEnd(i);
     }
 
     async init() {
@@ -183,10 +183,8 @@ export class StreamNotification {
         return;
     }
 
-    async silentRes(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
-        await i.deferReply();
-        i.deleteReply();
-        return;
+    iSilentEnd(i: ModalSubmitInteraction) {
+        i.deferUpdate();
     }
 
     updateToDB(type: 'ADD' | 'REMOVE', data: Streamer) {
