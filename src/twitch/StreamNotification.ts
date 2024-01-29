@@ -183,8 +183,9 @@ export class StreamNotification {
         return;
     }
 
-    silentRes(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
-        i.deferReply();
+    async silentRes(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
+        await i.deferReply();
+        i.deleteReply();
         return;
     }
 
