@@ -167,7 +167,7 @@ export class StreamNotification {
         await thread.send({
             content: `${time} ${content}`,
         });
-        this.eReply(i, 'メモを送信しました。');
+        this.silentRes(i);
     }
 
     async init() {
@@ -180,6 +180,11 @@ export class StreamNotification {
 
     eReply(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction, content: string) {
         i.reply({ content, ephemeral: true });
+        return;
+    }
+
+    silentRes(i: ChatInputCommandInteraction | ButtonInteraction | ModalSubmitInteraction) {
+        i.deferReply();
         return;
     }
 
