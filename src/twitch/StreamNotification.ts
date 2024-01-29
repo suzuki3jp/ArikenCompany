@@ -86,7 +86,7 @@ export class StreamNotification {
             embeds: [
                 {
                     title: 'メモを送信する',
-                    description: `下記のチャンネルにメモを送信します。`,
+                    description: `下記のチャンネルにメモを送信します。\nボタンを押すと内容を入力する画面が開かれます。`,
                     fields: [
                         { name: 'メモチャンネル', value: `<#${channel.id}>` },
                         { name: '配信者', value: name },
