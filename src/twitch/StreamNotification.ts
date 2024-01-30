@@ -155,6 +155,15 @@ export class StreamNotification {
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.memoContent);
         const time = i.fields.getTextInputValue(DiscordComponentIds.textInput.streamLength);
 
+        // Validate input value.
+        const timeRegex = /^[0-9][0-9]:[0-9][0-9]$/;
+        if (!timeRegex.test(time))
+            return this.eReply(i, '時間の値が不正です。`hh:mm`の形式で入力してください。例：`01:22`');
+
+        const noSpaceContent = content.replace(/( |　)/g, '');
+        if (noSpaceContent === '')
+            return this.eReply(i, 'メモの内容が不正です。送信するには何かしら内容を入力する必要があります。');
+
         if (!i.message) return;
         const info = this.getMemoInfoFromPanel(i.message.embeds[0]);
         if (!info) return;
