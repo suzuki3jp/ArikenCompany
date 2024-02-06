@@ -30,7 +30,6 @@ export class EventSub {
     }
 
     async start() {
-        await this.ac.twitch.api.eventSub.deleteAllSubscriptions();
         this.sn.init();
     }
 }
