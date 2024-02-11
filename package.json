@@ -1,0 +1,10 @@
+{
+    "name": "@arikencompany/root",
+    "private": true,
+    "workspaces": [
+        "packages/core",
+        "packages/database",
+        "packages/web",
+        "packages/common"
+    ]
+}
