@@ -17,6 +17,9 @@ export class EventSub {
             hostName: this.ac.settings.cache.hostName,
             pathPrefix: '/twitch/eventsub',
             secret: this.ac.env.cache.SECRET,
+            logger: {
+                minLevel: 'debug',
+            },
         });
         this.sn = new StreamNotification(this);
     }
