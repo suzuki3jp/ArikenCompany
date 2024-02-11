@@ -19,6 +19,7 @@
 - モノリポに対応する
   - [参考 - git clone](https://tech.asoview.co.jp/entry/2023/03/14/095235)
   - [参考 - npm workspaces](https://zenn.dev/suin/scraps/20896e54419069)
+  - 下層の package.json の script を上層から実行するには`--prefix`を使うことでできる（例: `npm run --prefix packages/core test`）
 
 ## コミット規則
 
