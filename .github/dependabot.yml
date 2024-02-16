@@ -1,0 +1,26 @@
+version: 2
+updates:
+    - package-ecosystem: 'npm'
+      directory: '/'
+      schedule:
+          interval: 'daily'
+      groups:
+          twurple:
+              patterns:
+                  - '@twurple/api'
+                  - '@twurple/auth'
+                  - '@twurple/chat'
+                  - '@twurple/eventsub-http'
+          api:
+              patterns:
+                  - body-parser
+                  - cors
+                  - express
+                  - jsonwebtoken
+          dependencies:
+              dependency-type: 'production'
+          devDependencies:
+              dependency-type: 'development'
+      ignore:
+          - dependency-name: '*'
+            update-types: ['version-update:semver-patch']
