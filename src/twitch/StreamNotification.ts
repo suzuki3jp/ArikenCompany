@@ -134,6 +134,12 @@ export class StreamNotification {
         i.showModal(modal);
     }
 
+    /**
+     * TwitchAPIから取得した配信の開始時刻から現在の配信経過時間を算出する。
+     * hh:mmの形式で返却し、秒数は切り捨てを行う。
+     * @param startAt
+     * @returns
+     */
     private getTimeStampFromStartAt(startAt: Date): string {
         const startAtDayJs = dayjs(startAt);
         const now = dayjs();
@@ -142,7 +148,8 @@ export class StreamNotification {
         const minute = Math.floor((diff - hour * 3600) / 60);
         const second = diff - hour * 3600 - minute * 60;
 
-        if (second > 30) return `${putZero(hour)}:${putZero(minute + 1)}`;
+        // 以前はこの部分で秒数を四捨五入していたが何らかの理由でモデレータービュー上の時間を四捨五入したものと差異があったため、単純な切り捨てに変更。
+        // if (second > 30) return `${putZero(hour)}:${putZero(minute + 1)}`;
         return `${putZero(hour)}:${putZero(minute)}`;
 
         function putZero(n: number) {
