@@ -59,6 +59,13 @@ export class LogFileManager {
     }
 
     /**
+     * デバッグログファイルをリフレッシュする
+     */
+    public refreshDebugLogFile() {
+        return this.writeFileSync(this.debugPath, '');
+    }
+
+    /**
      * ファイルを作成する
      * fs.writeFileSyncのラッパー関数
      * @param path

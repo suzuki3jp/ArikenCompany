@@ -3,7 +3,7 @@ import { Discord } from './discord/Discord';
 import { SettingsManager, CommandManager, UserManager } from './managers';
 import { Env } from './utils';
 import { Twitch } from './twitch/Twitch';
-import { Logger } from './packages/index';
+import { Logger, Cron } from './packages/index';
 
 export class ArikenCompany {
     public cmd: CommandManager;
@@ -14,6 +14,7 @@ export class ArikenCompany {
     public twitch: Twitch;
     public discord: Discord;
     public api: Api;
+    public cron: Cron;
 
     constructor() {
         this.logger = new Logger('ArikenCompany');
@@ -24,6 +25,14 @@ export class ArikenCompany {
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
         this.api = new Api(this);
+        this.cron = new Cron();
+
+        // デバッグログファイルをリフレッシュするジョブを設定
+        // 毎週日曜朝５時に実行
+        this.cron.createWeeklyJob(() => {
+            this.logger.info('Refreshing debug log file...');
+            this.logger.file.refreshDebugLogFile();
+        });
     }
 
     async start() {
