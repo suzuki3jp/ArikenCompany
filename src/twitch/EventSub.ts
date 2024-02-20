@@ -4,14 +4,17 @@ import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twu
 import { StreamNotification } from './StreamNotification';
 import { Twitch } from './Twitch';
 import { ArikenCompany } from '../ArikenCompany';
+import { Logger } from '../packages';
 
 export class EventSub {
     private ac: ArikenCompany;
     public listener: EventSubMiddleware;
     public sn: StreamNotification;
+    public logger: Logger;
 
     constructor(public twitch: Twitch) {
         this.ac = this.twitch.ac;
+        this.logger = this.twitch.logger.createChild('EventSub');
         this.listener = new EventSubMiddleware({
             apiClient: this.twitch.api,
             hostName: this.ac.settings.cache.hostName,
@@ -19,6 +22,12 @@ export class EventSub {
             secret: this.ac.env.cache.SECRET,
             logger: {
                 minLevel: 'debug',
+                custom: (level, message) => {
+                    // デバッグログ
+                    if (level === 4) {
+                        this.logger.debug(message);
+                    }
+                },
             },
         });
         this.sn = new StreamNotification(this);

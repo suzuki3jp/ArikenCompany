@@ -1,10 +1,19 @@
+import { LogFileManager } from './LogFileManager';
 import { JST } from '../JST/JST';
 
 export class Logger {
     public parent: Logger | null;
+    public file: LogFileManager;
 
     constructor(public name: string, parent?: Logger) {
         this.parent = parent ?? null;
+
+        // 親がいる場合はファイルマネージャーを親からとってくる
+        if (this.parent) {
+            this.file = this.parent.file;
+        } else {
+            this.file = new LogFileManager();
+        }
     }
 
     public createChild(name: string): Logger {
@@ -24,7 +33,14 @@ export class Logger {
     }
 
     private log(level: LogLevel, ...messages: string[]) {
-        console.log(this.makeMessage(level, ...messages));
+        const message = this.makeMessage(level, ...messages);
+        console.log(message);
+
+        if (level === 'DEBUG') {
+            this.file.appendDebugLog(message);
+        } else {
+            this.file.appendProdLog(message);
+        }
     }
 
     private makeMessage(level: LogLevel, ...messages: string[]): string {
