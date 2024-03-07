@@ -1,26 +1,61 @@
-export class Result<T> {
-    public success: boolean;
-    public message?: string;
-    public data?: T;
+export type Result<S, E> = Success<S, E> | Failure<S, E>;
 
-    constructor() {
-        this.success = false;
-    }
+/**
+ * 成功を表すクラス
+ */
+export class Success<S, E> {
+    private readonly type = 'success';
 
-    public toSuccess(data: T) {
-        this.success = true;
+    public data: S;
+    constructor(data: S) {
         this.data = data;
-        return this;
     }
 
-    public error(message: string) {
-        this.success = false;
-        this.message = message;
-        return this;
+    /**
+     * データを上書きする
+     * @param data
+     * @returns
+     */
+    setData(data: S) {
+        this.data = data;
+        return this.data;
     }
 
-    public toJSON() {
-        const { success, message, data } = this;
-        return { success, message, data };
+    isSuccess(): this is Success<S, E> {
+        return true;
+    }
+
+    isFailure(): this is Failure<S, E> {
+        return false;
+    }
+}
+
+/**
+ * 失敗を表すクラス
+ */
+export class Failure<S, E> {
+    private readonly type = 'failure';
+
+    public data: E;
+    constructor(data: E) {
+        this.data = data;
+    }
+
+    /**
+     * データを上書きする
+     * @param data
+     * @returns
+     */
+    setData(data: E) {
+        this.data = data;
+        return this.data;
+    }
+
+    isSuccess(): this is Success<S, E> {
+        return false;
+    }
+
+    isFailure(): this is Failure<S, E> {
+        return true;
     }
 }
