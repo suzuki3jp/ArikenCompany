@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsc",
+    "test": "npx jest",
     "prisma:migrate": "npx prisma migrate dev --name migrate",
     "prisma:studio": "npx prisma studio",
     "pm2:start": "pm2 start pm2.config.js",
