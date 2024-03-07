@@ -5,6 +5,7 @@
   "main": "index.js",
   "author": "suzuki3jp <suzuki3.info@gmail.com>",
   "license": "MIT",
+  "private": "true",
   "scripts": {
     "dev": "npx nodemon",
     "build": "tsc",
