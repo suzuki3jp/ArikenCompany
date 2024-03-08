@@ -124,7 +124,8 @@ export class StreamNotification {
 
         memoThreadActionRow.components[0].setValue(thread.name);
         if (stream) {
-            streamLengthActionRow.components[0].setValue(this.getTimeStampFromStartAt(stream.startDate));
+            const streamUptime = this.getTimeStampFromStartAt(stream.startDate);
+            streamLengthActionRow.components[0].setValue(streamUptime);
         }
 
         const modal = new ModalBuilder()
@@ -142,11 +143,13 @@ export class StreamNotification {
      */
     private getTimeStampFromStartAt(startAt: Date): string {
         const startAtDayJs = dayjs(startAt);
+        this.logger.debug('Stream started at: ' + startAtDayJs.toString());
         const now = dayjs();
         const diff = now.diff(startAtDayJs, 'second');
         const hour = Math.floor(diff / 3600);
         const minute = Math.floor((diff - hour * 3600) / 60);
         const second = diff - hour * 3600 - minute * 60;
+        this.logger.debug(`Stream uptime: ${hour} hours, ${minute} minutes, ${second} seconds`);
 
         // 以前はこの部分で秒数を四捨五入していたが何らかの理由でモデレータービュー上の時間を四捨五入したものと差異があったため、単純な切り捨てに変更。
         // if (second > 30) return `${putZero(hour)}:${putZero(minute + 1)}`;
