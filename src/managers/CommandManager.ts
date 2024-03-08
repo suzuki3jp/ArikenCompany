@@ -1,5 +1,5 @@
 import { CommandDB, CommandT } from '../database';
-import { Logger, Result } from '../packages';
+import { Logger, Result, Success, Failure } from '../packages';
 import { ValueValidater } from '../parsers';
 import { ArikenCompany } from '../ArikenCompany';
 
@@ -12,62 +12,62 @@ export class CommandManager {
         this.logger = this.ac.logger.createChild('Command');
     }
 
-    async addCommand(name: string, content: string): Promise<Result<CommandT>> {
-        const r = new Result<CommandT>();
+    async addCommand(name: string, content: string): Promise<Result<CommandT, string>> {
         const isExistCommand = Boolean(await this.c.getByName(name));
         const isValidContent = new ValueValidater(content).validate();
 
         if (isExistCommand) {
-            return r.error('そのコマンドはすでに登録されています。');
+            return new Failure('そのコマンドはすでに登録されています。');
         }
         if (typeof isValidContent === 'string') {
-            return r.error(isValidContent);
+            return new Failure(isValidContent);
         }
 
         const cmd = await this.c.add(name, content);
         this.ac.discord.mcp.reloadPanel();
 
-        r.toSuccess(cmd);
         this.logger.info(`Added ${cmd.name}.`);
-        return r;
+        return new Success(cmd);
     }
 
-    async editCommand(name: string, content?: string, isOnlyMod?: boolean, alias?: string): Promise<Result<CommandT>> {
-        const r = new Result<CommandT>();
+    async editCommand(
+        name: string,
+        content?: string,
+        isOnlyMod?: boolean,
+        alias?: string
+    ): Promise<Result<CommandT, string>> {
         const oldCommand = await this.c.getByName(name);
+
         if (content) {
             const isValidContent = new ValueValidater(content).validate();
             if (typeof isValidContent === 'string') {
-                return r.error(isValidContent);
+                return new Failure(isValidContent);
             }
         }
 
         if (!oldCommand) {
-            return r.error('存在しないコマンド名です。');
+            return new Failure('存在しないコマンド名です。');
         }
 
         const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
         this.ac.discord.mcp.reloadPanel();
 
-        r.toSuccess(cmd);
         this.logger.info(`Edited ${cmd.name} to ${cmd.content}.`);
-        return r;
+        return new Success(cmd);
     }
 
-    async removeCommand(name: string): Promise<Result<CommandT>> {
-        const r = new Result<CommandT>();
+    async removeCommand(name: string): Promise<Result<CommandT, string>> {
         const oldCommand = await this.c.getByName(name);
 
         if (!oldCommand) {
-            return r.error('存在しないコマンド名です。');
+            return new Failure('存在しないコマンド名です。');
         }
 
         const cmd = await this.c.removeById(oldCommand.id);
         this.ac.discord.mcp.reloadPanel();
 
-        r.toSuccess(cmd);
         this.logger.info(`Removed ${cmd.name}.`);
-        return r;
+        return new Success(cmd);
     }
 
     async getCommand(name: string) {

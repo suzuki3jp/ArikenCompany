@@ -74,7 +74,12 @@ export class CommandTemplate {
         if (!name || !content) return;
 
         const r = await this.cmd.editCommand(name, content);
-        this.eReply(i, r.success ? r.data?.name + 'を編集しました。' : r.message || 'コマンドの編集に失敗しました。');
+
+        if (r.isSuccess()) {
+            this.eReply(i, r.data.name + 'を編集しました。');
+        } else {
+            this.eReply(i, r.data);
+        }
     }
 
     private eReply(i: ModalSubmitInteraction | ButtonInteraction, content: string) {
