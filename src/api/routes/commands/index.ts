@@ -25,13 +25,13 @@ export class CommandService implements RouteBase {
         }
 
         const r = new HttpResult<CommandT>();
-        const addCommandResult = (await this.api.ac.cmd.addCommand(name, content)).toJSON();
+        const addCommandResult = await this.api.ac.cmd.addCommand(name, content);
 
-        if (addCommandResult.success) {
-            this.api.logger.info('Command added ' + addCommandResult.data?.name);
+        if (addCommandResult.isSuccess()) {
+            this.api.logger.info('Command added ' + addCommandResult.data.name);
             r.setStatus(200).setData(addCommandResult.data);
         } else {
-            r.setStatus(400).setMessage(addCommandResult.message);
+            r.setStatus(400).setMessage(addCommandResult.data);
         }
 
         const result = r.toJSON();
@@ -46,13 +46,13 @@ export class CommandService implements RouteBase {
             return;
         }
         const r = new HttpResult<CommandT>();
-        const deleteCommandResult = (await this.api.ac.cmd.removeCommand(name)).toJSON();
+        const deleteCommandResult = await this.api.ac.cmd.removeCommand(name);
 
-        if (deleteCommandResult.success) {
-            this.api.logger.info('Command deleted ' + deleteCommandResult.data?.name);
+        if (deleteCommandResult.isSuccess()) {
+            this.api.logger.info('Command deleted ' + deleteCommandResult.data.name);
             r.setStatus(200).setData(deleteCommandResult.data);
         } else {
-            r.setStatus(400).setMessage(deleteCommandResult.message);
+            r.setStatus(400).setMessage(deleteCommandResult.data);
         }
 
         const result = r.toJSON();
@@ -75,13 +75,13 @@ export class CommandService implements RouteBase {
         }
 
         const r = new HttpResult<CommandT>();
-        const updateCommandResult = (await this.api.ac.cmd.editCommand(name, content, isModOnly, alias)).toJSON();
+        const updateCommandResult = await this.api.ac.cmd.editCommand(name, content, isModOnly, alias);
 
-        if (updateCommandResult.success) {
-            this.api.logger.info('Command updated ' + updateCommandResult.data?.name);
+        if (updateCommandResult.isSuccess()) {
+            this.api.logger.info('Command updated ' + updateCommandResult.data.name);
             r.setStatus(200).setData(updateCommandResult.data);
         } else {
-            r.setStatus(400).setMessage(updateCommandResult.message);
+            r.setStatus(400).setMessage(updateCommandResult.data);
         }
 
         const result = r.toJSON();
