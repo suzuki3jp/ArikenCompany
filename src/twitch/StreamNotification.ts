@@ -145,14 +145,16 @@ export class StreamNotification {
         const startAtDayJs = dayjs(startAt);
         this.logger.debug('Stream started at: ' + startAtDayJs.toString());
         const now = dayjs();
-        const diff = now.diff(startAtDayJs, 'second');
+        let diff = now.diff(startAtDayJs, 'second');
+
+        // なぜかTwitch APIから取得した配信開始時刻から引くと実際の配信時間より約90秒長くなっているので、90秒引く
+        diff = diff - 90;
+
         const hour = Math.floor(diff / 3600);
         const minute = Math.floor((diff - hour * 3600) / 60);
         const second = diff - hour * 3600 - minute * 60;
         this.logger.debug(`Stream uptime: ${hour} hours, ${minute} minutes, ${second} seconds`);
 
-        // 以前はこの部分で秒数を四捨五入していたが何らかの理由でモデレータービュー上の時間を四捨五入したものと差異があったため、単純な切り捨てに変更。
-        // if (second > 30) return `${putZero(hour)}:${putZero(minute + 1)}`;
         return `${putZero(hour)}:${putZero(minute)}`;
 
         function putZero(n: number) {
