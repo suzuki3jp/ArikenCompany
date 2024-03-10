@@ -10,7 +10,7 @@ import {
 } from 'discord.js';
 
 import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from './DiscordComponents';
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import type { CommandManager } from '../managers';
 import { Logger, splitArrayByNumber } from '../packages';
 
@@ -22,7 +22,7 @@ export class ManageCommandPanel {
     private messageId: string | null;
     constructor(private ac: ArikenCompany, private client: Client) {
         this.cmd = this.ac.cmd;
-        this.logger = this.ac.logger.createChild('ManageCommandPanel');
+        this.logger = rootLogger.createChild('ManageCommandPanel');
         this.channelId = this.ac.settings.cache.discord.manageCommandChannelId;
         this.messageId = this.ac.settings.cache.discord.manageCommandPanelId;
     }

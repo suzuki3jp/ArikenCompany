@@ -12,7 +12,7 @@ import {
 } from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { EventSub } from './EventSub';
 import { StreamNotificationDB, StreamNotificationT } from '../database';
 import { Logger, JST, dayjs, formatDate } from '../packages';
@@ -27,7 +27,7 @@ export class StreamNotification {
 
     constructor(public es: EventSub) {
         this.ac = this.es.twitch.ac;
-        this.logger = this.es.twitch.logger.createChild('StreamNotification');
+        this.logger = rootLogger.createChild('StreamNotification');
         this.cache = new Collection(null);
         this.snDB = new StreamNotificationDB();
     }

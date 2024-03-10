@@ -5,6 +5,8 @@ import { Env } from './utils';
 import { Twitch } from './twitch/Twitch';
 import { Logger, Cron } from './packages/index';
 
+export const rootLogger = new Logger('ArikenCompany');
+
 export class ArikenCompany {
     public cmd: CommandManager;
     public um: UserManager;
@@ -17,7 +19,7 @@ export class ArikenCompany {
     public cron: Cron;
 
     constructor() {
-        this.logger = new Logger('ArikenCompany');
+        this.logger = rootLogger;
         this.env = new Env(this);
         this.cmd = new CommandManager(this);
         this.um = new UserManager(this);

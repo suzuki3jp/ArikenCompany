@@ -5,7 +5,7 @@ import cors from 'cors';
 
 import { RootService, RegisterService } from './routes';
 import { AuthMiddleware } from './AuthMiddleware';
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Path } from '../constants';
 import { Logger, readFileSync } from '../packages';
 import { LoginService } from './routes/user/login';
@@ -20,7 +20,7 @@ export class Api {
     public logger: Logger;
 
     constructor(public ac: ArikenCompany) {
-        this.logger = this.ac.logger.createChild('Api');
+        this.logger = rootLogger.createChild('Api');
         this.app = express();
         this.app.use(urlencoded({ extended: true }));
         this.app.use(

@@ -3,7 +3,7 @@ import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twu
 
 import { StreamNotification } from './StreamNotification';
 import { Twitch } from './Twitch';
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Logger } from '../packages';
 
 export class EventSub {
@@ -14,7 +14,7 @@ export class EventSub {
 
     constructor(public twitch: Twitch) {
         this.ac = this.twitch.ac;
-        this.logger = this.twitch.logger.createChild('EventSub');
+        this.logger = rootLogger.createChild('EventSub');
         this.listener = new EventSubMiddleware({
             apiClient: this.twitch.api,
             hostName: this.ac.settings.cache.hostName,

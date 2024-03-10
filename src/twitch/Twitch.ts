@@ -2,7 +2,7 @@ import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient, ChatMessage } from '@twurple/chat';
 import { ApiClient } from '@twurple/api';
 
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Command } from './Command';
 import { EventSub } from './EventSub';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
@@ -19,7 +19,7 @@ export class Twitch {
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
-        this.logger = this.ac.logger.createChild('Twitch');
+        this.logger = rootLogger.createChild('Twitch');
         this.auth = this.setupAuth();
 
         this.chat = new Chat(this);
@@ -71,7 +71,7 @@ class Chat {
     private logger: Logger;
 
     constructor(private twitch: Twitch) {
-        this.logger = this.twitch.logger.createChild('Chat');
+        this.logger = rootLogger.createChild('Chat');
         this.ac = this.twitch.ac;
         this.client = new ChatClient({
             authProvider: this.twitch.auth,
