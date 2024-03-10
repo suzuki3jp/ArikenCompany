@@ -1,2 +1,2 @@
-import { ArikenCompany } from './ArikenCompany';
+import { ArikenCompany } from '@/ArikenCompany';
 new ArikenCompany().start();
