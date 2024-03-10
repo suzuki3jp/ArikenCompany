@@ -5,11 +5,12 @@ import { Env } from './utils';
 import { Twitch } from './twitch/Twitch';
 import { Logger, Cron } from './packages/index';
 
+export const rootLogger = new Logger('ArikenCompany');
+
 export class ArikenCompany {
     public cmd: CommandManager;
     public um: UserManager;
     public env: Env;
-    public settings: SettingsManager;
     public logger: Logger;
     public twitch: Twitch;
     public discord: Discord;
@@ -17,11 +18,10 @@ export class ArikenCompany {
     public cron: Cron;
 
     constructor() {
-        this.logger = new Logger('ArikenCompany');
+        this.logger = rootLogger;
         this.env = new Env(this);
         this.cmd = new CommandManager(this);
         this.um = new UserManager(this);
-        this.settings = new SettingsManager();
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
         this.api = new Api(this);

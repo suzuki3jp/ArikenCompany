@@ -2,12 +2,13 @@ import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient, ChatMessage } from '@twurple/chat';
 import { ApiClient } from '@twurple/api';
 
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Command } from './Command';
 import { EventSub } from './EventSub';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
 import { Message, Logger } from '../packages';
 import { ValueParser } from '../parsers';
+import { settings } from '../managers';
 
 export class Twitch {
     public auth: RefreshingAuthProvider;
@@ -19,7 +20,7 @@ export class Twitch {
 
     constructor(ac: ArikenCompany) {
         this.ac = ac;
-        this.logger = this.ac.logger.createChild('Twitch');
+        this.logger = rootLogger.createChild('Twitch');
         this.auth = this.setupAuth();
 
         this.chat = new Chat(this);
@@ -43,7 +44,7 @@ export class Twitch {
         });
 
         auth.addUser(
-            this.ac.settings.cache.twitch.id,
+            settings.cache.twitch.id,
             {
                 accessToken: this.ac.env.cache.TWITCH_TOKEN,
                 refreshToken: this.ac.env.cache.TWITCH_REFRESHTOKEN,
@@ -53,7 +54,7 @@ export class Twitch {
             ['chat']
         );
 
-        this.logger.info(`Twitch Auth Setup. twitch.user.${this.ac.settings.cache.twitch.id}`);
+        this.logger.info(`Twitch Auth Setup. twitch.user.${settings.cache.twitch.id}`);
         return auth;
     }
 
@@ -71,11 +72,11 @@ class Chat {
     private logger: Logger;
 
     constructor(private twitch: Twitch) {
-        this.logger = this.twitch.logger.createChild('Chat');
+        this.logger = rootLogger.createChild('Chat');
         this.ac = this.twitch.ac;
         this.client = new ChatClient({
             authProvider: this.twitch.auth,
-            channels: this.ac.settings.cache.twitch.channels,
+            channels: settings.cache.twitch.channels,
         });
     }
 
@@ -87,7 +88,7 @@ class Chat {
     start() {
         this.loadEvents();
         this.client.connect();
-        this.logger.info(`Connecting Twitch Chat in [${this.ac.settings.cache.twitch.channels.join(', ')}].`);
+        this.logger.info(`Connecting Twitch Chat in [${settings.cache.twitch.channels.join(', ')}].`);
     }
 
     async onMessage(...args: [string, string, string, ChatMessage]) {

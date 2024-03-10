@@ -2,10 +2,11 @@ import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } fr
 
 import { DiscordComponentIds } from './DiscordComponents';
 import { ManageCommandPanel } from './ManageCommandPanel';
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { SlashCommands } from '../constants';
 import type { Logger } from '../packages';
 import { CommandTemplate } from './CommandTemplate';
+import { settings } from '../managers';
 
 export class Discord {
     private ac: ArikenCompany;
@@ -19,7 +20,7 @@ export class Discord {
         this.client = new Client({
             intents: Object.values(GatewayIntentBits) as BitFieldResolvable<keyof typeof GatewayIntentBits, number>,
         });
-        this.logger = this.ac.logger.createChild('Discord');
+        this.logger = rootLogger.createChild('Discord');
         this.mcp = new ManageCommandPanel(this.ac, this.client);
         this.ct = new CommandTemplate(this.ac);
     }
@@ -38,7 +39,7 @@ export class Discord {
 
     async ready() {
         this.logger.info('Discord client is ready.');
-        this.ac.settings.cache.discord.guildId.forEach((id) => {
+        settings.cache.discord.guildId.forEach((id) => {
             this.logger.info(`Loading slash commands in guild ${id}.`);
             this.client.application?.commands.set([], id);
             this.client.application?.commands.set(SlashCommands, id);

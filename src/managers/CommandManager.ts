@@ -1,7 +1,7 @@
 import { CommandDB, CommandT } from '../database';
 import { Logger, Result, Success, Failure } from '../packages';
 import { ValueValidater } from '../parsers';
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 
 export class CommandManager {
     private c: CommandDB;
@@ -9,7 +9,7 @@ export class CommandManager {
 
     constructor(private ac: ArikenCompany) {
         this.c = new CommandDB();
-        this.logger = this.ac.logger.createChild('Command');
+        this.logger = rootLogger.createChild('Command');
     }
 
     async addCommand(name: string, content: string): Promise<Result<CommandT, string>> {

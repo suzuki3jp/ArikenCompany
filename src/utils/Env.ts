@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Path } from '../constants/index';
 import { toEnv, writeFileSync, Logger } from '../packages/index';
 import { EnvCache } from '../typings/index';
@@ -12,7 +12,7 @@ export class Env {
     private logger: Logger;
     constructor(ac: ArikenCompany) {
         this.ac = ac;
-        this.logger = this.ac.logger.createChild('Env');
+        this.logger = rootLogger.createChild('Env');
         const env = config().parsed;
 
         this.logger.info(`Loaded env data. [${env ? Object.keys(env).join(', ') : ''}]`);
