@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 
-import { ArikenCompany } from '../ArikenCompany';
+import { ArikenCompany } from '@/ArikenCompany';
 
 export class TokenManager {
     constructor(private ac: ArikenCompany) {}

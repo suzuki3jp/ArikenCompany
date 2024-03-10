@@ -1,9 +1,9 @@
-import { ArikenCompany } from '../ArikenCompany';
-import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
-import { CommandT } from '../database';
-import { dayjs, Message } from '../packages';
-import { CommandManager } from '../managers';
-import { CommandParser } from '../parsers';
+import { ArikenCompany } from '@/ArikenCompany';
+import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '@/constants';
+import { CommandT } from '@/database';
+import { dayjs, Message } from '@/packages';
+import { CommandManager } from '@/managers';
+import { CommandParser } from '@/parsers';
 
 export class Command {
     public name: string;

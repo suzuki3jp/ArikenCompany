@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { RouteBase } from './RouteBase';
-import { Api } from '../Api';
+import { RouteBase } from '@/api/routes/RouteBase';
+import { Api } from '@/api/Api';
 
 export class RootService implements RouteBase {
     public static path = '/';

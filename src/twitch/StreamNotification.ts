@@ -12,12 +12,12 @@ import {
 } from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { EventSub } from './EventSub';
-import { StreamNotificationDB, StreamNotificationT } from '../database';
-import { Logger, JST, dayjs, formatDate } from '../packages';
-import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
-import { settings } from '../managers';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { StreamNotificationDB, StreamNotificationT } from '@/database';
+import { Logger, JST, dayjs, formatDate } from '@/packages';
+import { settings } from '@/managers';
+import { DiscordActionRows, DiscordComponentIds } from '@/discord/DiscordComponents';
+import { EventSub } from '@/twitch/EventSub';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;

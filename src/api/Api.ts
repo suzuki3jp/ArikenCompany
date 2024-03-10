@@ -3,16 +3,17 @@ import { createServer, Server } from 'https';
 import { urlencoded } from 'body-parser';
 import cors from 'cors';
 
-import { RootService, RegisterService } from './routes';
-import { AuthMiddleware } from './AuthMiddleware';
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { Path } from '../constants';
-import { Logger, readFileSync } from '../packages';
-import { LoginService } from './routes/user/login';
-import { UserService } from './routes/user';
-import { CommandService } from './routes/commands';
-import { PublicCommandsService } from './routes/commands/public';
-import { StatusService } from './routes/status';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { Path } from '@/constants';
+import { Logger, readFileSync } from '@/packages';
+
+import { RootService, RegisterService } from '@/api/routes';
+import { AuthMiddleware } from '@/api/AuthMiddleware';
+import { LoginService } from '@/api/routes/user/login';
+import { UserService } from '@/api/routes/user';
+import { CommandService } from '@/api/routes/commands';
+import { PublicCommandsService } from '@/api/routes/commands/public';
+import { StatusService } from '@/api/routes/status';
 
 export class Api {
     private app: Express;

@@ -1,5 +1,5 @@
-export * from './ManageCommand';
+export * from '@/constants/ManageCommand';
 
-export * from './Paths';
+export * from '@/constants/Paths';
 
-export * from './SlashCommands';
+export * from '@/constants/SlashCommands';

@@ -1,9 +1,9 @@
 import { config } from 'dotenv';
 
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { Path } from '../constants/index';
-import { toEnv, writeFileSync, Logger } from '../packages/index';
-import { EnvCache } from '../typings/index';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { Path } from '@/constants/index';
+import { toEnv, writeFileSync, Logger } from '@/packages/index';
+import { EnvCache } from '@/typings/index';
 
 export class Env {
     public cache: EnvCache;

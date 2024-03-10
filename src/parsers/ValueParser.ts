@@ -1,7 +1,7 @@
 import { Agent } from 'https';
 
-import { ArikenCompany } from '../ArikenCompany';
-import { Message, countBy, fetch, dayjs, ValRank, ValWins, secondsToHHMMSS } from '../packages';
+import { ArikenCompany } from '@/ArikenCompany';
+import { Message, countBy, fetch, dayjs, ValRank, ValWins, secondsToHHMMSS } from '@/packages';
 
 const STARTING_DELIMITER = '${';
 const ENDING_DELIMITER = '}';

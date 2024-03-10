@@ -1,6 +1,7 @@
-import { CommandT, Prisma } from './Prisma';
-import { dayjs } from '../packages';
 import { DeepPartial } from 'ts-essentials';
+
+import { dayjs } from '@/packages';
+import { CommandT, Prisma } from '@/database/Prisma';
 
 export class CommandDB extends Prisma {
     constructor() {

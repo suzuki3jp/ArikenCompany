@@ -7,9 +7,9 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js';
 
-import { ArikenCompany } from '../ArikenCompany';
-import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from './DiscordComponents';
-import { CommandManager } from '../managers';
+import { ArikenCompany } from '@/ArikenCompany';
+import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from '@/discord/DiscordComponents';
+import { CommandManager } from '@/managers';
 
 export class CommandTemplate {
     private BUTTON_LABEL_MAX_LENGTH = 80;

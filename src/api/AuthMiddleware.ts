@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 
-import { ArikenCompany } from '../ArikenCompany';
-import { HttpResult } from '../packages';
+import { ArikenCompany } from '@/ArikenCompany';
+import { HttpResult } from '@/packages';
 
 export const AuthMiddleware = (ac: ArikenCompany) => {
     return async (req: Request, res: Response, next: NextFunction) => {

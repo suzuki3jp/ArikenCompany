@@ -1,10 +1,10 @@
+import { HttpStatusCode } from 'axios';
 import { hashSync, compareSync } from 'bcrypt';
 
-import { UserDB, UserT } from '../database';
-import { ArikenCompany } from '../ArikenCompany';
-import { HttpResult } from '../packages';
-import { TokenManager } from './TokenManager';
-import { HttpStatusCode } from 'axios';
+import { UserDB, UserT } from '@/database';
+import { ArikenCompany } from '@/ArikenCompany';
+import { HttpResult } from '@/packages';
+import { TokenManager } from '@/managers/TokenManager';
 
 /**
  * Manager for user db.

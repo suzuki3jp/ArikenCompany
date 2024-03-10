@@ -9,10 +9,10 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js';
 
-import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from './DiscordComponents';
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { settings, type CommandManager } from '../managers';
-import { Logger, splitArrayByNumber } from '../packages';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { settings, type CommandManager } from '@/managers';
+import { Logger, splitArrayByNumber } from '@/packages';
+import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from '@/discord/DiscordComponents';
 
 export class ManageCommandPanel {
     private cmd: CommandManager;

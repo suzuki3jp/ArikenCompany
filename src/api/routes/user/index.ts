@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 
-import { RouteBase } from '../RouteBase';
-import { getSafeUserDataFromRes } from '../../Utils';
-import { Api } from '../../Api';
-import { HttpResult } from '../../../packages';
+import { RouteBase } from '@/api/routes/RouteBase';
+import { getSafeUserDataFromRes } from '@/api/Utils';
+import { Api } from '@/api/Api';
+import { HttpResult } from '@/packages';
 
 export class UserService implements RouteBase {
     public static path = '/user';

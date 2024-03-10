@@ -1,7 +1,7 @@
 import { defu } from 'defu';
 import { DeepPartial } from 'ts-essentials';
 
-import { readFileSync, writeFileSync } from '../packages';
+import { readFileSync, writeFileSync } from '@/packages';
 
 export class JSONManager<T extends Record<string, any>> {
     public cache: T;
