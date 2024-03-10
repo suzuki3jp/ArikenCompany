@@ -5,6 +5,7 @@ import { StreamNotification } from './StreamNotification';
 import { Twitch } from './Twitch';
 import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { Logger } from '../packages';
+import { settings } from '../managers';
 
 export class EventSub {
     private ac: ArikenCompany;
@@ -17,7 +18,7 @@ export class EventSub {
         this.logger = rootLogger.createChild('EventSub');
         this.listener = new EventSubMiddleware({
             apiClient: this.twitch.api,
-            hostName: this.ac.settings.cache.hostName,
+            hostName: settings.cache.hostName,
             pathPrefix: '/twitch/eventsub',
             secret: this.ac.env.cache.SECRET,
             logger: {

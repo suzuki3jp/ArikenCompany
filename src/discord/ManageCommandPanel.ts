@@ -11,7 +11,7 @@ import {
 
 import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from './DiscordComponents';
 import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import type { CommandManager } from '../managers';
+import { settings, type CommandManager } from '../managers';
 import { Logger, splitArrayByNumber } from '../packages';
 
 export class ManageCommandPanel {
@@ -23,8 +23,8 @@ export class ManageCommandPanel {
     constructor(private ac: ArikenCompany, private client: Client) {
         this.cmd = this.ac.cmd;
         this.logger = rootLogger.createChild('ManageCommandPanel');
-        this.channelId = this.ac.settings.cache.discord.manageCommandChannelId;
-        this.messageId = this.ac.settings.cache.discord.manageCommandPanelId;
+        this.channelId = settings.cache.discord.manageCommandChannelId;
+        this.messageId = settings.cache.discord.manageCommandPanelId;
     }
 
     /**
@@ -42,7 +42,7 @@ export class ManageCommandPanel {
         });
         this.channelId = m.channelId;
         this.messageId = m.id;
-        this.ac.settings.writePartial({
+        settings.writePartial({
             discord: { manageCommandPanelId: this.messageId, manageCommandChannelId: this.channelId },
         });
         this.logger.info(`Created manage command panel.`);

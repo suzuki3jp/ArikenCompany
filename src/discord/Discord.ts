@@ -6,6 +6,7 @@ import { ArikenCompany, rootLogger } from '../ArikenCompany';
 import { SlashCommands } from '../constants';
 import type { Logger } from '../packages';
 import { CommandTemplate } from './CommandTemplate';
+import { settings } from '../managers';
 
 export class Discord {
     private ac: ArikenCompany;
@@ -38,7 +39,7 @@ export class Discord {
 
     async ready() {
         this.logger.info('Discord client is ready.');
-        this.ac.settings.cache.discord.guildId.forEach((id) => {
+        settings.cache.discord.guildId.forEach((id) => {
             this.logger.info(`Loading slash commands in guild ${id}.`);
             this.client.application?.commands.set([], id);
             this.client.application?.commands.set(SlashCommands, id);

@@ -1,4 +1,5 @@
 import { ArikenCompany } from '../ArikenCompany';
+import { settings } from '../managers';
 
 export class CommandParser {
     public name: string;
@@ -10,7 +11,6 @@ export class CommandParser {
 
         this.isCommand = false;
 
-        const settings = this.ac.settings;
         if (!settings.cache.command.isStrictCommand) command = command.toLowerCase();
         if (command.startsWith('!')) this.isCommand = true;
         if (!settings.cache.command.isStrictPrefix && command.startsWith('！')) {

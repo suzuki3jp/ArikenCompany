@@ -17,6 +17,7 @@ import { EventSub } from './EventSub';
 import { StreamNotificationDB, StreamNotificationT } from '../database';
 import { Logger, JST, dayjs, formatDate } from '../packages';
 import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
+import { settings } from '../managers';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;
@@ -304,7 +305,7 @@ export class Streamer {
         if (!lastThread) return;
 
         // メモのチャンネルの分け方によって処理を分ける
-        if (this.ac.settings.cache.memo.isSplitByStream) {
+        if (settings.cache.memo.isSplitByStream) {
             const [lastDate, lastNum] = lastThread.name.split('#');
 
             // 同じ日に配信済みかどうか

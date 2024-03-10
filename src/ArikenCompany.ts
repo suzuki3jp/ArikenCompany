@@ -11,7 +11,6 @@ export class ArikenCompany {
     public cmd: CommandManager;
     public um: UserManager;
     public env: Env;
-    public settings: SettingsManager;
     public logger: Logger;
     public twitch: Twitch;
     public discord: Discord;
@@ -23,7 +22,6 @@ export class ArikenCompany {
         this.env = new Env(this);
         this.cmd = new CommandManager(this);
         this.um = new UserManager(this);
-        this.settings = new SettingsManager();
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
         this.api = new Api(this);

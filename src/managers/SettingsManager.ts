@@ -7,3 +7,5 @@ export class SettingsManager extends JSONManager<SettingsT> {
         super(Path.settings);
     }
 }
+
+export const settings = new SettingsManager();
