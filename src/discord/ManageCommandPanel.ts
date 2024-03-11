@@ -9,7 +9,8 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js';
 
-import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { rootLogger } from '@/initializer';
+import { ArikenCompany } from '@/ArikenCompany';
 import { settings, type CommandManager } from '@/managers';
 import { Logger, splitArrayByNumber } from '@/packages';
 import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from '@/discord/DiscordComponents';

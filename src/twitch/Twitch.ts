@@ -2,7 +2,8 @@ import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient, ChatMessage } from '@twurple/chat';
 import { ApiClient } from '@twurple/api';
 
-import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { rootLogger } from '@/initializer';
+import { ArikenCompany } from '@/ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '@/constants';
 import { Message, Logger } from '@/packages';
 import { ValueParser } from '@/parsers';

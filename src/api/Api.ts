@@ -3,7 +3,8 @@ import { createServer, Server } from 'https';
 import { urlencoded } from 'body-parser';
 import cors from 'cors';
 
-import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { rootLogger } from '@/initializer';
+import { ArikenCompany } from '@/ArikenCompany';
 import { Path } from '@/constants';
 import { Logger, readFileSync } from '@/packages';
 

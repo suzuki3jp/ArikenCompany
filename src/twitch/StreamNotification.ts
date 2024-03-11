@@ -12,7 +12,8 @@ import {
 } from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
-import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { rootLogger } from '@/initializer';
+import { ArikenCompany } from '@/ArikenCompany';
 import { StreamNotificationDB, StreamNotificationT } from '@/database';
 import { Logger, JST, dayjs, formatDate } from '@/packages';
 import { settings } from '@/managers';
