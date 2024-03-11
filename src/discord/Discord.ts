@@ -1,9 +1,10 @@
 import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 
-import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { rootLogger, env } from '@/initializer';
+import { ArikenCompany } from '@/ArikenCompany';
 import { SlashCommands } from '@/constants';
 import type { Logger } from '@/packages';
-import { settings, env } from '@/managers';
+import { settings } from '@/managers';
 import { CommandTemplate } from '@/discord/CommandTemplate';
 import { DiscordComponentIds } from '@/discord/DiscordComponents';
 import { ManageCommandPanel } from '@/discord/ManageCommandPanel';

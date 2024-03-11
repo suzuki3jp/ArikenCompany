@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 
-import { rootLogger } from '@/ArikenCompany';
+import { rootLogger } from '@/initializer';
 import { Path } from '@/constants/index';
 import { toEnv, writeFileSync, Logger } from '@/packages/index';
 import { EnvCache } from '@/typings/index';
@@ -66,5 +66,3 @@ export class EnvManager {
 }
 
 const envError = (name: string) => new Error(`${name} not found in .env file.`);
-
-export const env = new EnvManager();

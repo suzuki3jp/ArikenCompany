@@ -1,10 +1,9 @@
+import { rootLogger } from '@/initializer';
 import { Api } from '@/api/Api';
 import { Discord } from '@/discord/Discord';
 import { CommandManager, UserManager } from '@/managers';
 import { Twitch } from '@/twitch/Twitch';
 import { Logger, Cron } from '@/packages/index';
-
-export const rootLogger = new Logger('ArikenCompany');
 
 export class ArikenCompany {
     public cmd: CommandManager;
