@@ -1,10 +1,10 @@
 import { EventSubMiddleware } from '@twurple/eventsub-http';
 import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twurple/eventsub-base';
 
-import { rootLogger } from '@/initializer';
+import { rootLogger, env } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
 import { Logger } from '@/packages';
-import { settings, env } from '@/managers';
+import { settings } from '@/managers';
 import { StreamNotification } from '@/twitch/StreamNotification';
 import { Twitch } from '@/twitch/Twitch';
 

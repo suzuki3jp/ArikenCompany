@@ -66,5 +66,3 @@ export class EnvManager {
 }
 
 const envError = (name: string) => new Error(`${name} not found in .env file.`);
-
-export const env = new EnvManager();

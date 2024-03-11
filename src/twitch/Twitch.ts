@@ -2,12 +2,12 @@ import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient, ChatMessage } from '@twurple/chat';
 import { ApiClient } from '@twurple/api';
 
-import { rootLogger } from '@/initializer';
+import { rootLogger, env } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '@/constants';
 import { Message, Logger } from '@/packages';
 import { ValueParser } from '@/parsers';
-import { settings, env } from '@/managers';
+import { settings } from '@/managers';
 import { Command } from '@/twitch/Command';
 import { EventSub } from '@/twitch/EventSub';
 

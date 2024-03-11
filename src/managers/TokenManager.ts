@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken';
 
-import { env } from '@/managers';
+import { env } from '@/initializer';
 
 export class TokenManager {
     constructor() {}
