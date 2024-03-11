@@ -1,16 +1,16 @@
 import { sign, verify } from 'jsonwebtoken';
 
-import { ArikenCompany } from '@/ArikenCompany';
+import { env } from '@/managers';
 
 export class TokenManager {
-    constructor(private ac: ArikenCompany) {}
+    constructor() {}
 
     async generateToken(payload: TokenData) {
-        return sign(payload, this.ac.env.cache.SECRET, { expiresIn: '7d' });
+        return sign(payload, env.cache.SECRET, { expiresIn: '7d' });
     }
 
     async verifyToken(token: string) {
-        const payload = verify(token, this.ac.env.cache.SECRET);
+        const payload = verify(token, env.cache.SECRET);
         // @ts-expect-error stringにiatプロパティが存在しないが、おそらくstringが返ってくることはないためignore
         delete payload.iat;
         return payload as TokenData;

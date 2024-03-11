@@ -3,7 +3,7 @@ import type { EventSubStreamOnlineEvent, EventSubStreamOfflineEvent } from '@twu
 
 import { ArikenCompany, rootLogger } from '@/ArikenCompany';
 import { Logger } from '@/packages';
-import { settings } from '@/managers';
+import { settings, env } from '@/managers';
 import { StreamNotification } from '@/twitch/StreamNotification';
 import { Twitch } from '@/twitch/Twitch';
 
@@ -20,7 +20,7 @@ export class EventSub {
             apiClient: this.twitch.api,
             hostName: settings.cache.hostName,
             pathPrefix: '/twitch/eventsub',
-            secret: this.ac.env.cache.SECRET,
+            secret: env.cache.SECRET,
             logger: {
                 minLevel: 'debug',
                 custom: (level, message) => {

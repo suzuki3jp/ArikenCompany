@@ -6,7 +6,7 @@ import { ArikenCompany, rootLogger } from '@/ArikenCompany';
 import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '@/constants';
 import { Message, Logger } from '@/packages';
 import { ValueParser } from '@/parsers';
-import { settings } from '@/managers';
+import { settings, env } from '@/managers';
 import { Command } from '@/twitch/Command';
 import { EventSub } from '@/twitch/EventSub';
 
@@ -30,24 +30,24 @@ export class Twitch {
 
     private setupAuth(): RefreshingAuthProvider {
         const auth = new RefreshingAuthProvider({
-            clientId: this.ac.env.cache.TWITCH_CLIENTID,
-            clientSecret: this.ac.env.cache.TWITCH_CLIENTSECRET,
+            clientId: env.cache.TWITCH_CLIENTID,
+            clientSecret: env.cache.TWITCH_CLIENTSECRET,
         });
         auth.onRefresh(async (userId, token) => {
             this.logger.info('Refreshed Twitch token.');
 
-            this.ac.env.changeCache({
+            env.changeCache({
                 TWITCH_TOKEN: token.accessToken,
                 TWITCH_REFRESHTOKEN: token.refreshToken ?? undefined,
             });
-            this.ac.env.writeFromCache();
+            env.writeFromCache();
         });
 
         auth.addUser(
             settings.cache.twitch.id,
             {
-                accessToken: this.ac.env.cache.TWITCH_TOKEN,
-                refreshToken: this.ac.env.cache.TWITCH_REFRESHTOKEN,
+                accessToken: env.cache.TWITCH_TOKEN,
+                refreshToken: env.cache.TWITCH_REFRESHTOKEN,
                 expiresIn: 0,
                 obtainmentTimestamp: 0,
             },

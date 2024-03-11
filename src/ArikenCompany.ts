@@ -1,7 +1,6 @@
 import { Api } from '@/api/Api';
 import { Discord } from '@/discord/Discord';
 import { CommandManager, UserManager } from '@/managers';
-import { Env } from '@/utils';
 import { Twitch } from '@/twitch/Twitch';
 import { Logger, Cron } from '@/packages/index';
 
@@ -10,7 +9,6 @@ export const rootLogger = new Logger('ArikenCompany');
 export class ArikenCompany {
     public cmd: CommandManager;
     public um: UserManager;
-    public env: Env;
     public logger: Logger;
     public twitch: Twitch;
     public discord: Discord;
@@ -19,9 +17,8 @@ export class ArikenCompany {
 
     constructor() {
         this.logger = rootLogger;
-        this.env = new Env(this);
         this.cmd = new CommandManager(this);
-        this.um = new UserManager(this);
+        this.um = new UserManager();
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
         this.api = new Api(this);
