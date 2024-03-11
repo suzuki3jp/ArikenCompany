@@ -18,6 +18,10 @@ runs:
           run: |
               git fetch origin ${TARGET_BRANCH}
               git fetch origin ${HEAD_BRANCH}
+              echo ${TARGET_BRANCH} ${HEAD_BRANCH}
+              git branch -a
+              git log origin/${TARGET_BRANCH} -n 1
+              git log origin/${HEAD_BRANCH} -n 1
               count=`git diff origin/${TARGET_BRANCH} origin/${HEAD_BRANCH} --name-only --relative=${{ inputs.subdir }} | wc -l`
               echo "::set-output name=diff-count::$(echo $count)"
           shell: bash
