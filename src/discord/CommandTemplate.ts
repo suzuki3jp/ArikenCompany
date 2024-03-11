@@ -10,6 +10,7 @@ import {
 import { ArikenCompany } from '@/ArikenCompany';
 import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from '@/discord/DiscordComponents';
 import { CommandManager } from '@/managers';
+import { OperationMetadata } from '@/typings';
 
 export class CommandTemplate {
     private BUTTON_LABEL_MAX_LENGTH = 80;
@@ -73,7 +74,12 @@ export class CommandTemplate {
         const content = i.component.label;
         if (!name || !content) return;
 
-        const r = await this.cmd.editCommand(name, content);
+        const metadata: OperationMetadata = {
+            provider: 'DISCORD',
+            name: i.user.username,
+        };
+
+        const r = await this.cmd.editCommand(name, { content }, metadata);
 
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を編集しました。');

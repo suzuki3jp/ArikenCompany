@@ -4,6 +4,7 @@ import { CommandT } from '@/database';
 import { dayjs, Message } from '@/packages';
 import { CommandManager } from '@/managers';
 import { CommandParser } from '@/parsers';
+import type { OperationMetadata } from '@/typings';
 
 export class Command {
     public name: string;
@@ -46,9 +47,13 @@ export class Command {
 
     async addCommand(): Promise<string> {
         const { name, content } = this.validateCommandData(this.parser.args);
+        const metadata: OperationMetadata = {
+            provider: 'TWITCH',
+            name: this.message.user.name,
+        };
 
         if (!(name && content)) return 'コマンドの引数が不正です。コマンド名と内容を入力してください。';
-        const r = await this.cmd.addCommand(name, content);
+        const r = await this.cmd.addCommand(name, content, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を追加しました。`;
         return r.data;
@@ -56,9 +61,13 @@ export class Command {
 
     async editCommand(): Promise<string> {
         const { name, content } = this.validateCommandData(this.parser.args);
+        const metadata: OperationMetadata = {
+            provider: 'TWITCH',
+            name: this.message.user.name,
+        };
 
         if (!(name && content)) return `コマンドの引数が不正です。コマンド名と内容を入力してください。`;
-        const r = await this.cmd.editCommand(name, content);
+        const r = await this.cmd.editCommand(name, { content }, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を編集しました。`;
         return r.data;
@@ -66,9 +75,13 @@ export class Command {
 
     async removeCommand(): Promise<string> {
         const name = this.validateCommandName(this.parser.args[0]);
+        const metadata: OperationMetadata = {
+            provider: 'TWITCH',
+            name: this.message.user.name,
+        };
 
         if (!name) return `コマンドの引数が不正です。コマンド名を入力してください。`;
-        const r = await this.cmd.removeCommand(name);
+        const r = await this.cmd.removeCommand(name, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を削除しました。`;
         return r.data;
