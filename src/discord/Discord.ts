@@ -3,7 +3,7 @@ import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } fr
 import { ArikenCompany, rootLogger } from '@/ArikenCompany';
 import { SlashCommands } from '@/constants';
 import type { Logger } from '@/packages';
-import { settings } from '@/managers';
+import { settings, env } from '@/managers';
 import { CommandTemplate } from '@/discord/CommandTemplate';
 import { DiscordComponentIds } from '@/discord/DiscordComponents';
 import { ManageCommandPanel } from '@/discord/ManageCommandPanel';
@@ -34,7 +34,7 @@ export class Discord {
     async start() {
         this.logger.info('Starting Discord Client.');
         this.loadEvents();
-        this.client.login(this.ac.env.cache.DISCORD_TOKEN);
+        this.client.login(env.cache.DISCORD_TOKEN);
     }
 
     async ready() {

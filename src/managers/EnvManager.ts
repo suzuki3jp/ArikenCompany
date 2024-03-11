@@ -5,14 +5,12 @@ import { Path } from '@/constants/index';
 import { toEnv, writeFileSync, Logger } from '@/packages/index';
 import { EnvCache } from '@/typings/index';
 
-export class Env {
+export class EnvManager {
     public cache: EnvCache;
 
-    private ac: ArikenCompany;
     private logger: Logger;
-    constructor(ac: ArikenCompany) {
-        this.ac = ac;
-        this.logger = rootLogger.createChild('Env');
+    constructor() {
+        this.logger = rootLogger.createChild('EnvManager');
         const env = config().parsed;
 
         this.logger.info(`Loaded env data. [${env ? Object.keys(env).join(', ') : ''}]`);
@@ -68,3 +66,5 @@ export class Env {
 }
 
 const envError = (name: string) => new Error(`${name} not found in .env file.`);
+
+export const env = new EnvManager();

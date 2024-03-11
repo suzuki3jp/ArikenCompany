@@ -13,9 +13,9 @@ export class UserManager {
     private db: UserDB;
     public tokenM: TokenManager;
 
-    constructor(private ac: ArikenCompany) {
+    constructor() {
         this.db = new UserDB();
-        this.tokenM = new TokenManager(this.ac);
+        this.tokenM = new TokenManager();
     }
 
     async login(name: string, password: string): Promise<HttpResult<UserResponseData>> {
