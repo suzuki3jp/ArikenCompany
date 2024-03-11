@@ -15,13 +15,7 @@ jobs:
             name: Production
         steps:
             - uses: actions/checkout@v3
-            - uses: ./actions/diff
-              name: diff
-              id: diff
-              with:
-                  subdir: src
             - name: Connect to Server
-              if: steps.diff.outputs.diff-count > 0
               uses: appleboy/ssh-action@v0.1.9
               with:
                   host: ${{secrets.HOST_NAME}}
