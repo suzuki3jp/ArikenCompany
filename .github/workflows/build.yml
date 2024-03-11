@@ -19,3 +19,16 @@ jobs:
               run: npm i
             - name: Build
               run: npm run check
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup nodejs
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16.x'
+                  cache: npm
+            - name: Install deps
+              run: npm i
+            - name: Lint
+              run: npm run lint

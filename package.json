@@ -11,6 +11,7 @@
     "check": "tsc --noEmit",
     "build": "tsc && resolve-tspaths",
     "test": "jest",
+    "lint": "eslint src",
     "prisma:migrate": "prisma migrate dev --name migrate",
     "prisma:studio": "prisma studio",
     "pm2:start": "pm2 start pm2.config.js",
