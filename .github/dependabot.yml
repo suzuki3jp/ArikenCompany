@@ -5,18 +5,6 @@ updates:
       schedule:
           interval: 'daily'
       groups:
-          twurple:
-              patterns:
-                  - '@twurple/api'
-                  - '@twurple/auth'
-                  - '@twurple/chat'
-                  - '@twurple/eventsub-http'
-          api:
-              patterns:
-                  - body-parser
-                  - cors
-                  - express
-                  - jsonwebtoken
           dependencies:
               dependency-type: 'production'
           devDependencies:
