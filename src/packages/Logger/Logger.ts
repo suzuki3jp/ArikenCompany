@@ -20,6 +20,19 @@ export class Logger {
         return new Logger(name, this);
     }
 
+    /**
+     * エラーを目立つ形でログに出力する
+     * systemなどそれ以外のLogLevelは引数を半角スペースで結合するがこれは改行する
+     * @param messages
+     */
+    public error(...messages: string[]) {
+        this.file.appendProdLog('==================================================================');
+        messages.forEach((m) => {
+            this.file.appendProdLog(this.makeMessage('ERROR', m));
+        });
+        this.file.appendProdLog('==================================================================');
+    }
+
     public system(...messages: string[]) {
         this.log('SYSTEM', ...messages);
     }
@@ -61,4 +74,4 @@ export class Logger {
     }
 }
 
-type LogLevel = 'SYSTEM' | 'INFO' | 'DEBUG';
+type LogLevel = 'ERROR' | 'SYSTEM' | 'INFO' | 'DEBUG';
