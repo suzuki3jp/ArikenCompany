@@ -3,6 +3,7 @@ import { rootLogger } from '@/initializer';
 import { Logger, Result, Success, Failure } from '@/packages';
 import { ValueValidater } from '@/parsers';
 import { ArikenCompany } from '@/ArikenCompany';
+import type { OperationMetadata } from '@/typings';
 
 export class CommandManager {
     private c: CommandDB;
@@ -13,7 +14,7 @@ export class CommandManager {
         this.logger = rootLogger.createChild('Command');
     }
 
-    async addCommand(name: string, content: string): Promise<Result<CommandT, string>> {
+    async addCommand(name: string, content: string, metadata: OperationMetadata): Promise<Result<CommandT, string>> {
         const isExistCommand = Boolean(await this.c.getByName(name));
         const isValidContent = new ValueValidater(content).validate();
 
@@ -27,17 +28,21 @@ export class CommandManager {
         const cmd = await this.c.add(name, content);
         this.ac.discord.mcp.reloadPanel();
 
-        this.logger.info(`Added ${cmd.name}.`);
+        this.logger.info(`Added ${cmd.name} by ${metadata.name} from ${metadata.provider}.`);
         return new Success(cmd);
     }
 
     async editCommand(
         name: string,
-        content?: string,
-        isOnlyMod?: boolean,
-        alias?: string
+        options: {
+            content?: string;
+            isOnlyMod?: boolean;
+            alias?: string;
+        },
+        metadata: OperationMetadata
     ): Promise<Result<CommandT, string>> {
         const oldCommand = await this.c.getByName(name);
+        const { content, isOnlyMod, alias } = options;
 
         if (content) {
             const isValidContent = new ValueValidater(content).validate();
@@ -53,11 +58,11 @@ export class CommandManager {
         const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
         this.ac.discord.mcp.reloadPanel();
 
-        this.logger.info(`Edited ${cmd.name} to ${cmd.content}.`);
+        this.logger.info(`Edited ${cmd.name} to ${cmd.content} by ${metadata.name} from ${metadata.provider}.`);
         return new Success(cmd);
     }
 
-    async removeCommand(name: string): Promise<Result<CommandT, string>> {
+    async removeCommand(name: string, metadata: OperationMetadata): Promise<Result<CommandT, string>> {
         const oldCommand = await this.c.getByName(name);
 
         if (!oldCommand) {
@@ -67,7 +72,7 @@ export class CommandManager {
         const cmd = await this.c.removeById(oldCommand.id);
         this.ac.discord.mcp.reloadPanel();
 
-        this.logger.info(`Removed ${cmd.name}.`);
+        this.logger.info(`Removed ${cmd.name} by ${metadata.name} from ${metadata.provider}.`);
         return new Success(cmd);
     }
 

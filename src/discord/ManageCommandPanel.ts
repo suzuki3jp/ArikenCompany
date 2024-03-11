@@ -14,6 +14,7 @@ import { ArikenCompany } from '@/ArikenCompany';
 import { settings, type CommandManager } from '@/managers';
 import { Logger, splitArrayByNumber } from '@/packages';
 import { DiscordActionRows, DiscordComponents, DiscordComponentIds } from '@/discord/DiscordComponents';
+import { OperationMetadata } from '@/typings';
 
 export class ManageCommandPanel {
     private cmd: CommandManager;
@@ -90,7 +91,13 @@ export class ManageCommandPanel {
     async addCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
-        const r = await this.cmd.addCommand(name, content);
+
+        const metadata: OperationMetadata = {
+            provider: 'DISCORD',
+            name: i.user.username,
+        };
+
+        const r = await this.cmd.addCommand(name, content, metadata);
 
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を追加しました。');
@@ -102,7 +109,13 @@ export class ManageCommandPanel {
     async editCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
         const content = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandContent);
-        const r = await this.cmd.editCommand(name, content);
+
+        const metadata: OperationMetadata = {
+            provider: 'DISCORD',
+            name: i.user.username,
+        };
+
+        const r = await this.cmd.editCommand(name, { content }, metadata);
 
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を編集しました。');
@@ -113,7 +126,13 @@ export class ManageCommandPanel {
 
     async removeCommand(i: ModalSubmitInteraction) {
         const name = i.fields.getTextInputValue(DiscordComponentIds.textInput.commandName);
-        const r = await this.cmd.removeCommand(name);
+
+        const metadata: OperationMetadata = {
+            provider: 'DISCORD',
+            name: i.user.username,
+        };
+
+        const r = await this.cmd.removeCommand(name, metadata);
 
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を削除しました。');

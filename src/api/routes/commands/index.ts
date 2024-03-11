@@ -4,6 +4,7 @@ import { RouteBase } from '@/api/routes/RouteBase';
 import { Api } from '@/api/Api';
 import { HttpResult } from '@/packages';
 import { CommandT } from '@/database';
+import type { OperationMetadata } from '@/typings';
 
 export class CommandService implements RouteBase {
     public static path = '/commands';
@@ -24,8 +25,19 @@ export class CommandService implements RouteBase {
             return;
         }
 
+        let executer: string | null = null;
+        try {
+            executer = res.locals.user.name;
+        } catch {
+            executer = null;
+        }
+        const metadata: OperationMetadata = {
+            provider: 'API',
+            name: executer ?? 'unknown',
+        };
+
         const r = new HttpResult<CommandT>();
-        const addCommandResult = await this.api.ac.cmd.addCommand(name, content);
+        const addCommandResult = await this.api.ac.cmd.addCommand(name, content, metadata);
 
         if (addCommandResult.isSuccess()) {
             this.api.logger.info('Command added ' + addCommandResult.data.name);
@@ -45,8 +57,20 @@ export class CommandService implements RouteBase {
             res.status(r.status).json(r);
             return;
         }
+
+        let executer: string | null = null;
+        try {
+            executer = res.locals.user.name;
+        } catch {
+            executer = null;
+        }
+        const metadata: OperationMetadata = {
+            provider: 'API',
+            name: executer ?? 'unknown',
+        };
+
         const r = new HttpResult<CommandT>();
-        const deleteCommandResult = await this.api.ac.cmd.removeCommand(name);
+        const deleteCommandResult = await this.api.ac.cmd.removeCommand(name, metadata);
 
         if (deleteCommandResult.isSuccess()) {
             this.api.logger.info('Command deleted ' + deleteCommandResult.data.name);
@@ -61,7 +85,7 @@ export class CommandService implements RouteBase {
 
     public async put(req: Request, res: Response) {
         const { name, content, mod_only, alias } = req.body;
-        let isModOnly = Number(mod_only) === 1;
+        let isOnlyMod = Number(mod_only) === 1;
         if (!name) {
             const r = new HttpResult().setStatus(400).setMessage('Missing name').toJSON();
             res.status(r.status).json(r);
@@ -74,8 +98,19 @@ export class CommandService implements RouteBase {
             return;
         }
 
+        let executer: string | null = null;
+        try {
+            executer = res.locals.user.name;
+        } catch {
+            executer = null;
+        }
+        const metadata: OperationMetadata = {
+            provider: 'API',
+            name: executer ?? 'unknown',
+        };
+
         const r = new HttpResult<CommandT>();
-        const updateCommandResult = await this.api.ac.cmd.editCommand(name, content, isModOnly, alias);
+        const updateCommandResult = await this.api.ac.cmd.editCommand(name, { content, isOnlyMod, alias }, metadata);
 
         if (updateCommandResult.isSuccess()) {
             this.api.logger.info('Command updated ' + updateCommandResult.data.name);
