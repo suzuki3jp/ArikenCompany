@@ -1,7 +1,7 @@
-export * from './CommandDB';
+export * from '@/database/CommandDB';
 
-export * from './Prisma';
+export * from '@/database/Prisma';
 
-export * from './StreamNotificationDB';
+export * from '@/database/StreamNotificationDB';
 
-export * from './UserDB';
+export * from '@/database/UserDB';

@@ -1,3 +1,3 @@
-export * from './CommandParser';
+export * from '@/parsers/CommandParser';
 
-export * from './ValueParser';
+export * from '@/parsers/ValueParser';

@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 
-import { Api } from '../Api';
+import { Api } from '@/api/Api';
 
 export abstract class RouteBase {
     public static path: string;

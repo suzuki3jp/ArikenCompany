@@ -12,12 +12,12 @@ import {
 } from 'discord.js';
 import type { EventSubStreamOnlineEvent, EventSubSubscription } from '@twurple/eventsub-base';
 
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { EventSub } from './EventSub';
-import { StreamNotificationDB, StreamNotificationT } from '../database';
-import { Logger, JST, dayjs, formatDate } from '../packages';
-import { DiscordActionRows, DiscordComponentIds } from '../discord/DiscordComponents';
-import { settings } from '../managers';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { StreamNotificationDB, StreamNotificationT } from '@/database';
+import { Logger, JST, dayjs, formatDate } from '@/packages';
+import { settings } from '@/managers';
+import { DiscordActionRows, DiscordComponentIds } from '@/discord/DiscordComponents';
+import { EventSub } from '@/twitch/EventSub';
 
 export class StreamNotification {
     public snDB: StreamNotificationDB;
@@ -173,7 +173,7 @@ export class StreamNotification {
         if (!timeRegex.test(time))
             return this.eReply(i, '時間の値が不正です。`hh:mm`の形式で入力してください。例：`01:22`');
 
-        const noSpaceContent = content.replace(/( |　)/g, '');
+        const noSpaceContent = content.replace(/( |　)/g, ''); // eslint-disable-line
         if (noSpaceContent === '')
             return this.eReply(i, 'メモの内容が不正です。送信するには何かしら内容を入力する必要があります。');
 
@@ -253,7 +253,7 @@ export class Streamer {
             await this.postMemo();
             this.writeStreamLog('ONLINE');
         });
-        this.offlineSubscription = this.sn.es.subscribeOffline(this.id, async (e) => {
+        this.offlineSubscription = this.sn.es.subscribeOffline(this.id, async () => {
             this.isStreaming = false;
             this.writeStreamLog('OFFLINE');
         });

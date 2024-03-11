@@ -1,12 +1,12 @@
 import { BitFieldResolvable, Client, GatewayIntentBits, Events, Interaction } from 'discord.js';
 
-import { DiscordComponentIds } from './DiscordComponents';
-import { ManageCommandPanel } from './ManageCommandPanel';
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { SlashCommands } from '../constants';
-import type { Logger } from '../packages';
-import { CommandTemplate } from './CommandTemplate';
-import { settings } from '../managers';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { SlashCommands } from '@/constants';
+import type { Logger } from '@/packages';
+import { settings } from '@/managers';
+import { CommandTemplate } from '@/discord/CommandTemplate';
+import { DiscordComponentIds } from '@/discord/DiscordComponents';
+import { ManageCommandPanel } from '@/discord/ManageCommandPanel';
 
 export class Discord {
     private ac: ArikenCompany;
@@ -61,6 +61,7 @@ export class Discord {
                     break;
                 case 'mp':
                     if (i.options.getSubcommand() === 'setup') this.ac.twitch.eventSub.sn.setupMemoPanel(i);
+                    break;
                 default:
                     break;
             }
@@ -109,6 +110,7 @@ export class Discord {
                     break;
                 case DiscordComponentIds.modal.sendMemoModal:
                     this.ac.twitch.eventSub.sn.sendMemo(i);
+                    break;
                 default:
                     break;
             }

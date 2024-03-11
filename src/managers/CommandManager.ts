@@ -1,7 +1,7 @@
-import { CommandDB, CommandT } from '../database';
-import { Logger, Result, Success, Failure } from '../packages';
-import { ValueValidater } from '../parsers';
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
+import { CommandDB, CommandT } from '@/database';
+import { Logger, Result, Success, Failure } from '@/packages';
+import { ValueValidater } from '@/parsers';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
 
 export class CommandManager {
     private c: CommandDB;

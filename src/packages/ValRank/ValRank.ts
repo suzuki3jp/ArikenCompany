@@ -29,8 +29,8 @@ export class ValRank {
 interface RankResponse {
     status: number;
     data?: RankData;
-    // エラーは必要ないため、anyで定義
-    errors?: any[];
+    // エラーは必要ないため、unknownで定義
+    errors?: unknown[];
 }
 
 interface RankData {

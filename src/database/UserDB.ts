@@ -1,6 +1,6 @@
 import type { DeepPartial } from 'ts-essentials';
 
-import { Prisma, UserT } from './Prisma';
+import { Prisma, UserT } from '@/database/Prisma';
 
 export class UserDB extends Prisma {
     constructor() {

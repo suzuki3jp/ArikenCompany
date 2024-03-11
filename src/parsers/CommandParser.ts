@@ -1,5 +1,5 @@
-import { ArikenCompany } from '../ArikenCompany';
-import { settings } from '../managers';
+import { ArikenCompany } from '@/ArikenCompany';
+import { settings } from '@/managers';
 
 export class CommandParser {
     public name: string;

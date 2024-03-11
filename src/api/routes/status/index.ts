@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
 
-import { RouteBase } from '../RouteBase';
-import { Api } from '../../Api';
-import { HttpResult, secondsToHHMMSS } from '../../../packages';
+import { RouteBase } from '@/api/routes/RouteBase';
+import { Api } from '@/api/Api';
+import { HttpResult, secondsToHHMMSS } from '@/packages';
 
 export class StatusService implements RouteBase {
     public static path = '/status';

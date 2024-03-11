@@ -31,8 +31,8 @@ export class ValWins {
 interface RankResponse {
     status: number;
     data?: MatchData[];
-    // エラーは必要ないため、anyで定義
-    errors?: any[];
+    // エラーは必要ないため、unknownで定義
+    errors?: unknown[];
 }
 
 interface MatchData {

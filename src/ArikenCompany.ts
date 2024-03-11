@@ -1,9 +1,9 @@
-import { Api } from './api/Api';
-import { Discord } from './discord/Discord';
-import { SettingsManager, CommandManager, UserManager } from './managers';
-import { Env } from './utils';
-import { Twitch } from './twitch/Twitch';
-import { Logger, Cron } from './packages/index';
+import { Api } from '@/api/Api';
+import { Discord } from '@/discord/Discord';
+import { CommandManager, UserManager } from '@/managers';
+import { Env } from '@/utils';
+import { Twitch } from '@/twitch/Twitch';
+import { Logger, Cron } from '@/packages/index';
 
 export const rootLogger = new Logger('ArikenCompany');
 

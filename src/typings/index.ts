@@ -1,3 +1,3 @@
-export * from './EnvCache';
+export * from '@/typings/EnvCache';
 
-export * from './Settings';
+export * from '@/typings/Settings';

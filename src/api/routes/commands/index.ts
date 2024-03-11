@@ -1,9 +1,9 @@
 import type { Request, Response } from 'express';
 
-import { RouteBase } from '../RouteBase';
-import { Api } from '../../Api';
-import { HttpResult } from '../../../packages';
-import { CommandT } from '../../../database';
+import { RouteBase } from '@/api/routes/RouteBase';
+import { Api } from '@/api/Api';
+import { HttpResult } from '@/packages';
+import { CommandT } from '@/database';
 
 export class CommandService implements RouteBase {
     public static path = '/commands';

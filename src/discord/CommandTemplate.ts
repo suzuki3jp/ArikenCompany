@@ -7,9 +7,9 @@ import {
     ModalSubmitInteraction,
 } from 'discord.js';
 
-import { ArikenCompany } from '../ArikenCompany';
-import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from './DiscordComponents';
-import { CommandManager } from '../managers';
+import { ArikenCompany } from '@/ArikenCompany';
+import { DiscordComponents, DiscordActionRows, DiscordComponentIds } from '@/discord/DiscordComponents';
+import { CommandManager } from '@/managers';
 
 export class CommandTemplate {
     private BUTTON_LABEL_MAX_LENGTH = 80;
@@ -53,12 +53,12 @@ export class CommandTemplate {
         } else if (lastActionRowComponentLength === this.BUTTON_MAX_LENGTH_PER_ROW) {
             // 最後の行のボタンが上限に達している場合
             const newActionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(newButton);
-            // @ts-expect-error
+            // @ts-expect-error なんか型合わない
             components.push(newActionRow);
             await i.message?.edit({ components });
             this.eReply(i, 'ボタンを追加しました。');
         } else {
-            // @ts-expect-error
+            // @ts-expect-error なんか型合わない
             components[actionRowLength - 1].components.push(newButton);
             await i.message?.edit({ components });
             this.eReply(i, 'ボタンを追加しました。');

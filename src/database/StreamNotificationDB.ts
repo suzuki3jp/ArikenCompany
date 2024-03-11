@@ -1,6 +1,6 @@
 import { DeepPartial } from 'ts-essentials';
 
-import { Prisma, StreamNotificationT } from './Prisma';
+import { Prisma, StreamNotificationT } from '@/database/Prisma';
 
 export class StreamNotificationDB extends Prisma {
     constructor() {

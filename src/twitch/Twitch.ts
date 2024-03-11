@@ -2,13 +2,13 @@ import { RefreshingAuthProvider } from '@twurple/auth';
 import { ChatClient, ChatMessage } from '@twurple/chat';
 import { ApiClient } from '@twurple/api';
 
-import { ArikenCompany, rootLogger } from '../ArikenCompany';
-import { Command } from './Command';
-import { EventSub } from './EventSub';
-import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '../constants';
-import { Message, Logger } from '../packages';
-import { ValueParser } from '../parsers';
-import { settings } from '../managers';
+import { ArikenCompany, rootLogger } from '@/ArikenCompany';
+import { ADD_COMMAND, EDIT_COMMAND, REMOVE_COMMAND, COOLDOWN, SET_COOLDOWN } from '@/constants';
+import { Message, Logger } from '@/packages';
+import { ValueParser } from '@/parsers';
+import { settings } from '@/managers';
+import { Command } from '@/twitch/Command';
+import { EventSub } from '@/twitch/EventSub';
 
 export class Twitch {
     public auth: RefreshingAuthProvider;

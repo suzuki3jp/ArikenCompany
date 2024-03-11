@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express';
 
-import { RouteBase } from '../../RouteBase';
-import { Api } from '../../../Api';
-import { HttpResult } from '../../../../packages';
+import { RouteBase } from '@/api/routes/RouteBase';
+import { Api } from '@/api/Api';
+import { HttpResult } from '@/packages';
 
 export class LoginService implements RouteBase {
     public static path = '/user/login';
