@@ -9,26 +9,42 @@ jobs:
     ts-build:
         runs-on: ubuntu-latest
         steps:
+            - uses: ./.github/workflows/composite/diff
+              name: diff
+              id: diff
+              with:
+                  subdir: src
             - uses: actions/checkout@v3
             - name: Setup nodejs
+              if: steps.diff.outputs.diff-count > 0
               uses: actions/setup-node@v3
               with:
                   node-version: '18.x'
                   cache: npm
             - name: Install deps
+              if: steps.diff.outputs.diff-count > 0
               run: npm i
             - name: Build
+              if: steps.diff.outputs.diff-count > 0
               run: npm run check
     lint:
         runs-on: ubuntu-latest
         steps:
+            - uses: ./.github/workflows/composite/diff
+              name: diff
+              id: diff
+              with:
+                  subdir: src
             - uses: actions/checkout@v3
             - name: Setup nodejs
+              if: steps.diff.outputs.diff-count > 0
               uses: actions/setup-node@v3
               with:
                   node-version: '18.x'
                   cache: npm
             - name: Install deps
+              if: steps.diff.outputs.diff-count > 0
               run: npm i
             - name: Lint
+              if: steps.diff.outputs.diff-count > 0
               run: npm run lint
