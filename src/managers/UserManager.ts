@@ -2,7 +2,6 @@ import { HttpStatusCode } from 'axios';
 import { hashSync, compareSync } from 'bcrypt';
 
 import { UserDB, UserT } from '@/database';
-import { ArikenCompany } from '@/ArikenCompany';
 import { HttpResult } from '@/packages';
 import { TokenManager } from '@/managers/TokenManager';
 
