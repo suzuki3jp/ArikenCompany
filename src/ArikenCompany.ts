@@ -42,3 +42,8 @@ export class ArikenCompany {
         this.api.start();
     }
 }
+
+process.on('uncaughtException', (err, origin) => {
+    rootLogger.error('CRITICAL ERROR: ' + err.name + `(${err.message})`, `ERROR ORIGIN: ${origin}`);
+    process.exit(1);
+});
