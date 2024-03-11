@@ -3,7 +3,7 @@ import { DeepPartial } from 'ts-essentials';
 
 import { readFileSync, writeFileSync } from '@/packages';
 
-export class JSONManager<T extends Record<string, any>> {
+export class JSONManager<T extends object> {
     public cache: T;
 
     private path: string;
@@ -26,7 +26,7 @@ export class JSONManager<T extends Record<string, any>> {
 
     writePartial(data: DeepPartial<T>) {
         const newdata = defu(data, this.cache);
-        //@ts-expect-error
+        //@ts-expect-error よくわからんけど型が合わないから無視
         this.write(newdata);
     }
 }

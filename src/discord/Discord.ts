@@ -61,6 +61,7 @@ export class Discord {
                     break;
                 case 'mp':
                     if (i.options.getSubcommand() === 'setup') this.ac.twitch.eventSub.sn.setupMemoPanel(i);
+                    break;
                 default:
                     break;
             }
@@ -109,6 +110,7 @@ export class Discord {
                     break;
                 case DiscordComponentIds.modal.sendMemoModal:
                     this.ac.twitch.eventSub.sn.sendMemo(i);
+                    break;
                 default:
                     break;
             }

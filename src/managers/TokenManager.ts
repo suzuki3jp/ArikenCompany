@@ -11,7 +11,7 @@ export class TokenManager {
 
     async verifyToken(token: string) {
         const payload = verify(token, this.ac.env.cache.SECRET);
-        // @ts-expect-error
+        // @ts-expect-error stringにiatプロパティが存在しないが、おそらくstringが返ってくることはないためignore
         delete payload.iat;
         return payload as TokenData;
     }
