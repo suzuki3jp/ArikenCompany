@@ -1,6 +1,7 @@
+import { randomUUID, UUID } from 'crypto';
 import type { DeepPartial } from 'ts-essentials';
 
-import { Prisma, UserT } from '@/database/Prisma';
+import { CreateUserT, Prisma, UserT } from '@/database/Prisma';
 
 export class UserDB extends Prisma {
     constructor() {
@@ -8,14 +9,17 @@ export class UserDB extends Prisma {
     }
 
     async add(name: string, password: string) {
-        const data = {
+        const data: CreateUserT = {
+            id: randomUUID(),
             name,
+            display_name: name,
+            role: 'normal',
             password,
         };
         return await this.prisma.user.create({ data });
     }
 
-    async updateById(id: number, data: DeepPartial<UserT>) {
+    async updateById(id: UUID, data: DeepPartial<UserT>) {
         return await this.prisma.user.update({
             where: {
                 id,
@@ -24,7 +28,7 @@ export class UserDB extends Prisma {
         });
     }
 
-    async removeById(id: number) {
+    async removeById(id: UUID) {
         return await this.prisma.user.delete({
             where: {
                 id,
@@ -40,7 +44,7 @@ export class UserDB extends Prisma {
         });
     }
 
-    async getById(id: number) {
+    async getById(id: UUID) {
         return await this.prisma.user.findFirst({
             where: {
                 id,
