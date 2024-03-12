@@ -37,7 +37,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "node-schedule": "^2.1.1",
-    "prisma": "^5.10.2"
+    "prisma": "^5.10.2",
+    "zod": "^3.22.4"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
