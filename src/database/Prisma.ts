@@ -17,9 +17,11 @@ export interface StreamNotificationT extends P.StreamNotificationCreateInput {}
 export type UserDbT = MarkRequired<P.UserCreateInput, 'created_at' | 'updated_at'>;
 
 export interface UserT extends UserDbT {
-    role: UserRole;
+    role: UserRoleT;
 }
 
 export type CreateUserT = MarkOptional<UserT, 'created_at' | 'updated_at'>;
 
-export type UserRole = 'admin' | 'manager' | 'normal';
+export type UserRoleT = (typeof UserRole)[number];
+
+export const UserRole = ['admin', 'manager', 'normal'] as const;
