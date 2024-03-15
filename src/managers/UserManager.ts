@@ -167,7 +167,7 @@ export class UserManager {
     }
 }
 
-interface PublicUserData {
+export interface PublicUserData {
     id: string;
     name: string;
     display_name: string;
