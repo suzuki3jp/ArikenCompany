@@ -1,3 +1,3 @@
-export * from '@/api/routes/user/register';
+import { LoginService } from '@/api/routes/auth/LoginService';
 
-export * from '@/api/routes/RootService';
+export const services = [LoginService] as const;
