@@ -2,6 +2,7 @@ import { Router, type Request, type Response } from 'express';
 
 import { UserRoleT } from '@/database';
 import { services } from '@/api/routes';
+import { AuthMiddleware } from '@/api/AuthMiddleware';
 import { rootLogger } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
 
@@ -28,7 +29,8 @@ export class RouteLoader {
                 // @ts-expect-error 動作上問題ないが、型エラーが出る
                 if (typeof service[m] === 'function') {
                     usedMethod.push(m);
-                    router[m](service.path, (req, res) => {
+
+                    router[m](service.path, AuthMiddleware(service.requiredRole, this.ac), (req, res) => {
                         // @ts-expect-error 動作上問題ないが、型エラーが出る
                         service[m](req, res);
                     });
