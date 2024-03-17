@@ -30,7 +30,7 @@ export class RouteLoader {
                 if (typeof service[m] === 'function') {
                     usedMethod.push(m);
 
-                    router[m](service.path, AuthMiddleware(service.requiredRole, this.ac), (req, res) => {
+                    router[m](service.path, AuthMiddleware(service.requiredRole[m], this.ac), (req, res) => {
                         // @ts-expect-error 動作上問題ないが、型エラーが出る
                         service[m](req, res);
                     });
@@ -44,7 +44,7 @@ export class RouteLoader {
 
 export interface RouteT {
     path: string;
-    requiredRole: UserRoleT | null;
+    requiredRole: { get: UserRoleT | null; post: UserRoleT | null; put: UserRoleT | null; delete: UserRoleT | null };
     get?: (req: Request, res: Response) => void;
     post?: (req: Request, res: Response) => void;
     put?: (req: Request, res: Response) => void;

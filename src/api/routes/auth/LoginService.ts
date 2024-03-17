@@ -9,7 +9,7 @@ import { rootLogger } from '@/initializer';
 
 export class LoginService implements RouteT {
     public readonly path = '/auth/login';
-    public readonly requiredRole = null;
+    public readonly requiredRole: RouteT['requiredRole'] = { get: null, post: null, put: null, delete: null };
 
     private logger: Logger = rootLogger.createChild('LoginService');
 

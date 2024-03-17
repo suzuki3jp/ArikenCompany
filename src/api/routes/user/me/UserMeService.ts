@@ -10,7 +10,7 @@ import { rootLogger } from '@/initializer';
 
 export class UserMeService implements RouteT {
     public readonly path = '/user/me';
-    public readonly requiredRole = 'normal';
+    public readonly requiredRole: RouteT['requiredRole'] = { get: 'normal', post: null, put: null, delete: null };
 
     private logger: Logger = rootLogger.createChild('UserMeService');
 
