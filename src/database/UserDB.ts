@@ -53,6 +53,6 @@ export class UserDB extends Prisma {
     }
 
     async getAll() {
-        return await this.prisma.command.findMany();
+        return await this.prisma.user.findMany();
     }
 }

@@ -102,6 +102,15 @@ export class UserManager {
     }
 
     /**
+     * すべてのユーザーを取得する
+     */
+    async getAll() {
+        const users = await this.db.getAll();
+        const publicUsers = users.map((u) => this.transformUserToPublic(u));
+        return publicUsers;
+    }
+
+    /**
      * ユーザー名とパスワードからパスワードが正しいか確かめる
      * @param name
      * @param pass
