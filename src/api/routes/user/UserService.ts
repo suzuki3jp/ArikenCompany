@@ -17,7 +17,7 @@ export class UserService implements RouteT {
         delete: 'normal',
     };
 
-    private logger: Logger = rootLogger.createChild('UserMeService');
+    private logger: Logger = rootLogger.createChild('UserService');
 
     constructor(private ac: ArikenCompany) {}
 
@@ -90,7 +90,6 @@ export class UserService implements RouteT {
             data: user,
         };
         res.status(HttpStatusCode.Accepted).json(data);
-        this.logger.info(`Added user ${user.name}(${user.id})`);
         return;
     }
 
