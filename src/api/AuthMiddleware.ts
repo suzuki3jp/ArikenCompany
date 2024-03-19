@@ -1,26 +1,78 @@
+import { HttpStatusCode } from 'axios';
 import type { Request, Response, NextFunction } from 'express';
 
+import { UserRoleT } from '@/database';
+import { AuthManager } from '@/managers';
+import { BaseErrorRes, ErrorCode } from '@/api/utils';
+import { rootLogger } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
-import { HttpResult } from '@/packages';
 
-export const AuthMiddleware = (ac: ArikenCompany) => {
+const logger = rootLogger.createChild('AuthMiddleware');
+
+export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany) => {
     return async (req: Request, res: Response, next: NextFunction) => {
-        const { authorization } = req.headers;
-        if (!authorization) {
-            const r = new HttpResult().setStatus(400).setMessage('Missing authorization').toJSON();
-            res.status(r.status).json(r);
+        logger.debug(`Authenticating... requiredRole: ${requiredRole}`);
+        const unauthError = (m: string): BaseErrorRes => ({
+            code: ErrorCode.unauthorized,
+            message: 'Unauthorized. ' + m,
+        });
+
+        // 認証が必要ない場合は何もせずnext
+        if (requiredRole === null) return next();
+
+        // リクエストにトークンが含まれているか確認する
+        const bearer = req.headers.authorization;
+        if (!bearer) {
+            logger.debug(`token is undefined.`);
+            res.status(HttpStatusCode.Unauthorized).json(unauthError('token is required.'));
             return;
-        } else {
-            try {
-                const token = authorization.split(' ')[1];
-                const user = await ac.um.tokenM.verifyToken(token);
-                res.locals.user = user;
-                next();
-            } catch (error) {
-                const r = new HttpResult().setStatus(401).setMessage('Invalid token').toJSON();
-                res.status(r.status).json(r);
-                return;
-            }
         }
+        const [_, token] = bearer.split(' ');
+
+        // トークンを検証する
+        const decoded = AuthManager.verifyToken(token);
+        if (decoded.isFailure()) {
+            res.status(HttpStatusCode.Unauthorized).json(unauthError(decoded.data));
+            return;
+        }
+
+        // ユーザーを取得し、ロールを確認するk
+        const user = await ac.um.getById(decoded.data.id);
+        if (!user) {
+            return;
+        }
+        if (!AuthManager.isUserRole(user.role)) {
+            logger.error(`Invaild user role. userId: ${user.id}, role: ${user.role}`);
+            const data: BaseErrorRes = {
+                code: ErrorCode.internal,
+                message: 'Internal Error. If this persists, please contact the developer.',
+            };
+            res.status(HttpStatusCode.InternalServerError).json(data);
+            return;
+        }
+
+        const hasPermission = AuthManager.isEnoughRole(user.role, requiredRole);
+        if (hasPermission.isFailure()) {
+            rootLogger.error(hasPermission.data);
+            const data: BaseErrorRes = {
+                code: ErrorCode.internal,
+                message: 'Internal Error. If this persists, please contact the developer.',
+            };
+            res.status(HttpStatusCode.InternalServerError).json(data);
+            return;
+        }
+
+        // 権限不足だった場合
+        if (!hasPermission.data) {
+            const data: BaseErrorRes = {
+                code: ErrorCode.missingPermission,
+                message: `Missing permissions. the endpoint requires ${requiredRole} or higher role.`,
+            };
+            res.status(HttpStatusCode.Forbidden).json(data);
+            return;
+        }
+
+        res.locals.user = user;
+        next();
     };
 };

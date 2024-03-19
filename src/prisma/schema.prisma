@@ -32,9 +32,11 @@ model StreamNotification {
 }
 
 model User{
-  id Int @id @default(autoincrement())
+  id String @id
   name String
+  display_name String
   password String
+  role String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt @default(now())
 }

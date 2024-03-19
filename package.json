@@ -37,7 +37,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "node-schedule": "^2.1.1",
-    "prisma": "^5.10.2"
+    "prisma": "^5.10.2",
+    "zod": "^3.22.4"
   },
   "prisma": {
     "schema": "src/prisma/schema.prisma"
@@ -60,6 +61,7 @@
     "ts-essentials": "^9.4.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
   }
 }
