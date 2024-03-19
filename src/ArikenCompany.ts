@@ -1,12 +1,13 @@
 import { rootLogger } from '@/initializer';
 import { Api } from '@/api';
 import { Discord } from '@/discord/Discord';
-import { CommandManager, UserManager } from '@/managers';
+import { AuthManager, CommandManager, UserManager } from '@/managers';
 import { Twitch } from '@/twitch/Twitch';
 import { Logger, Cron } from '@/packages/index';
 
 export class ArikenCompany {
     public cmd: CommandManager;
+    public am: AuthManager;
     public um: UserManager;
     public logger: Logger;
     public twitch: Twitch;
@@ -17,7 +18,8 @@ export class ArikenCompany {
     constructor() {
         this.logger = rootLogger;
         this.cmd = new CommandManager(this);
-        this.um = new UserManager();
+        this.am = new AuthManager();
+        this.um = new UserManager(this);
         this.discord = new Discord(this);
         this.twitch = new Twitch(this);
         this.api = new Api(this);
