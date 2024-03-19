@@ -3,9 +3,9 @@ import { HttpStatusCode } from 'axios';
 
 import { UserDB, UserDbT } from '@/database';
 import { Result, Success, Failure, Logger } from '@/packages';
-import { AuthManager } from '@/managers';
 import { rootLogger } from '@/initializer';
 import { UserValidator } from '@/validators';
+import { ArikenCompany } from '@/ArikenCompany';
 
 /**
  * Manager for user db.
@@ -14,7 +14,7 @@ export class UserManager {
     private db: UserDB;
     private logger: Logger;
 
-    constructor() {
+    constructor(private ac: ArikenCompany) {
         this.db = new UserDB();
         this.logger = rootLogger.createChild('UserManager');
     }
@@ -32,7 +32,7 @@ export class UserManager {
         if (isExistUser) return new Failure('User already exist.');
 
         // パスワードをハッシュ化し、ユーザーを登録するk
-        const hashedPass = AuthManager.hashPass(planePass);
+        const hashedPass = this.ac.am.hashPass(planePass);
         const data = await this.db.add(name, hashedPass);
 
         // 帰ってきたユーザーデータを成形し返却する
@@ -119,7 +119,7 @@ export class UserManager {
         const user = await this.db.getByName(name);
         if (!user) return new Failure('User not found');
 
-        const isCorrect = AuthManager.comparePass(pass, user.password);
+        const isCorrect = this.ac.am.comparePass(pass, user.password);
         if (!isCorrect) return new Failure('password is incorrect');
         return new Success(this.transformUserToPublic(user));
     }

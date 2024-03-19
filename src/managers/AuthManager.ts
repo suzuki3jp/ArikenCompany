@@ -11,32 +11,32 @@ import { UserRoleT, UserRole } from '@/database';
  * JWTやパスワードを安全に扱うためのクラス
  */
 export class AuthManager {
-    private static logger: Logger = rootLogger.createChild('AuthManager');
+    private logger: Logger = rootLogger.createChild('AuthManager');
     constructor() {}
 
     /**
      * ユーザーのトークンを発行する
      * @param id
      */
-    public static signToken(id: string): string {
-        AuthManager.logger.debug(`Signing token id: ${id}`);
+    public signToken(id: string): string {
+        this.logger.debug(`Signing token id: ${id}`);
         return jwt.sign({ id }, env.cache.SECRET, { expiresIn: '7d' });
     }
 
-    public static verifyToken(token: string): Result<TokenPayload, string> {
-        AuthManager.logger.debug(`Verifying token`);
+    public verifyToken(token: string): Result<TokenPayload, string> {
+        this.logger.debug(`Verifying token`);
         try {
             const decoded = jwt.verify(token, env.cache.SECRET);
-            if (!AuthManager.isTokenPayload(decoded)) return new Failure('token is invalid');
+            if (!this.isTokenPayload(decoded)) return new Failure('token is invalid');
             return new Success(decoded);
         } catch (err) {
-            AuthManager.logger.debug('Received error durning token verify');
+            this.logger.debug('Received error durning token verify');
             if (err instanceof Error) return new Failure(err.message);
             return new Failure('token is invalid');
         }
     }
 
-    public static isTokenPayload(data: string | jwt.JwtPayload | undefined): data is TokenPayload {
+    public isTokenPayload(data: string | jwt.JwtPayload | undefined): data is TokenPayload {
         if (typeof data === 'string') return false;
         if (typeof data === 'undefined') return false;
 
@@ -47,14 +47,14 @@ export class AuthManager {
     /**
      * パスワードをハッシュ化する
      */
-    public static hashPass(pass: string): string {
+    public hashPass(pass: string): string {
         return hashSync(pass, 10);
     }
 
     /**
      * パスワードを検証する
      */
-    public static comparePass(pass: string, hashed: string) {
+    public comparePass(pass: string, hashed: string) {
         return compareSync(pass, hashed);
     }
 
@@ -63,7 +63,7 @@ export class AuthManager {
      * @param userRole
      * @param requiredRole
      */
-    public static isEnoughRole(userRole: UserRoleT, requiredRole: UserRoleT): Result<boolean, string> {
+    public isEnoughRole(userRole: UserRoleT, requiredRole: UserRoleT): Result<boolean, string> {
         const userRoleIndex = UserRole.indexOf(userRole);
         const requiredRoleIndex = UserRole.indexOf(requiredRole);
 
@@ -75,7 +75,7 @@ export class AuthManager {
     /**
      * 引数の文字列をUserRoleに型変換する
      */
-    public static isUserRole(data: string): data is UserRoleT {
+    public isUserRole(data: string): data is UserRoleT {
         // @ts-expect-error string
         return UserRole.includes(data);
     }
