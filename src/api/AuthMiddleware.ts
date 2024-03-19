@@ -34,10 +34,12 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
             res.status(HttpStatusCode.Unauthorized).json(unauthError(decoded.data));
             return;
         }
+        logger.debug(`Successfully decoded token. id: ${decoded.data.id}`);
 
         // ユーザーを取得し、ロールを確認するk
         const user = await ac.um.getById(decoded.data.id);
         if (!user) {
+            res.status(HttpStatusCode.Unauthorized).json(unauthError('token user can not found.'));
             return;
         }
         if (!ac.am.isUserRole(user.role)) {
