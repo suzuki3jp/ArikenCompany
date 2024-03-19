@@ -1,5 +1,5 @@
 import { rootLogger } from '@/initializer';
-import { Api } from '@/api/Api';
+import { Api } from '@/api';
 import { Discord } from '@/discord/Discord';
 import { CommandManager, UserManager } from '@/managers';
 import { Twitch } from '@/twitch/Twitch';

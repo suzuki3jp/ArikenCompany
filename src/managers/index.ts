@@ -1,3 +1,4 @@
+export * from '@/managers/AuthManager';
 export * from '@/managers/CommandManager';
 export * from '@/managers/EnvManager';
 export * from '@/managers/JSONManager';
