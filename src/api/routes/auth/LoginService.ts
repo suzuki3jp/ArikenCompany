@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { RouteT } from '@/api/RouteLoader';
 import { BaseErrorRes, BaseRes, ErrorCode, ReqBodyUtils } from '@/api/utils';
 import { ArikenCompany } from '@/ArikenCompany';
-import { AuthManager } from '@/managers';
 import { Logger } from '@/packages';
 import { rootLogger } from '@/initializer';
 
@@ -40,7 +39,7 @@ export class LoginService implements RouteT {
         }
 
         // 認証を通過し、トークンを発行する
-        const token = AuthManager.signToken(result.data.id);
+        const token = this.ac.am.signToken(result.data.id);
         const data: BaseRes<{ token: string }> = {
             data: {
                 token,

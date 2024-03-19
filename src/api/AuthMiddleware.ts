@@ -2,7 +2,6 @@ import { HttpStatusCode } from 'axios';
 import type { Request, Response, NextFunction } from 'express';
 
 import { UserRoleT } from '@/database';
-import { AuthManager } from '@/managers';
 import { BaseErrorRes, ErrorCode } from '@/api/utils';
 import { rootLogger } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
@@ -30,7 +29,7 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
         const [_, token] = bearer.split(' ');
 
         // トークンを検証する
-        const decoded = AuthManager.verifyToken(token);
+        const decoded = ac.am.verifyToken(token);
         if (decoded.isFailure()) {
             res.status(HttpStatusCode.Unauthorized).json(unauthError(decoded.data));
             return;
@@ -41,7 +40,7 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
         if (!user) {
             return;
         }
-        if (!AuthManager.isUserRole(user.role)) {
+        if (!ac.am.isUserRole(user.role)) {
             logger.error(`Invaild user role. userId: ${user.id}, role: ${user.role}`);
             const data: BaseErrorRes = {
                 code: ErrorCode.internal,
@@ -51,7 +50,7 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
             return;
         }
 
-        const hasPermission = AuthManager.isEnoughRole(user.role, requiredRole);
+        const hasPermission = ac.am.isEnoughRole(user.role, requiredRole);
         if (hasPermission.isFailure()) {
             rootLogger.error(hasPermission.data);
             const data: BaseErrorRes = {
