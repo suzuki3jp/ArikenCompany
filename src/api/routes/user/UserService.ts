@@ -4,12 +4,12 @@ import type { Request, Response } from 'express';
 import { RouteT } from '@/api/RouteLoader';
 import type { ArikenCompany } from '@/ArikenCompany';
 import { BaseErrorRes, BaseRes, ErrorCode, MiddlewareUtils, ReqBodyUtils } from '@/api/utils';
-import { AuthManager, PublicUserData, UserManager } from '@/managers';
+import { PublicUserData, UserManager } from '@/managers';
 import { Logger } from '@/packages';
 import { rootLogger } from '@/initializer';
 
 export class UserService implements RouteT {
-    public readonly path = '/user/me';
+    public readonly path = '/user';
     public readonly requiredRole: RouteT['requiredRole'] = {
         get: 'admin',
         post: null,
