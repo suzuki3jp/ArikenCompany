@@ -8,7 +8,7 @@ export class ReqBodyUtils {
      * @param req
      * @param keys
      */
-    public static extractBody<T extends string>(req: Request, keys: T[]): Result<Record<T, string>, T[]> {
+    public static extractRequiredBody<T extends string>(req: Request, keys: T[]): Result<Record<T, string>, T[]> {
         const notFoundKeys: T[] = [];
         // @ts-expect-error {} で初期化できないが、resultを返却するときは必ず値が設定されているため
         const result: Record<T, string> = {};

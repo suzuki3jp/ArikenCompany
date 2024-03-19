@@ -17,7 +17,7 @@ export class LoginService implements RouteT {
 
     async post(req: Request, res: Response) {
         // リクエストボディに不足がないか判定
-        const params = ReqBodyUtils.extractBody(req, ['name', 'password']);
+        const params = ReqBodyUtils.extractRequiredBody(req, ['name', 'password']);
         if (params.isFailure()) {
             const data: BaseErrorRes = {
                 code: ErrorCode.invalidParams,
