@@ -73,6 +73,7 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
             return;
         }
 
+        logger.debug(`Assigned user data${user.id} to res.locals.user.`);
         res.locals.user = user;
         next();
     };
