@@ -21,7 +21,7 @@ export class RouteLoader {
 
         services.forEach((s) => {
             const service = new s(this.ac);
-            this.logger.system(`Loading route ${service.path}`);
+            this.logger.debug(`Loading route ${service.path}`);
             const methods = ['get', 'post', 'put', 'delete'] as const;
             const usedMethod: (typeof methods)[number][] = [];
 
