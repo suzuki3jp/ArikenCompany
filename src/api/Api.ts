@@ -7,11 +7,13 @@ import { ArikenCompany } from '@/ArikenCompany';
 import { rootLogger } from '@/initializer';
 import { Logger, readFileSync } from '@/packages';
 import { Path } from '@/constants';
+import { RouteLoader } from '@/api/RouteLoader';
 
 export class Api {
     private app: Express;
     private server: Server;
     private PORT = 443;
+    private loader: RouteLoader;
 
     public logger: Logger;
 
@@ -26,6 +28,10 @@ export class Api {
                 optionsSuccessStatus: 200,
             })
         );
+
+        // Load routes
+        this.loader = new RouteLoader(this.ac);
+        this.app.use(this.loader.router);
 
         this.server = createServer(
             {
