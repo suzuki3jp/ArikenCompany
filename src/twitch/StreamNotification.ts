@@ -41,6 +41,12 @@ export class StreamNotification {
 
         let memo: Channel | undefined;
         if (memoChannelId) {
+            const SnowflakeRegExp = /^\d{16,19}$/;
+            if (!SnowflakeRegExp.test(memoChannelId)) {
+                this.eReply(i, 'メモチャンネルのIDが不正な形です。');
+                return;
+            }
+
             memo = (await this.ac.discord.client.channels.fetch(memoChannelId)) ?? undefined;
             if (!memo || memo.type !== ChannelType.GuildForum)
                 return this.eReply(i, 'メモチャンネルが見つからなかったかタイプが不正です。');
