@@ -13,11 +13,6 @@ export class PublicCommands extends Component<PublicCommandsProps, PublicCommand
         };
     }
 
-    async fetchStatus() {
-        const status = await new ApiClient().getStatus();
-        this.setState(status);
-    }
-
     async fetchPublicCommands() {
         const c = await new ApiClient().getPublicCommands();
         console.log(c);
@@ -25,7 +20,6 @@ export class PublicCommands extends Component<PublicCommandsProps, PublicCommand
     }
 
     componentDidMount(): void {
-        this.fetchStatus();
         this.fetchPublicCommands();
     }
 
