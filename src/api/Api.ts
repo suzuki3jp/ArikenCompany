@@ -23,7 +23,7 @@ export class Api {
         this.app.use(urlencoded({ extended: true }));
         this.app.use(
             cors({
-                origin: ['http://localhost:*', 'https:*.suzuki3jp.xyz'],
+                origin: ['http://localhost:3000', 'https://arikencompany.suzuki3jp.xyz'],
                 credentials: true,
                 optionsSuccessStatus: 200,
             })

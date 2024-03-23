@@ -27,7 +27,7 @@ export class PublicCommandsService implements RouteT {
             alias: c.alias ?? undefined,
         }));
 
-        res.status(HttpStatusCode.Accepted).json(publicCommands);
+        res.status(HttpStatusCode.Accepted).json({ data: publicCommands });
         return;
     }
 }
