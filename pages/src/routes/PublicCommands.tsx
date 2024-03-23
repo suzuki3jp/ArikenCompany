@@ -14,12 +14,13 @@ export class PublicCommands extends Component<PublicCommandsProps, PublicCommand
     }
 
     async fetchStatus() {
-        const { uptime } = await new ApiClient().getStatus();
-        this.setState({ uptime });
+        const status = await new ApiClient().getStatus();
+        this.setState(status);
     }
 
     async fetchPublicCommands() {
         const c = await new ApiClient().getPublicCommands();
+        console.log(c);
         this.setState({ publicCommands: c });
     }
 
