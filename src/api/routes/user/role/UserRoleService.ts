@@ -10,7 +10,7 @@ import { PublicUserData } from '@/managers';
 
 export class UserRoleService implements RouteT {
     public readonly path = '/user/role';
-    public readonly requiredRole: RouteT['requiredRole'] = { get: null, post: 'manager', put: null, delete: null };
+    public readonly requiredRole: RouteT['requiredRole'] = { get: null, post: 'admin', put: null, delete: null };
 
     private logger: Logger = rootLogger.createChild('UserRoleService');
 
