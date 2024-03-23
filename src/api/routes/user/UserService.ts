@@ -4,7 +4,7 @@ import type { Request, Response } from 'express';
 import { RouteT } from '@/api/RouteLoader';
 import type { ArikenCompany } from '@/ArikenCompany';
 import { BaseErrorRes, BaseRes, ErrorCode, MiddlewareUtils, ReqBodyUtils } from '@/api/utils';
-import { PublicUserData, UserManager } from '@/managers';
+import { PublicUserData, UserEditOptions, UserManager } from '@/managers';
 import { Logger } from '@/packages';
 import { rootLogger } from '@/initializer';
 
@@ -127,7 +127,8 @@ export class UserService implements RouteT {
             return;
         }
 
-        const result = await this.ac.um.edit(userData.id, { name, displayName: display_name });
+        const opt: UserEditOptions = { name: name || undefined, displayName: display_name || undefined };
+        const result = await this.ac.um.edit(userData.id, opt);
 
         if (result.isSuccess()) {
             const data: BaseRes<PublicUserData> = {
