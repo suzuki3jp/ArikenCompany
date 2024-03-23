@@ -92,6 +92,29 @@ export class UserManager {
     }
 
     /**
+     * ユーザーのロールを変更する
+     * @param id
+     * @param role
+     */
+    async changeRole(
+        id: string,
+        role: string
+    ): Promise<Result<PublicUserData, { code: HttpStatusCode; message: string }>> {
+        this.logger.debug(`Changing user(${id}) role to ${role}`);
+        if (!UserManager.isUUID(id)) return new Failure({ code: 400, message: 'id is invalid value' });
+        if (!this.ac.am.isUserRole(role)) return new Failure({ code: 400, message: 'role is invalid value' });
+
+        const isExistUser = await this.isExistUserById(id);
+        if (!isExistUser) return new Failure({ code: 404, message: 'user not found' });
+
+        const result = await this.db.updateById(id, { role });
+        const publicData = this.transformUserToPublic(result);
+
+        this.logger.info(`Changed user(${id}) role to ${role}`);
+        return new Success(publicData);
+    }
+
+    /**
      * idからユーザーを取得する
      * @param id
      */
