@@ -57,7 +57,7 @@ export class UserService implements RouteT {
         const data: BaseRes<PublicUserData> = {
             data: user,
         };
-        res.status(HttpStatusCode.Accepted).json(data);
+        res.status(HttpStatusCode.Ok).json(data);
         return;
     }
 
@@ -89,7 +89,7 @@ export class UserService implements RouteT {
         const data: BaseRes<PublicUserData> = {
             data: user,
         };
-        res.status(HttpStatusCode.Accepted).json(data);
+        res.status(HttpStatusCode.Ok).json(data);
         return;
     }
 
@@ -123,7 +123,7 @@ export class UserService implements RouteT {
             const data: BaseRes<PublicUserData> = {
                 data: userData,
             };
-            res.status(HttpStatusCode.Accepted).json(data);
+            res.status(HttpStatusCode.Ok).json(data);
             return;
         }
 
@@ -133,7 +133,7 @@ export class UserService implements RouteT {
             const data: BaseRes<PublicUserData> = {
                 data: result.data,
             };
-            res.status(HttpStatusCode.Accepted).json(data);
+            res.status(HttpStatusCode.Ok).json(data);
             return;
         } else {
             const data: BaseErrorRes = {
@@ -172,7 +172,7 @@ export class UserService implements RouteT {
         const data: BaseRes<PublicUserData> = {
             data: result.data,
         };
-        res.status(HttpStatusCode.Accepted).json(data);
+        res.status(HttpStatusCode.Ok).json(data);
         return;
     }
 }

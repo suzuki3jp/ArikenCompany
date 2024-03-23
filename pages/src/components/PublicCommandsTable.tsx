@@ -21,7 +21,7 @@ export function PublicCommandsTable(props: PublicCommandsTableProps) {
         id: i,
         name: c.name,
         content: c.content,
-        userlevel: c.isModOnly ? 'moderator' : 'everyone',
+        userlevel: c.mod_only ? 'moderator' : 'everyone',
     }));
 
     return (
