@@ -102,7 +102,7 @@ export class ManageCommandPanel {
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を追加しました。');
         } else {
-            this.eReply(i, r.data);
+            this.eReply(i, r.data.message);
         }
     }
 
@@ -120,7 +120,7 @@ export class ManageCommandPanel {
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を編集しました。');
         } else {
-            this.eReply(i, r.data);
+            this.eReply(i, r.data.message);
         }
     }
 
@@ -137,7 +137,7 @@ export class ManageCommandPanel {
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を削除しました。');
         } else {
-            this.eReply(i, r.data);
+            this.eReply(i, r.data.message);
         }
     }
 
