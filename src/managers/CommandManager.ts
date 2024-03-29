@@ -76,6 +76,10 @@ export class CommandManager {
         return new Success(cmd);
     }
 
+    async getById(id: number) {
+        return await this.c.getById(id);
+    }
+
     async getCommand(name: string) {
         return await this.c.getByName(name);
     }
