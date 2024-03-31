@@ -41,13 +41,14 @@ export class CommandManager {
         name: string,
         options: {
             content?: string;
+            cooldown?: number;
             isOnlyMod?: boolean;
-            alias?: string;
+            alias?: string | null;
         },
         metadata: OperationMetadata
     ): Promise<Result<CommandT, { code: HttpStatusCode; message: string }>> {
         const oldCommand = await this.c.getByName(name);
-        const { content, isOnlyMod, alias } = options;
+        const { content, cooldown, isOnlyMod, alias } = options;
 
         if (content) {
             const isValidContent = new ValueValidater(content).validate();
@@ -60,7 +61,7 @@ export class CommandManager {
             return new Failure({ code: HttpStatusCode.NotFound, message: '存在しないコマンド名です。' });
         }
 
-        const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
+        const cmd = await this.c.updateById(oldCommand.id, { content, cooldown, mod_only: isOnlyMod, alias });
         this.ac.discord.mcp.reloadPanel();
 
         this.logger.info(`Edited ${cmd.name} to ${cmd.content} by ${metadata.name} from ${metadata.provider}.`);
