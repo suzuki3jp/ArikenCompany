@@ -110,7 +110,7 @@ export class UserService implements RouteT {
             this.logger.error(`Auth error. PUT ${this.path}`);
             const data: BaseErrorRes = {
                 code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the extractRequiredBody.',
+                message: 'Internal Error. If this persists, please contact the developer.',
             };
             res.status(HttpStatusCode.InternalServerError).json(data);
             return;
@@ -153,7 +153,7 @@ export class UserService implements RouteT {
             this.logger.error(`Auth Error. DELETE ${this.path}`);
             const data: BaseErrorRes = {
                 code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the extractRequiredBody.',
+                message: 'Internal Error. If this persists, please contact the developer.',
             };
             res.status(HttpStatusCode.InternalServerError).json(data);
             return;
