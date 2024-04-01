@@ -46,10 +46,7 @@ export class UserService implements RouteT {
         const user = await this.ac.um.getById(params.data.id);
 
         if (!user) {
-            const data: BaseErrorRes = {
-                code: ErrorCode.notFound,
-                message: `user not found`,
-            };
+            const data = ResUtils.notFoundError(`User(${params.data.id})`);
             res.status(HttpStatusCode.NotFound).json(data);
             return;
         }

@@ -45,10 +45,7 @@ export class CommandsService implements RouteT {
 
             const command = await this.ac.cmd.getById(numId.data);
             if (!command) {
-                const data: BaseErrorRes = {
-                    code: ErrorCode.notFound,
-                    message: `command not found`,
-                };
+                const data = ResUtils.notFoundError(`Command(${numId.data})`);
                 res.status(HttpStatusCode.NotFound).json(data);
                 return;
             }
@@ -155,10 +152,7 @@ export class CommandsService implements RouteT {
         const command = await this.ac.cmd.getById(Number(requiredBody.data.id));
 
         if (!command) {
-            const data: BaseErrorRes = {
-                code: ErrorCode.notFound,
-                message: `Command(${requiredBody.data.id}) not found.`,
-            };
+            const data = ResUtils.notFoundError(`Command(${requiredBody.data.id})`);
             res.status(HttpStatusCode.NotFound).json(data);
             return;
         }
@@ -182,7 +176,7 @@ export class CommandsService implements RouteT {
                           code: ErrorCode.invalidValue,
                           message: `Command's content is invalid value.`,
                       }
-                    : { code: ErrorCode.notFound, message: `Command not found.` };
+                    : ResUtils.notFoundError(`Command(${requiredBody.data.id})`);
             res.status(result.data.code).json(data);
             return;
         }
@@ -216,10 +210,7 @@ export class CommandsService implements RouteT {
         const command = await this.ac.cmd.getById(Number(requiredBody.data.id));
 
         if (!command) {
-            const data: BaseErrorRes = {
-                code: ErrorCode.notFound,
-                message: `Command(${requiredBody.data.id}) not found.`,
-            };
+            const data = ResUtils.notFoundError(`Command(${requiredBody.data.id})`);
             res.status(HttpStatusCode.NotFound).json(data);
             return;
         }
@@ -230,10 +221,7 @@ export class CommandsService implements RouteT {
         });
 
         if (result.isFailure()) {
-            const data: BaseErrorRes = {
-                code: ErrorCode.notFound,
-                message: `Command(${requiredBody.data.id}) not found.`,
-            };
+            const data = ResUtils.notFoundError(`Command(${requiredBody.data.id})`);
             res.status(HttpStatusCode.NotFound).json(data);
             return;
         }
