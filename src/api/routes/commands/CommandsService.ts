@@ -141,10 +141,7 @@ export class CommandsService implements RouteT {
 
         if (user.isFailure()) {
             this.logger.error(`Auth error. PUT ${this.path}`);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: 'edeveloper.',
-            };
+            const data = ResUtils.internalError();
             res.status(HttpStatusCode.InternalServerError).json(data);
             return;
         }
