@@ -3,7 +3,7 @@ import type { Request, Response } from 'express';
 
 import { RouteT } from '@/api/RouteLoader';
 import type { ArikenCompany } from '@/ArikenCompany';
-import { BaseErrorRes, BaseRes, ErrorCode, MiddlewareUtils } from '@/api/utils';
+import { BaseRes, MiddlewareUtils, ResUtils } from '@/api/utils';
 import { PublicUserData } from '@/managers';
 import { Logger } from '@/packages';
 import { rootLogger } from '@/initializer';
@@ -21,11 +21,7 @@ export class UserMeService implements RouteT {
 
         if (user.isFailure()) {
             this.logger.error(user.data);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: `Internal Error. If this persists, please contact the developer.`,
-            };
-            res.status(HttpStatusCode.InternalServerError).json(data);
+            res.status(HttpStatusCode.InternalServerError).json(ResUtils.internalError());
             return;
         }
 

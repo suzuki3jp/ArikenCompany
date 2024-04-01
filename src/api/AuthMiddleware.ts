@@ -2,7 +2,7 @@ import { HttpStatusCode } from 'axios';
 import type { Request, Response, NextFunction } from 'express';
 
 import { UserRoleT } from '@/database';
-import { BaseErrorRes, ErrorCode } from '@/api/utils';
+import { BaseErrorRes, ErrorCode, ResUtils } from '@/api/utils';
 import { rootLogger } from '@/initializer';
 import { ArikenCompany } from '@/ArikenCompany';
 
@@ -44,22 +44,14 @@ export const AuthMiddleware = (requiredRole: UserRoleT | null, ac: ArikenCompany
         }
         if (!ac.am.isUserRole(user.role)) {
             logger.error(`Invaild user role. userId: ${user.id}, role: ${user.role}`);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the developer.',
-            };
-            res.status(HttpStatusCode.InternalServerError).json(data);
+            res.status(HttpStatusCode.InternalServerError).json(ResUtils.internalError());
             return;
         }
 
         const hasPermission = ac.am.isEnoughRole(user.role, requiredRole);
         if (hasPermission.isFailure()) {
             rootLogger.error(hasPermission.data);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the developer.',
-            };
-            res.status(HttpStatusCode.InternalServerError).json(data);
+            res.status(HttpStatusCode.InternalServerError).json(ResUtils.internalError());
             return;
         }
 
