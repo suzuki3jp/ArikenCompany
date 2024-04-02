@@ -158,7 +158,7 @@ export class CommandsService implements RouteT {
         const newCommandData = {
             content: content || command.content,
             alias: alias || command.alias,
-            cooldown: Number(cooldown) ?? command.cooldown,
+            cooldown: cooldown === undefined ? command.cooldown : Number(cooldown),
             mod_only: mod_only ?? command.mod_only,
         };
         const result = await this.ac.cmd.editCommand(command.name, newCommandData, {
