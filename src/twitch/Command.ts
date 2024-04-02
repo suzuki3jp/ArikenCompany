@@ -56,7 +56,7 @@ export class Command {
         const r = await this.cmd.addCommand(name, content, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を追加しました。`;
-        return r.data;
+        return r.data.message;
     }
 
     async editCommand(): Promise<string> {
@@ -70,7 +70,7 @@ export class Command {
         const r = await this.cmd.editCommand(name, { content }, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を編集しました。`;
-        return r.data;
+        return r.data.message;
     }
 
     async removeCommand(): Promise<string> {
@@ -84,7 +84,7 @@ export class Command {
         const r = await this.cmd.removeCommand(name, metadata);
 
         if (r.isSuccess()) return `コマンド ${name} を削除しました。`;
-        return r.data;
+        return r.data.message;
     }
 
     async getCoolDown(): Promise<string> {

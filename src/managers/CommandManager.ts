@@ -4,6 +4,7 @@ import { Logger, Result, Success, Failure } from '@/packages';
 import { ValueValidater } from '@/parsers';
 import { ArikenCompany } from '@/ArikenCompany';
 import type { OperationMetadata } from '@/typings';
+import { HttpStatusCode } from 'axios';
 
 export class CommandManager {
     private c: CommandDB;
@@ -14,15 +15,19 @@ export class CommandManager {
         this.logger = rootLogger.createChild('Command');
     }
 
-    async addCommand(name: string, content: string, metadata: OperationMetadata): Promise<Result<CommandT, string>> {
+    async addCommand(
+        name: string,
+        content: string,
+        metadata: OperationMetadata
+    ): Promise<Result<CommandT, { code: HttpStatusCode; message: string }>> {
         const isExistCommand = Boolean(await this.c.getByName(name));
         const isValidContent = new ValueValidater(content).validate();
 
         if (isExistCommand) {
-            return new Failure('そのコマンドはすでに登録されています。');
+            return new Failure({ code: HttpStatusCode.Conflict, message: 'そのコマンドはすでに登録されています。' });
         }
         if (typeof isValidContent === 'string') {
-            return new Failure(isValidContent);
+            return new Failure({ code: HttpStatusCode.BadRequest, message: isValidContent });
         }
 
         const cmd = await this.c.add(name, content);
@@ -36,37 +41,41 @@ export class CommandManager {
         name: string,
         options: {
             content?: string;
+            cooldown?: number;
             isOnlyMod?: boolean;
-            alias?: string;
+            alias?: string | null;
         },
         metadata: OperationMetadata
-    ): Promise<Result<CommandT, string>> {
+    ): Promise<Result<CommandT, { code: HttpStatusCode; message: string }>> {
         const oldCommand = await this.c.getByName(name);
-        const { content, isOnlyMod, alias } = options;
+        const { content, cooldown, isOnlyMod, alias } = options;
 
         if (content) {
             const isValidContent = new ValueValidater(content).validate();
             if (typeof isValidContent === 'string') {
-                return new Failure(isValidContent);
+                return new Failure({ code: HttpStatusCode.BadRequest, message: isValidContent });
             }
         }
 
         if (!oldCommand) {
-            return new Failure('存在しないコマンド名です。');
+            return new Failure({ code: HttpStatusCode.NotFound, message: '存在しないコマンド名です。' });
         }
 
-        const cmd = await this.c.updateById(oldCommand.id, { content, mod_only: isOnlyMod, alias });
+        const cmd = await this.c.updateById(oldCommand.id, { content, cooldown, mod_only: isOnlyMod, alias });
         this.ac.discord.mcp.reloadPanel();
 
         this.logger.info(`Edited ${cmd.name} to ${cmd.content} by ${metadata.name} from ${metadata.provider}.`);
         return new Success(cmd);
     }
 
-    async removeCommand(name: string, metadata: OperationMetadata): Promise<Result<CommandT, string>> {
+    async removeCommand(
+        name: string,
+        metadata: OperationMetadata
+    ): Promise<Result<CommandT, { code: HttpStatusCode; message: string }>> {
         const oldCommand = await this.c.getByName(name);
 
         if (!oldCommand) {
-            return new Failure('存在しないコマンド名です。');
+            return new Failure({ code: HttpStatusCode.NotFound, message: '存在しないコマンド名です。' });
         }
 
         const cmd = await this.c.removeById(oldCommand.id);
@@ -74,6 +83,10 @@ export class CommandManager {
 
         this.logger.info(`Removed ${cmd.name} by ${metadata.name} from ${metadata.provider}.`);
         return new Success(cmd);
+    }
+
+    async getById(id: number) {
+        return await this.c.getById(id);
     }
 
     async getCommand(name: string) {

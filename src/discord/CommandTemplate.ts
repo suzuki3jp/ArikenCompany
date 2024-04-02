@@ -84,7 +84,7 @@ export class CommandTemplate {
         if (r.isSuccess()) {
             this.eReply(i, r.data.name + 'を編集しました。');
         } else {
-            this.eReply(i, r.data);
+            this.eReply(i, r.data.message);
         }
     }
 

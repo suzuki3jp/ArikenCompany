@@ -3,7 +3,7 @@ import type { Request, Response } from 'express';
 
 import { RouteT } from '@/api/RouteLoader';
 import type { ArikenCompany } from '@/ArikenCompany';
-import { BaseErrorRes, BaseRes, ErrorCode, MiddlewareUtils, ReqBodyUtils } from '@/api/utils';
+import { BaseErrorRes, BaseRes, ErrorCode, MiddlewareUtils, ReqBodyUtils, ResUtils } from '@/api/utils';
 import { PublicUserData, UserEditOptions, UserManager } from '@/managers';
 import { Logger } from '@/packages';
 import { rootLogger } from '@/initializer';
@@ -46,10 +46,7 @@ export class UserService implements RouteT {
         const user = await this.ac.um.getById(params.data.id);
 
         if (!user) {
-            const data: BaseErrorRes = {
-                code: ErrorCode.notFound,
-                message: `user not found`,
-            };
+            const data = ResUtils.notFoundError(`User(${params.data.id})`);
             res.status(HttpStatusCode.NotFound).json(data);
             return;
         }
@@ -108,11 +105,7 @@ export class UserService implements RouteT {
 
         if (user.isFailure()) {
             this.logger.error(`Auth error. PUT ${this.path}`);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the extractRequiredBody.',
-            };
-            res.status(HttpStatusCode.InternalServerError).json(data);
+            res.status(HttpStatusCode.InternalServerError).json(ResUtils.internalError());
             return;
         }
 
@@ -151,11 +144,7 @@ export class UserService implements RouteT {
 
         if (user.isFailure()) {
             this.logger.error(`Auth Error. DELETE ${this.path}`);
-            const data: BaseErrorRes = {
-                code: ErrorCode.internal,
-                message: 'Internal Error. If this persists, please contact the extractRequiredBody.',
-            };
-            res.status(HttpStatusCode.InternalServerError).json(data);
+            res.status(HttpStatusCode.InternalServerError).json(ResUtils.internalError());
             return;
         }
 

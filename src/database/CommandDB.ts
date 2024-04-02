@@ -74,6 +74,14 @@ export class CommandDB extends Prisma {
         });
     }
 
+    async getById(id: number) {
+        return await this.prisma.command.findFirst({
+            where: {
+                id,
+            },
+        });
+    }
+
     async getAll() {
         return await this.prisma.command.findMany();
     }
