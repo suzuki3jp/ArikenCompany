@@ -6,4 +6,5 @@ export interface EnvCache {
     TWITCH_REFRESHTOKEN: string;
     DATABASE_URL: string;
     SECRET: string;
+    HENRIKAPI_TOKEN: string;
 }

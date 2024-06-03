@@ -1,3 +1,4 @@
+import { env } from '@/initializer';
 import { fetch } from '../fetch/fetch';
 
 export class ValRank {
@@ -9,7 +10,7 @@ export class ValRank {
      */
     async get(name: string, tag: string): Promise<string | number> {
         const url = `https://api.henrikdev.xyz/valorant/v1/mmr/ap/${encodeURI(name)}/${encodeURI(tag)}`;
-        const res = await fetch(url);
+        const res = await fetch(url, { headers: { Authorization: env.cache.HENRIKAPI_TOKEN } });
         if (res.status !== 200) return res.status;
         if (!res.data) return 500;
         const data = res.data;

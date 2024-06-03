@@ -23,6 +23,7 @@ export class EnvManager {
             TWITCH_REFRESHTOKEN,
             DATABASE_URL,
             SECRET,
+            HENRIKAPI_TOKEN,
         } = process.env;
 
         if (!DISCORD_TOKEN) throw envError('DISCORD_TOKEN');
@@ -32,6 +33,7 @@ export class EnvManager {
         if (!TWITCH_REFRESHTOKEN) throw envError('TWITCH_REFRESHTOKEN');
         if (!DATABASE_URL) throw envError('DATABASE_URL');
         if (!SECRET) throw envError('SECRET');
+        if (!HENRIKAPI_TOKEN) throw envError('HENRIKAPI_TOKEN');
 
         this.cache = {
             DISCORD_TOKEN,
@@ -41,6 +43,7 @@ export class EnvManager {
             TWITCH_TOKEN,
             DATABASE_URL,
             SECRET,
+            HENRIKAPI_TOKEN,
         };
     }
 
@@ -55,6 +58,7 @@ export class EnvManager {
             TWITCH_TOKEN: TWITCH_TOKEN ?? this.cache.TWITCH_TOKEN,
             DATABASE_URL: this.cache.DATABASE_URL,
             SECRET: this.cache.SECRET,
+            HENRIKAPI_TOKEN: this.cache.HENRIKAPI_TOKEN,
         };
         this.cache = newCeche;
     }
