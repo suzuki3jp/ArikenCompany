@@ -21,7 +21,7 @@
     "eventsub:delete": "ts-node ./scripts/deleteAllEventsub.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.16.0",
+    "@prisma/client": "^5.17.0",
     "@twurple/api": "^7.1.0",
     "@twurple/auth": "^7.1.0",
     "@twurple/chat": "^7.1.0",
@@ -37,7 +37,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "node-schedule": "^2.1.1",
-    "prisma": "^5.16.0",
+    "prisma": "^5.17.0",
     "zod": "^3.23.8"
   },
   "prisma": {
