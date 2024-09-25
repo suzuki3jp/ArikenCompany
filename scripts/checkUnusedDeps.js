@@ -1,9 +1,14 @@
 /* eslint-disable */
 const depcheck = require('depcheck');
-const { join } = require('path');
+const { resolve } = require('path');
+const { exec } = require('child_process');
 
 const unusedDepsCheck = async () => {
-    const result = await depcheck(join(__dirname, '../'), {
+    const path = resolve(__dirname, '../');
+
+    console.log(await exec(`ls ${path}`));
+
+    const result = await depcheck(path, {
         ignoreMatches: ['@types/jest', 'tsconfig-paths'],
     });
     const { dependencies, devDependencies } = result;
