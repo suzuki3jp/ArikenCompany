@@ -14,7 +14,7 @@ jobs:
             - name: Install deps
               run: npm i --legacy-peer-deps # 依存内に不正があるとInstallに失敗するが、この場合 `depcheck` のみInstallできればいいためオプションを追加
             - name: Run script
-              run: node ./script/checkUnusedDeps.js
+              run: node ../../script/checkUnusedDeps.js
     ts-build:
         runs-on: ubuntu-latest
         steps:
