@@ -316,7 +316,7 @@ export class Streamer {
             const [lastDate, lastNum] = lastThread.name.split('#');
 
             // 同じ日に配信済みかどうか
-            if (date === lastDate) {
+            if (date === lastDate && lastNum) {
                 const newNum = Number(lastNum) + 1;
                 await channel.threads.create({
                     name: `${date}#${newNum}`,
