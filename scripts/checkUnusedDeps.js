@@ -9,7 +9,7 @@ const unusedDepsCheck = async () => {
         ignoreMatches: ['@types/jest', 'tsconfig-paths'],
     });
     const { dependencies, devDependencies } = result;
-    if (dependencies || devDependencies)
+    if (dependencies.length || devDependencies.length)
         throw new Error('Found unused dependencies: ' + dependencies.concat(devDependencies).join(', '));
     return;
 };
