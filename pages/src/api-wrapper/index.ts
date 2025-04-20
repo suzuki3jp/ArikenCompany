@@ -34,7 +34,7 @@ export class ApiClient {
 }
 
 const Endpoints = {
-    base: 'https://api.suzuki3jp.xyz',
+    base: 'https://ac-api.suzuki3.jp',
     status: '/status',
     publicCommands: '/commands/public',
 };
