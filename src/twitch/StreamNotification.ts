@@ -288,17 +288,18 @@ export class Streamer {
     }
 
     async postMemo() {
+        this.sn.logger.info(`Posting memo... twitch.user.${this.name} memoChannel.${this.memoChannelId}`);
         if (!this.memoChannelId) return;
         const channel = await this.ac.discord.client.channels.fetch(this.memoChannelId);
-        if (!channel || channel.type !== ChannelType.GuildForum) return;
+        if (!channel || channel.type !== ChannelType.GuildForum) return this.sn.logger.error('Memo channel is not a forum channel.');
 
         const stream = await this.ac.twitch.api.streams.getStreamByUserId(this.id);
-        if (!stream) return;
+        if (!stream) return this.sn.logger.error(`No active stream found for user ${this.name}.`);
         const { startDate } = stream;
 
         // 最新のアーカイブがスタートされた配信の物か確認する
         const video = (await this.ac.twitch.api.videos.getVideosByUser(this.id, { type: 'archive' })).data[0];
-        if (!video || video.streamId !== stream.id) return;
+        if (!video || video.streamId !== stream.id) return this.sn.logger.error(`No valid video found for user ${this.name}.`);
 
         // 配信開始日の日付データを取得する
         // 月と日に関しては一文字の場合先頭に0を付ける
@@ -309,7 +310,7 @@ export class Streamer {
         const date = formatDate(year, month, day).formatted;
 
         const lastThread = channel.threads.cache.last();
-        if (!lastThread) return;
+        if (!lastThread) return this.sn.logger.error('No threads found in the memo channel.');
 
         // メモのチャンネルの分け方によって処理を分ける
         if (settings.cache.memo.isSplitByStream) {
